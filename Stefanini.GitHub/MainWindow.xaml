@@ -1,0 +1,44 @@
+﻿<Window x:Class="Stefanini.GitHub.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stefanini.GitHub"
+        mc:Ignorable="d"
+        Title="[Stefanini] GitHub PR Report" Icon="/logotipo-do-github.png" Height="450" Width="800"
+        Closing="Window_Closing">
+    <Grid>
+        <GroupBox Header="Autenticação GitHub" Margin="5,5,0,0" Height="128" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240">
+            <Grid Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="699*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Usuário" Margin="5,5,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Grid.Column="1" Height="26"/>
+                <Label Content="Senha" Margin="5,36,5,0" HorizontalContentAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Height="26"/>
+                <TextBox Name="TxtUsername" Margin="5,10,5,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="2" Height="18"/>
+                <PasswordBox Name="TxtPassword" Margin="5,41,5,0" VerticalAlignment="Top" Grid.Column="2" Height="18"/>
+                <Button Name="BtnAuthenticate" Content="Autenticar" Margin="5,70,5,0" VerticalAlignment="Top" Grid.Column="1" Height="22" Grid.ColumnSpan="2"/>
+            </Grid>
+        </GroupBox>
+        <DataGrid x:Name="dgData" Margin="5,143,5,30" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Stack}" Header="Stack" />
+                <DataGridTextColumn Binding="{Binding Title}" Header="Title" />
+                <DataGridTextColumn Binding="{Binding User}" Header="User" />
+                <DataGridTextColumn Binding="{Binding CreateAt, StringFormat={}{0:dd/mm/yyyy}}" Header="Created" />
+                <DataGridHyperlinkColumn Binding="{Binding Url}" Header="Link" >
+                    <DataGridHyperlinkColumn.ElementStyle>
+                        <Style>
+                            <EventSetter Event="Hyperlink.Click" Handler="DgDataHyperlink_Click"/>
+                        </Style>
+                    </DataGridHyperlinkColumn.ElementStyle>
+                </DataGridHyperlinkColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="BtnExecute" Content="Executar" Margin="0,0,5,5" HorizontalAlignment="Right" Width="100" Height="20" VerticalAlignment="Bottom" Click="BtnExecute_Click"/>
+        <ProgressBar Name="PbStatus" Margin="5,0,110,5" Height="20" VerticalAlignment="Bottom"/>
+        <Button Name="BtnAverage" Content="Calcular Média" Margin="0,114,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Visibility="Hidden"/>
+    </Grid>
+</Window>

@@ -1,0 +1,93 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="row">
+    <div class="col-8">
+        <h1 class="display-4">Pull Requests Opened</h1>
+    </div>
+    <div class="col-4 text-right align-bottom">
+        <button id="btnRefresh" class="btn btn-primary" type="button">Refresh</button>
+    </div>
+</div>
+<table id="tbPrs" class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+        <tr>
+            <th>Stack</th>
+            <th>Title</th>
+            <th>User</th>
+            <th>Created</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+@section Scripts {
+<script>
+    var url = '/github/prs';
+
+    var formatDate = function(date) {
+        var data = (date === undefined || date === null) ? new Date() : date,
+            dia  = data.getDate().toString(),
+            diaF = (dia.length == 1) ? '0'+dia : dia,
+            mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+            mesF = (mes.length == 1) ? '0'+mes : mes,
+            anoF = data.getFullYear();
+        return diaF+"/"+mesF+"/"+anoF;
+    };
+
+    var loadTable = function() {
+        var $tbPrs = $('#tbPrs');
+
+        $.ajax({
+            method: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function(data) {
+                var $tbody = $tbPrs.find('tbody');
+                $tbody.empty();
+
+                if(!($.isArray(data) && data.length > 0))
+                {
+                    var qtd = $tbPrs.find('thead th').length;
+                    $tbody.append('<tr><td colspan="' + qtd + '">Not found</td></tr>');
+
+                    return;
+                }
+
+                for(var index in data)
+                {
+                    var item = data[index];
+                    var link = $('<a>').attr('href', item.url).attr('target', '_blank').text('Open');
+                    $tbody.append(
+                        $('<tr>').append($('<td>').append(item.stack))
+                                 .append($('<td>').append(item.title))
+                                 .append($('<td>').append(item.user))
+                                 .append($('<td>').append(formatDate(new Date(item.createAt))))
+                                 .append($('<td>').append(link))
+                    );
+                }
+            }
+        });
+    };
+
+    $(document).ready(function(){
+        loadTable();
+
+        $('#btnRefresh').on('click', function() {
+            var $tbPrs = $('#tbPrs');
+            var $tbody = $tbPrs.find('tbody');
+            var qtd = $tbPrs.find('thead th').length;
+            $tbody.empty();
+            $tbody.append('<tr><td colspan="' + qtd + '">Loading...</td></tr>');
+
+            loadTable();
+        });
+    });
+</script>
+}

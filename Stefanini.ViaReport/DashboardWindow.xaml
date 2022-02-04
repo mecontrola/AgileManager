@@ -1,0 +1,44 @@
+﻿<Window x:Class="Stefanini.ViaReport.DashboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stefanini.ViaReport"
+        xmlns:converters="clr-namespace:Stefanini.ViaReport.Conveters"
+        mc:Ignorable="d"
+        Title="DashboardWindow" Height="450" Width="800">
+    <Window.Resources>
+        <converters:DashboardIssuesConverter x:Key="DashboardIssuesConverter" />
+    </Window.Resources>
+    <DockPanel>
+        <GroupBox Header="Filter" Height="50"  DockPanel.Dock="Top">
+            <Button Name="BtnFilter" Content="Filter" Height="24" Width="100" />
+        </GroupBox>
+        <Grid>
+            <GroupBox Header="Throughput" Margin="4,4,402,192">
+                <DataGrid Name="DgThroughput" Margin="0,0,0,0" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Date}" Header="Date" />
+                        <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                        <DataGridHyperlinkColumn Binding="{Binding Issues}" Header="Detail" ContentBinding="{Binding Issues, Converter={StaticResource DashboardIssuesConverter}}">
+                            <DataGridHyperlinkColumn.ElementStyle>
+                                <Style>
+                                    <EventSetter Event="Hyperlink.Click" Handler="DgDataColumnLink_Click"/>
+                                </Style>
+                            </DataGridHyperlinkColumn.ElementStyle>
+                        </DataGridHyperlinkColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Header="Lead Time" Margin="402,4,4,192">
+                <DataGrid Name="DgLeadTime" Margin="0,0,0,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            </GroupBox>
+            <GroupBox Header="Cycle Time" Margin="4,192,402,4">
+                <DataGrid Name="DgCycleTime" Margin="0,0,0,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            </GroupBox>
+            <GroupBox Header="Quarter Epics" Margin="402,192,4,4">
+                <DataGrid Name="DgQuarterEpics" Margin="0,0,0,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>

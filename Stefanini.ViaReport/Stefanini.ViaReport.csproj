@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyName>AHM Report</AssemblyName>
+    <StartupObject>Stefanini.ViaReport.App</StartupObject>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <ApplicationIcon>Images\ahm-logo-32.ico</ApplicationIcon>
+    <PackageReleaseNotes>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</PackageReleaseNotes>
+    <Description>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</Description>
+    <PackageIcon>Images\ahm-logo.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\information_icon.png" />
+    <None Remove="Images\sign_check_icon.png" />
+    <None Remove="Images\sign_error_icon.png" />
+    <None Remove="Images\table_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\ahm-logo-32.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stefanini.Core\Stefanini.Core.csproj" />
+    <ProjectReference Include="..\Stefanini.ViaReport.Core\Stefanini.ViaReport.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\ahm-logo.png" />
+    <Resource Include="Images\information_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\sign_check_icon.png" />
+    <Resource Include="Images\sign_error_icon.png" />
+    <Resource Include="Images\table_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\ahm-logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
