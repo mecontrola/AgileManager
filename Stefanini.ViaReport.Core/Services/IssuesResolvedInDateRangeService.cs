@@ -16,7 +16,7 @@ namespace Stefanini.ViaReport.Core.Services
                 GetProjectCriteria(project),
                 GetNotInDeletedStatusesCriteria(),
                 GetBetweenResolvedDateCriteria(initDate, endDate),
-                GetIssueTypeCriteria(GetIssueTypes())
+                GetInIssueTypesCriteria(GetIssueTypes())
             };
 
         private static IssueTypes[] GetIssueTypes()

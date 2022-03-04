@@ -1,0 +1,10 @@
+﻿{
+  "self": "https://jira.viavarejo.com.br/rest/api/latest/user?username=7700628913",
+  "name": "7700628913",
+  "loginInfo": {
+    "failedLoginCount": 316,
+    "loginCount": 14340,
+    "lastFailedLoginTime": "2022-01-25T11:59:41.755-0300",
+    "previousLoginTime": "2022-02-08T16:33:34.805-0300"
+  }
+}

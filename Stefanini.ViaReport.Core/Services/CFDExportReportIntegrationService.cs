@@ -23,7 +23,7 @@ namespace Stefanini.ViaReport.Core.Services
             {
                 GetProjectCriteria(project),
                 GetNotInDeletedStatusesCriteria(),
-                GetIssueTypeCriteria(IssueTypes.Task, IssueTypes.Story)
+                GetInIssueTypesCriteria(IssueTypes.Task,IssueTypes.Improvement, IssueTypes.Story)
             };
     }
 }

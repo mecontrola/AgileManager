@@ -14,7 +14,7 @@ namespace Stefanini.ViaReport.Core.Services
             => new string[]
             {
                 GetProjectCriteria(project),
-                GetIssueTypeCriteria(IssueTypes.TechnicalDebt),
+                GetInIssueTypesCriteria(IssueTypes.TechnicalDebt),
                 GetIsLessThan(FIELD_CREATED, initDate),
                 Or(And(IsNull(FIELD_RESOLVED), GetNotInDeletedStatusesCriteria()), GetBetweenResolvedDateCriteria(initDate, endDate))
             };

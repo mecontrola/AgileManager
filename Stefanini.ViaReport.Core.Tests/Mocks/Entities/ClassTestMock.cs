@@ -9,7 +9,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Entities
             {
                 FieldInClass1 = DataMock.VALUE_DEFAULT_5,
                 FieldInClass2 = DataMock.VALUE_DEFAULT_9,
-                FieldDateTime = DataMock.DATETIME_DEFAULT
+                FieldDateTime = DataMock.DATETIME_QUARTER_2_2000
             };
 
         public static ClassTest CreateNoDateTime()

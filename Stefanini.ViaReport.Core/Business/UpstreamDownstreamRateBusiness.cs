@@ -22,6 +22,7 @@ namespace Stefanini.ViaReport.Core.Business
         private readonly ICalculateGrowthToDoInProgressHelper calculateGrowthToDoInProgressHelper;
         private readonly ICalculateUpstreamDownstreamRateHelper calculateUpstreamDownstreamRateHelper;
         private readonly ISatinizeEasyBIDataHelper satinizeEasyBIDataHelper;
+        private readonly IReadCFDFileExportHelper readCFDFileExportHelper;
 
         private readonly IIssueGet issueGet;
         private readonly IStatusGetAll statusGetAll;
@@ -31,6 +32,7 @@ namespace Stefanini.ViaReport.Core.Business
                                               ICalculateGrowthToDoInProgressHelper calculateGrowthToDoInProgressHelper,
                                               ICalculateUpstreamDownstreamRateHelper calculateUpstreamDownstreamRateHelper,
                                               ISatinizeEasyBIDataHelper satinizeEasyBIDataHelper,
+                                              IReadCFDFileExportHelper readCFDFileExportHelper,
                                               IIssueGet issueGet,
                                               IStatusGetAll statusGetAll)
         {
@@ -39,6 +41,7 @@ namespace Stefanini.ViaReport.Core.Business
             this.calculateGrowthToDoInProgressHelper = calculateGrowthToDoInProgressHelper;
             this.calculateUpstreamDownstreamRateHelper = calculateUpstreamDownstreamRateHelper;
             this.satinizeEasyBIDataHelper = satinizeEasyBIDataHelper;
+            this.readCFDFileExportHelper = readCFDFileExportHelper;
             this.issueGet = issueGet;
             this.statusGetAll = statusGetAll;
         }
@@ -63,12 +66,23 @@ namespace Stefanini.ViaReport.Core.Business
             return calculateUpstreamDownstreamRateHelper.Execute(processedValues);
         }
 
+        public async Task<IList<AHMInfoDto>> GetData(string filename, CancellationToken cancellationToken)
+        {
+            var values = await readCFDFileExportHelper.GetData(filename, cancellationToken);
+            var processedValues = calculateGrowthToDoInProgressHelper.Execute(values);
+
+            return calculateUpstreamDownstreamRateHelper.Execute(processedValues);
+        }
+
         private async Task<SearchDto> LoadChangelofIssues(string username, string password, SearchDto result, CancellationToken cancellationToken)
         {
             var issues = new List<IssueDto>();
 
             foreach (var item in result.Issues)
             {
+                if (new[] { "SEA-7" }.Any(key => item.Key.Equals(key)))
+                    continue;
+
                 var issue = await issueGet.Execute(username, password, item.Key, cancellationToken);
 
                 issues.Add(issue);

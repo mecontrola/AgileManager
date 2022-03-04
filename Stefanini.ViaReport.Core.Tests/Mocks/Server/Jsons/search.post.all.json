@@ -1,0 +1,434 @@
+{
+    "expand": "schema,names",
+    "startAt": 0,
+    "maxResults": 256,
+    "total": 252,
+    "issues": [
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "758396",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/758396",
+            "key": "SEA-242"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "758394",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/758394",
+            "key": "SEA-241"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "758392",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/758392",
+            "key": "SEA-240"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "758391",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/758391",
+            "key": "SEA-239"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "758389",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/758389",
+            "key": "SEA-238"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "758388",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/758388",
+            "key": "SEA-237"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "758387",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/758387",
+            "key": "SEA-236"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "756653",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/756653",
+            "key": "SEA-230"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "755217",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/755217",
+            "key": "SEA-226"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "752375",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/752375",
+            "key": "SEA-222"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "749982",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/749982",
+            "key": "SEA-219"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "747716",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/747716",
+            "key": "SEA-218"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "747715",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/747715",
+            "key": "SEA-217"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "747714",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/747714",
+            "key": "SEA-216"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "745479",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/745479",
+            "key": "SEA-213"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "745478",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/745478",
+            "key": "SEA-212"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "745476",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/745476",
+            "key": "SEA-211"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "745470",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/745470",
+            "key": "SEA-210"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "744597",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/744597",
+            "key": "SEA-209"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "743721",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/743721",
+            "key": "SEA-207"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "743716",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/743716",
+            "key": "SEA-206"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "741708",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/741708",
+            "key": "SEA-199"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "738253",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/738253",
+            "key": "SEA-194"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "738252",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/738252",
+            "key": "SEA-193"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "738250",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/738250",
+            "key": "SEA-192"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "737948",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/737948",
+            "key": "SEA-188"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "737947",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/737947",
+            "key": "SEA-187"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "738000",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/738000",
+            "key": "SEA-186"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "737399",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/737399",
+            "key": "SEA-185"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "719336",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/719336",
+            "key": "SEA-172"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "717981",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/717981",
+            "key": "SEA-169"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "717754",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/717754",
+            "key": "SEA-168"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "713197",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/713197",
+            "key": "SEA-166"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "709485",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/709485",
+            "key": "SEA-161"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "709424",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/709424",
+            "key": "SEA-160"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "708994",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/708994",
+            "key": "SEA-159"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "700920",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/700920",
+            "key": "SEA-151"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "700288",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/700288",
+            "key": "SEA-146"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "700285",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/700285",
+            "key": "SEA-145"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "697378",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/697378",
+            "key": "SEA-133"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "695599",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/695599",
+            "key": "SEA-131"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "694363",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/694363",
+            "key": "SEA-128"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "690008",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/690008",
+            "key": "SEA-104"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "690007",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/690007",
+            "key": "SEA-103"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "690006",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/690006",
+            "key": "SEA-102"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "690004",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/690004",
+            "key": "SEA-101"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "690000",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/690000",
+            "key": "SEA-100"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "689692",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/689692",
+            "key": "SEA-99"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "689691",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/689691",
+            "key": "SEA-98"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "689689",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/689689",
+            "key": "SEA-97"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "689685",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/689685",
+            "key": "SEA-96"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "687578",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/687578",
+            "key": "SEA-83"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "687576",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/687576",
+            "key": "SEA-82"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "687574",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/687574",
+            "key": "SEA-81"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "687569",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/687569",
+            "key": "SEA-80"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "678359",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/678359",
+            "key": "SEA-65"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "676022",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/676022",
+            "key": "SEA-60"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "674384",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/674384",
+            "key": "SEA-49"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "674380",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/674380",
+            "key": "SEA-48"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "673444",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/673444",
+            "key": "SEA-47"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "673431",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/673431",
+            "key": "SEA-46"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "672190",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/672190",
+            "key": "SEA-37"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "669791",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/669791",
+            "key": "SEA-35"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "669780",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/669780",
+            "key": "SEA-34"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "667874",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/667874",
+            "key": "SEA-25"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "631456",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/631456",
+            "key": "SEA-20"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "631450",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/631450",
+            "key": "SEA-19"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "629094",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/629094",
+            "key": "SEA-12"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "642366",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/642366",
+            "key": "SEA-11"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "629096",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/629096",
+            "key": "SEA-8"
+        },
+        {
+            "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
+            "id": "488069",
+            "self": "https://jira.viavarejo.com.br/rest/api/2/issue/488069",
+            "key": "SEA-7"
+        }
+    ]
+}

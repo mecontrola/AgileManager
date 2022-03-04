@@ -24,8 +24,8 @@ namespace Stefanini.ViaReport.Core.Tests.Services
             cancellationTokenSource = new CancellationTokenSource();
         }
 
-        protected string GetJqlExpected()
-            => "project = 'project' AND fixVersion IS NULL AND status NOT IN (Removed,Cancelled) AND statusCategory NOT IN ('To Do')";
+        protected static string GetJqlExpected()
+            => "project = 'project' AND fixVersion IS NULL AND status NOT IN (Removed,Cancelled) AND statusCategory NOT IN ('To Do') AND issuetype NOT IN (6,5)";
 
         [Fact(DisplayName = "[IssuesNotFixVersionService.GetData] Deve montar o JQL de acordo com o parametros criados.")]
         public void DeveMontarJQLCorretamente()

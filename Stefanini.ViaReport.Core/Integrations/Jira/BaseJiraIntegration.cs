@@ -1,9 +1,7 @@
-﻿using Stefanini.Core.Extensions;
-using Stefanini.ViaReport.Core.Converters;
+﻿using Stefanini.ViaReport.Core.Converters;
 using Stefanini.ViaReport.Core.Data.Configurations;
 using Stefanini.ViaReport.Core.Exceptions;
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -14,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Stefanini.ViaReport.Core.Integrations.Jira
 {
-    public abstract class BaseJiraIntegration
+    public abstract class BaseJiraIntegration : BaseCacheJiraIntegration
     {
         private const string AUTHENTICATION_TYPE_BASIC = "Basic";
         private const string MEDIA_TYPE_JSON = "application/json";
@@ -23,6 +21,7 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
         private readonly IJiraConfiguration jiraConfiguration;
 
         public BaseJiraIntegration(IJiraConfiguration jiraConfiguration, JsonNamingPolicy propertyNamingPolicy)
+            : base(jiraConfiguration)
         {
             this.jiraConfiguration = jiraConfiguration;
 
@@ -59,14 +58,16 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
 
         protected async Task<TResponse> GetAsync<TResponse>(string username, string password, CancellationToken cancellationToken)
         {
-            if (IsCached && ExistCacheFile(GetRoute()))
+            var route = GetRoute();
+
+            if (IsLoadCachedFile(route))
             {
-                var json = LoadCacheFile(GetRoute());
+                var json = LoadCacheFile(route);
                 return GetDeserializeResponde<TResponse>(json);
             }
 
             var client = CreateInstance(username, password);
-            var response = await client.GetAsync(GetRoute(), cancellationToken);
+            var response = await client.GetAsync(route, cancellationToken);
             return await GetResponse<TResponse>(response);
         }
 
@@ -109,10 +110,18 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
         {
             var json = await response.Content.ReadAsStringAsync();
 
-            if (IsCached)
+            if (IsCachedResponse())
                 SaveCacheFile(response.RequestMessage.RequestUri.AbsoluteUri, json);
 
-            return GetDeserializeResponde<TResponse>(json);
+            try
+            {
+                return GetDeserializeResponde<TResponse>(json);
+            }
+            catch (Exception ex)
+            {
+
+                throw new JiraException($"Jira Deserialize Error: {ex.Message}");
+            }
         }
 
         private TResponse GetDeserializeResponde<TResponse>(string json)
@@ -126,31 +135,5 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
 
         private static bool IsStatusForbidden(HttpResponseMessage response)
             => response.StatusCode.Equals(HttpStatusCode.Forbidden);
-
-        private static string LoadCacheFile(string url)
-            => File.ReadAllText(GenerateFileName(url));
-
-        private static bool ExistCacheFile(string url)
-            => File.Exists(GenerateFileName(url));
-
-        private static void SaveCacheFile(string url, string json)
-            => File.WriteAllText(GenerateFileName(url), json);
-
-        private static string GenerateFileName(string url)
-            => Path.Combine(PathBase(), $"{url.ToMD5()}.cache");
-
-        private static string PathBase()
-        {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), FOLDER_CACHE);
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            return path;
-        }
-
-        private const string FOLDER_CACHE = "caches";
-
-        protected bool IsCached { get; set; } = false;
     }
 }

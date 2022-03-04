@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Dto
             => new()
             {
                 Summary = DataMock.ISSUE_DESCRIPTION_1,
-                Created = DataMock.DATETIME_DEFAULT,
+                Created = DataMock.DATETIME_QUARTER_2_2000,
                 Status = StatusDtoMock.CreateBacklog()
             };
 
@@ -16,7 +16,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Dto
             => new()
             {
                 Summary = DataMock.ISSUE_DESCRIPTION_2,
-                Created = DataMock.DATETIME_DEFAULT,
+                Created = DataMock.DATETIME_QUARTER_2_2000,
                 Status = StatusDtoMock.CreateReplanishment()
             };
     }

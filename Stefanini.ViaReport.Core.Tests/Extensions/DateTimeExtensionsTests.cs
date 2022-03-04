@@ -9,6 +9,6 @@ namespace Stefanini.ViaReport.Core.Tests.Extensions
     {
         [Fact(DisplayName = "[DateTimeExtensions.GetWeekOfYear] Deve retornar o número da semana de um DateTime.")]
         public void DeveRetornarSemanaAnoDeDateTime()
-            => DataMock.DATETIME_DEFAULT.GetWeekOfYear().Should().Be(DataMock.WEEK_YEAR);
+            => DataMock.DATETIME_QUARTER_2_2000.GetWeekOfYear().Should().Be(DataMock.WEEK_YEAR);
     }
 }

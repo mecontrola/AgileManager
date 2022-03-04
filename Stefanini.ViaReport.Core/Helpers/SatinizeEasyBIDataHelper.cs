@@ -6,19 +6,18 @@ using Stefanini.ViaReport.Core.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Stefanini.ViaReport.Core.Helpers
 {
     public class SatinizeEasyBIDataHelper : ISatinizeEasyBIDataHelper
     {
-        private const string REGEX_DATETIME_KEY = "date";
-        private const string REGEX_DATETIME = @"^W[0-9]{1,2},\s(?<date>.*)$";
-
+        private readonly IDateTimeFromStringHelper dateTimeFromStringHelper;
         private readonly IGenerateWeeksFromRangeDateHelper generateWeeksFromRangeDateHelper;
 
-        public SatinizeEasyBIDataHelper(IGenerateWeeksFromRangeDateHelper generateWeeksFromRangeDateHelper)
+        public SatinizeEasyBIDataHelper(IDateTimeFromStringHelper dateTimeFromStringHelper,
+                                        IGenerateWeeksFromRangeDateHelper generateWeeksFromRangeDateHelper)
         {
+            this.dateTimeFromStringHelper = dateTimeFromStringHelper;
             this.generateWeeksFromRangeDateHelper = generateWeeksFromRangeDateHelper;
         }
 
@@ -43,32 +42,17 @@ namespace Stefanini.ViaReport.Core.Helpers
                               .DefaultIfEmpty(-1)
                               .First();
 
-        private static IList<CFDInfoDto> GetValues(ReportResultQueryDto queryResults, int columnIndex)
+        private IList<CFDInfoDto> GetValues(ReportResultQueryDto queryResults, int columnIndex)
             => queryResults.RowPositions.Select((itm, index) => new CFDInfoDto
             {
-                Date = ConvertDateTimeFromString(itm[0].Name),
+                Date = dateTimeFromStringHelper.Convert(itm[0].Name),
                 Value = queryResults.Values[index][columnIndex]
             }).ToList();
-
-        private static DateTime ConvertDateTimeFromString(string dateTime)
-        {
-            dateTime = GetDateFromString(dateTime);
-            return string.IsNullOrWhiteSpace(dateTime)
-                 ? DateTime.MinValue
-                 : Convert.ToDateTime(dateTime);
-        }
 
         private static bool CheckItem(ReportResultColumnPositionDto columnPosition, string columnName)
             => columnPosition.Name.Equals(columnName);
 
-        private static string GetDateFromString(string dateTime)
-        {
-            var regex = Regex.Match(dateTime, REGEX_DATETIME);
-            if (!regex.Success)
-                return string.Empty;
 
-            return regex.Groups[REGEX_DATETIME_KEY].Value;
-        }
         //-----------------------------------------------------------------------------------------
         public IDictionary<EasyBIReportColumnName, IList<CFDInfoDto>> Execute(SearchDto result, IDictionary<StatusCategories, List<string>> statuses)
         {
@@ -76,14 +60,54 @@ namespace Stefanini.ViaReport.Core.Helpers
             var endDate = GetEndDate(result);
             var rangeDate = generateWeeksFromRangeDateHelper.GenerateList(iniDate, endDate);
 
-            var issues = SatinizeIssueHistoryStatus(result, statuses[StatusCategories.InProgress]);
-            
-            return new Dictionary<EasyBIReportColumnName, IList<CFDInfoDto>>
+            var issues = SatinizeIssueHistoryStatus(result, statuses[StatusCategories.InProgress], statuses[StatusCategories.Done]);
+
+            var data = new Dictionary<EasyBIReportColumnName, IList<CFDInfoDto>>
                 {
                     { EasyBIReportColumnName.ToDo, GetToDoValues(issues, rangeDate) },
                     { EasyBIReportColumnName.InProgress, GetInProgressValues(issues, rangeDate) },
                     { EasyBIReportColumnName.Done, GetDoneValues(issues, rangeDate) },
                 };
+
+            return SatinizeData(data);
+        }
+
+        private static Dictionary<EasyBIReportColumnName, IList<CFDInfoDto>> SatinizeData(Dictionary<EasyBIReportColumnName, IList<CFDInfoDto>> data)
+        {
+            var result = new Dictionary<EasyBIReportColumnName, IList<CFDInfoDto>>()
+            {
+                { EasyBIReportColumnName.ToDo, new List<CFDInfoDto>() },
+                { EasyBIReportColumnName.InProgress, new List<CFDInfoDto>() },
+                { EasyBIReportColumnName.Done, data[EasyBIReportColumnName.Done] },
+            };
+
+            result[EasyBIReportColumnName.InProgress] = SatinizeDataSwap(data[EasyBIReportColumnName.Done], data[EasyBIReportColumnName.InProgress]);
+            result[EasyBIReportColumnName.ToDo] = SatinizeDataSwap(data[EasyBIReportColumnName.InProgress], data[EasyBIReportColumnName.ToDo]);
+
+            var values = string.Empty;
+
+            for (int i = 0, l = result[EasyBIReportColumnName.ToDo].Count; i < l; i++)
+                values += $"{result[EasyBIReportColumnName.Done][i].Date:dd/MM/yyyy}\t{result[EasyBIReportColumnName.Done][i].Value}\t{result[EasyBIReportColumnName.InProgress][i].Value}\t{result[EasyBIReportColumnName.ToDo][i].Value}\r\n";
+
+            return result;
+        }
+
+        private static IList<CFDInfoDto> SatinizeDataSwap(IList<CFDInfoDto> root, IList<CFDInfoDto> target)
+        {
+            var result = new List<CFDInfoDto>();
+            foreach (var item in target)
+            {
+                var info = root.First(x => x.Date == item.Date);
+                var issues = item.Issues.Where(x => !info.Issues.Any(y => y == x)).ToArray();
+
+                result.Add(new()
+                {
+                    Date = item.Date,
+                    Issues = issues,
+                    Value = issues.Length
+                });
+            }
+            return result;
         }
 
         private static IList<CFDInfoDto> GetToDoValues(IList<IssueStatusCategoryInitDate> issues, IDictionary<string, Tuple<DateTime, DateTime>> rangeDate)
@@ -96,8 +120,7 @@ namespace Stefanini.ViaReport.Core.Helpers
             => MountValuesByStatusCategory(issues, rangeDate, IsDone);
 
         private static bool IsToDo(IssueStatusCategoryInitDate issue, Tuple<DateTime, DateTime> interval)
-            =>
-               ((!issue.Histories.ContainsKey(StatusCategories.InProgress) &&
+            => ((!issue.Histories.ContainsKey(StatusCategories.InProgress) &&
                 (IsValidInterval(issue.Histories[StatusCategories.ToDo], interval) || issue.Histories[StatusCategories.ToDo] < interval.Item1))
             || (issue.Histories.ContainsKey(StatusCategories.InProgress) &&
                 IsValidInterval(interval.Item1, issue.Histories[StatusCategories.ToDo], issue.Histories[StatusCategories.InProgress]) &&
@@ -106,14 +129,23 @@ namespace Stefanini.ViaReport.Core.Helpers
                 IsValidInterval(issue.Histories[StatusCategories.ToDo], interval)));
 
         private static bool IsInProgress(IssueStatusCategoryInitDate issue, Tuple<DateTime, DateTime> interval)
-            => issue.Histories.ContainsKey(StatusCategories.InProgress)
-            && (!issue.Histories.ContainsKey(StatusCategories.Done) &&
-                (IsValidInterval(issue.Histories[StatusCategories.InProgress], interval) || issue.Histories[StatusCategories.InProgress] < interval.Item1))
-            || (issue.Histories.ContainsKey(StatusCategories.Done) &&
-                IsValidInterval(interval.Item1, issue.Histories[StatusCategories.InProgress], issue.Histories[StatusCategories.Done]) &&
-                IsValidInterval(interval.Item2, issue.Histories[StatusCategories.InProgress], issue.Histories[StatusCategories.Done]))
-            || (issue.Histories.ContainsKey(StatusCategories.Done) &&
-                IsValidInterval(issue.Histories[StatusCategories.InProgress], interval));
+        {
+            try
+            {
+                return issue.Histories.ContainsKey(StatusCategories.InProgress)
+                    && (!issue.Histories.ContainsKey(StatusCategories.Done) &&
+                        (IsValidInterval(issue.Histories[StatusCategories.InProgress], interval) || issue.Histories[StatusCategories.InProgress] < interval.Item1))
+                    || (issue.Histories.ContainsKey(StatusCategories.Done) &&
+                        IsValidInterval(interval.Item1, issue.Histories[StatusCategories.InProgress], issue.Histories[StatusCategories.Done]) &&
+                        IsValidInterval(interval.Item2, issue.Histories[StatusCategories.InProgress], issue.Histories[StatusCategories.Done]))
+                    || (issue.Histories.ContainsKey(StatusCategories.Done) &&
+                        IsValidInterval(issue.Histories[StatusCategories.InProgress], interval));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Issue {issue.IssueKey} error: {ex.Message}", ex.InnerException);
+            }
+        }
 
         private static bool IsDone(IssueStatusCategoryInitDate issue, Tuple<DateTime, DateTime> interval)
             => issue.Histories.ContainsKey(StatusCategories.Done)
@@ -143,12 +175,12 @@ namespace Stefanini.ViaReport.Core.Helpers
                      .Select(itm => itm.Fields.Resolutiondate.Value)
                      .Max();
 
-        private static IList<IssueStatusCategoryInitDate> SatinizeIssueHistoryStatus(SearchDto result, IList<string> inProgressStatuses)
+        private static IList<IssueStatusCategoryInitDate> SatinizeIssueHistoryStatus(SearchDto result, IList<string> inProgressStatuses, IList<string> doneStatuses)
             => result.Issues
-                     .Select(issue => GenerateIssueStatusCategoryInitDate(issue, inProgressStatuses))
+                     .Select(issue => GenerateIssueStatusCategoryInitDate(issue, inProgressStatuses, doneStatuses))
                      .ToList();
 
-        private static IssueStatusCategoryInitDate GenerateIssueStatusCategoryInitDate(IssueDto issue, IList<string> inProgressStatuses)
+        private static IssueStatusCategoryInitDate GenerateIssueStatusCategoryInitDate(IssueDto issue, IList<string> inProgressStatuses, IList<string> doneStatuses)
         {
             var data = new IssueStatusCategoryInitDate
             {
@@ -159,24 +191,59 @@ namespace Stefanini.ViaReport.Core.Helpers
                 }
             };
 
-            var inProgressDate = IssueInProgressDateInitialized(issue, inProgressStatuses);
+            var inProgressDate = IssueStatusDateInitialized(issue, inProgressStatuses);
             if (inProgressDate.HasValue)
                 data.Histories.Add(StatusCategories.InProgress, inProgressDate.Value);
 
-            if (issue.Fields.Resolutiondate.HasValue)
-                data.Histories.Add(StatusCategories.Done, issue.Fields.Resolutiondate.Value);
+            //if (issue.Fields.Resolutiondate.HasValue)
+            //    data.Histories.Add(StatusCategories.Done, issue.Fields.Resolutiondate.Value);
+
+            var doneDate = IssueStatusDoneDateInitialized(issue, doneStatuses); // IssueStatusDateInitialized(issue, doneStatuses);
+            if (doneDate.HasValue)
+                data.Histories.Add(StatusCategories.Done, doneDate.Value);
+
+            //var doneDate = IssueStatusDateInitialized(issue, doneStatuses);
+            //if (doneDate.HasValue)
+            //    data.Histories.Add(StatusCategories.Done, issue.Fields.Resolutiondate.Value < doneDate.Value
+            //                                            ? issue.Fields.Resolutiondate.Value
+            //                                            : doneDate.Value);
 
             return data;
         }
 
-        private static DateTime? IssueInProgressDateInitialized(IssueDto issue, IList<string> inProgressStatuses)
+        private static DateTime? IssueStatusDoneDateInitialized(IssueDto issue, IList<string> statuses)
         {
-            var changelogs = GetChangeStatusInChangelog(issue, inProgressStatuses);
-            
+            var changelogs = GetChangeStatusNotFromChangelog(issue, statuses);
+            changelogs = GetChangeStatusInChangelog(issue, statuses);
+
+            //var changelogs = issue.Changelog
+            //                      .Histories
+            //                      .Where(itm => itm.Items
+            //                      .Any(x => x.Fieldtype.Equals("custom")
+            //                             && x.Field.Equals("End date")));
+
             return changelogs.Any()
                  ? changelogs.MinBy(itm => itm.Created).Created
                  : null;
         }
+
+        private static DateTime? IssueStatusDateInitialized(IssueDto issue, IList<string> statuses)
+        {
+            var changelogs = GetChangeStatusInChangelog(issue, statuses);
+
+            return changelogs.Any()
+                 ? changelogs.MinBy(itm => itm.Created).Created
+                 : null;
+        }
+
+        //private static DateTime? IssueStatusDoneDateInitialized(IssueDto issue, IList<string> statuses)
+        //{
+        //    var changelogs = GetChangeStatusInChangelog(issue, statuses);
+        //
+        //    return changelogs.Any()
+        //         ? changelogs.MinBy(itm => itm.Created).Created
+        //         : null;
+        //}
 
         private static IEnumerable<HistoryDto> GetChangeStatusInChangelog(IssueDto issue, IList<string> inProgressStatuses)
             => issue.Changelog
@@ -184,6 +251,13 @@ namespace Stefanini.ViaReport.Core.Helpers
                     .Where(itm => itm.Items
                                      .Any(x => inProgressStatuses.Any(statusId => IsJiraStatus(x)
                                                                                && x.To.Equals(statusId))));
+
+        private static IEnumerable<HistoryDto> GetChangeStatusNotFromChangelog(IssueDto issue, IList<string> inProgressStatuses)
+            => issue.Changelog
+                    .Histories
+                    .Where(itm => itm.Items
+                                     .Any(x => inProgressStatuses.Any(statusId => IsJiraStatus(x)
+                                                                               && !x.From.Equals(statusId))));
 
         private static bool IsJiraStatus(HistoryItemDto history)
             => history.Field.Equals("status")

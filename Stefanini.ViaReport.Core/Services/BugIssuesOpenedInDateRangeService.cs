@@ -14,7 +14,7 @@ namespace Stefanini.ViaReport.Core.Services
             => new string[]
             {
                 GetProjectCriteria(project),
-                GetIssueTypeCriteria(IssueTypes.Bug),
+                GetInIssueTypesCriteria(IssueTypes.Bug),
                 GetNotInStatusCategoriesCriteria(StatusCategories.Done)
             };
     }

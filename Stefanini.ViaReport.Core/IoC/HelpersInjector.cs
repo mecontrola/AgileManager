@@ -19,6 +19,7 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddSingleton<IGenerateWeeksFromRangeDateHelper, GenerateWeeksFromRangeDateHelper>();
             services.TryAddSingleton<IProjectNameCfdEasyBIExportHelper, ProjectNameCfdEasyBIExportHelper>();
             services.TryAddSingleton<IQuarterFromDateTimeHelper, QuarterFromDateTimeHelper>();
+            services.TryAddSingleton<IReadCFDFileExportHelper, ReadCFDFileExportHelper>();
             services.TryAddSingleton<ISatinizeEasyBIDataHelper, SatinizeEasyBIDataHelper>();
             services.TryAddSingleton<ISettingsHelper, SettingsHelper>();
             services.TryAddSingleton<IWeekOfTheYearFormatHelper, WeekOfTheYearFormatHelper>();

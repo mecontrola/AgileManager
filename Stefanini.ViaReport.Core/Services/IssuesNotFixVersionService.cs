@@ -24,7 +24,8 @@ namespace Stefanini.ViaReport.Core.Services
                 GetProjectCriteria(project),
                 IsNull(FIELD_FIX_VERSION),
                 GetNotInDeletedStatusesCriteria(),
-                GetNotInStatusCategoriesCriteria(StatusCategories.ToDo)
+                GetNotInStatusCategoriesCriteria(StatusCategories.ToDo),
+                GetNotInIssueTypesCriteria(IssueTypes.Epic,IssueTypes.SubTask)
             };
     }
 }

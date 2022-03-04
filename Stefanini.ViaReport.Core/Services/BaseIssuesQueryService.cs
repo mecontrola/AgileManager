@@ -2,7 +2,6 @@
 using Stefanini.ViaReport.Core.Data.Dto.Jira;
 using Stefanini.ViaReport.Core.Data.Dto.Jira.Inputs;
 using Stefanini.ViaReport.Core.Data.Enums;
-using Stefanini.ViaReport.Core.Extensions;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
 using System;
 using System.Linq;
@@ -21,6 +20,7 @@ namespace Stefanini.ViaReport.Core.Services
         protected const string FIELD_CREATED = "created";
         protected const string FIELD_RESOLVED = "resolved";
         protected const string FIELD_FIX_VERSION = "fixVersion";
+        protected const string FIELD_ISSUE_TYPE = "issuetype";
         protected const string FIELD_LABELS = "labels";
         protected const string FIELD_STATUS = "status";
         protected const string FIELD_STATUS_CATEGORY = "statusCategory";
@@ -53,8 +53,11 @@ namespace Stefanini.ViaReport.Core.Services
         protected static string GetProjectCriteria(string project)
             => Equal("project", project);
 
-        protected static string GetIssueTypeCriteria(params IssueTypes[] issueTypes)
-            => In("issuetype", issueTypes, issueType => $"{(int)issueType}");
+        protected static string GetInIssueTypesCriteria(params IssueTypes[] issueTypes)
+            => In(FIELD_ISSUE_TYPE, issueTypes, issueType => $"{(int)issueType}");
+
+        protected static string GetNotInIssueTypesCriteria(params IssueTypes[] issueTypes)
+            => NotIn(FIELD_ISSUE_TYPE, issueTypes, issueType => $"{(int)issueType}");
 
         protected static string GetStatusCriteria(params StatusTypes[] statuses)
             => In(FIELD_STATUS, statuses, status => status.GetDescription());
@@ -93,7 +96,7 @@ namespace Stefanini.ViaReport.Core.Services
             => And(GetIsGreaterEqualThan(field, initDate), GetIsLessEqualThan(field, endDate));
 
         protected static string GetBasicIssueTypesCriteria()
-            => In("issuetype", BASIC_ISSUE_TYPES, itm => $"{(int)itm}");
+            => In(FIELD_ISSUE_TYPE, BASIC_ISSUE_TYPES, itm => $"{(int)itm}");
 
         protected static string Equal(string field, string value)
             => $"{field} = '{value}'";

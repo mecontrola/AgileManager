@@ -5,7 +5,7 @@ namespace Stefanini.ViaReport.Core.Services
 {
     public class BugIncidentIssuesCreateInDateRangeService : BaseIssuesInDateRangesService, IBugIncidentIssuesCreateInDateRangeService
     {
-        private static readonly string[] LABELS_INCIDENTS = new string[] { "incidente", "Incidente" };
+        private static readonly string[] LABELS_INCIDENTS = new string[] { "incidente", "Incidente", "incidentes", "Incidentes" };
 
         public BugIncidentIssuesCreateInDateRangeService(ISearchPost searchPost)
             : base(searchPost)

@@ -3,13 +3,12 @@ using Stefanini.ViaReport.Core.Data.Dto.Jira;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using route = Stefanini.ViaReport.Core.Integrations.Jira.Routes.ApiRoute.Project;
 
 namespace Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects
 {
     public class ProjectGetAll : BaseJiraIntegration, IProjectGetAll
     {
-        private const string API_URL = "/rest/api/2/project";
-
         public ProjectGetAll(IJiraConfiguration jiraConfiguration)
             : base(jiraConfiguration, JsonNamingPolicy.CamelCase)
         {
@@ -18,7 +17,7 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects
 
         public async Task<ProjectDto[]> Execute(string username, string password, CancellationToken cancellationToken)
         {
-            URL = API_URL;
+            URL = route.GET_ALL;
 
             return await GetAsync<ProjectDto[]>(username, password, cancellationToken);
         }

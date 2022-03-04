@@ -25,7 +25,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services
         }
 
         private static string GetJqlExpected()
-            => "project = 'project' AND status NOT IN (Removed,Cancelled) AND issuetype IN (3,7)";
+            => "project = 'project' AND status NOT IN (Removed,Cancelled) AND issuetype IN (3,4,7)";
 
         [Fact(DisplayName = "[IssuesEpicByLabelService.GetData] Deve montar o JQL de acordo com o parametros criados.")]
         public void DeveMontarJQLCorretamente()

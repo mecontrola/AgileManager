@@ -1,17 +1,26 @@
 ﻿using System;
+using System.Linq;
 
 namespace Stefanini.ViaReport.Core.Helpers
 {
     public class QuarterFromDateTimeHelper : IQuarterFromDateTimeHelper
     {
+        private static readonly int[] MONTHS_Q1 = new[] { 1, 2, 3 };
+        private static readonly int[] MONTHS_Q2 = new[] { 4, 5, 6 };
+        private static readonly int[] MONTHS_Q3 = new[] { 7, 8, 9 };
+
         public string GetQuarter(DateTime date)
-            => date.Month switch
-            {
-                1 or 2 or 3 => $"Q1{date.Year}",
-                4 or 5 or 6 => $"Q2{date.Year}",
-                7 or 8 or 9 => $"Q3{date.Year}",
-                10 or 11 or 12 => $"Q4{date.Year}",
-                _ => throw new ArgumentException(),
-            };
+        {
+            if (MONTHS_Q1.Any(x => x.Equals(date.Month)))
+                return $"Q1{date.Year}";
+
+            if (MONTHS_Q2.Any(x => x.Equals(date.Month)))
+                return $"Q2{date.Year}";
+
+            if (MONTHS_Q3.Any(x => x.Equals(date.Month)))
+                return $"Q3{date.Year}";
+
+            return $"Q4{date.Year}";
+        }
     }
 }

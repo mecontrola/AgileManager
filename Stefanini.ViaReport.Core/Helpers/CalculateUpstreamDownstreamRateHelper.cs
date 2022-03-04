@@ -2,7 +2,6 @@
 using Stefanini.ViaReport.Core.Data.Enums;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Stefanini.ViaReport.Core.Helpers
 {
@@ -38,42 +37,40 @@ namespace Stefanini.ViaReport.Core.Helpers
                 previousGrowthInProgress = 0;
                 previousGrowthToDo = 0;
 
-                return new()
-                {
-                    Date = weekOfTheYearFormatHelper.Format(growthToDo.Date),
-                    GrowthToDo = 0,
-                    GrowthInProgress = 0,
-                    UpstreamDownstreamRate = 0,
-                    IsChecked = false
-                };
+                return CreateAHMInfo(growthToDo.Date, 0, 0);
             }
 
             if (previousGrowthInProgress == 0 || previousGrowthToDo == 0)
-            {
-                return new()
-                {
-                    Date = weekOfTheYearFormatHelper.Format(growthToDo.Date),
-                    GrowthToDo = 0,
-                    GrowthInProgress = 0,
-                    UpstreamDownstreamRate = null,
-                    IsChecked = false
-                };
-            }
+                return CreateAHMInfo(growthToDo.Date, null, null);
 
-            growthInProgress.Value = previousGrowthInProgress;
-            growthToDo.Value = previousGrowthToDo;
+            var growthInProgressValue = previousGrowthInProgress;
+            var growthToDoValue = previousGrowthToDo;
 
             previousGrowthInProgress = 0;
             previousGrowthToDo = 0;
 
-            return new()
+            return CreateAHMInfo(growthToDo.Date, growthToDoValue, growthInProgressValue);
+        }
+
+        private AHMInfoDto CreateAHMInfo(DateTime date, decimal? growthToDo, decimal? growthInProgress)
+            => new()
             {
-                Date = weekOfTheYearFormatHelper.Format(growthToDo.Date),
-                GrowthToDo = growthToDo.Value,
-                GrowthInProgress = growthInProgress.Value,
-                UpstreamDownstreamRate = growthToDo.Value / growthInProgress.Value,
+                Date = weekOfTheYearFormatHelper.Format(date),
+                GrowthToDo = growthToDo ?? 0,
+                GrowthInProgress = growthInProgress ?? 0,
+                UpstreamDownstreamRate = CalculateRate(growthToDo, growthInProgress),
                 IsChecked = false
             };
+
+        private static decimal? CalculateRate(decimal? growthToDo, decimal? growthInProgress)
+        {
+            if (!growthToDo.HasValue || !growthInProgress.HasValue)
+                return null;
+
+            if (growthToDo.Value == 0 && growthInProgress.Value == 0)
+                return 0;
+
+            return growthToDo.Value / growthInProgress.Value;
         }
     }
 }

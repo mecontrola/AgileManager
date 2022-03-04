@@ -17,14 +17,17 @@ namespace Stefanini.ViaReport.Core.Business
         private const int DAYS_REMOVE = 120;
 
         private readonly IIssuesResolvedInDateRangeService issuesResolvedInDateRangeService;
+        private readonly IIssuesEpicByLabelService issuesEpicByLabelService;
         private readonly IGenerateWeeksFromRangeDateHelper generateWeeksFromRangeDateHelper;
         private readonly IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper;
 
         public DashboardBusiness(IIssuesResolvedInDateRangeService issuesResolvedInDateRangeService,
+                                 IIssuesEpicByLabelService issuesEpicByLabelService,
                                  IGenerateWeeksFromRangeDateHelper generateWeeksFromRangeDateHelper,
                                  IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper)
         {
             this.issuesResolvedInDateRangeService = issuesResolvedInDateRangeService;
+            this.issuesEpicByLabelService = issuesEpicByLabelService;
             this.generateWeeksFromRangeDateHelper = generateWeeksFromRangeDateHelper;
             this.issueDtoToIssueInfoDtoMapper = issueDtoToIssueInfoDtoMapper;
         }

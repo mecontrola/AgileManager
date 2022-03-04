@@ -7,7 +7,7 @@ namespace Stefanini.Core.Extensions
     {
         private static readonly string CONFIGURATION_SUFFIX = "Configuration";
 
-        //[DebuggerStepThrough]
+        [DebuggerStepThrough]
         public static T Load<T>(this IConfiguration configuration)
             where T : new()
         {

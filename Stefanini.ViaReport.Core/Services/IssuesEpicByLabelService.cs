@@ -23,7 +23,7 @@ namespace Stefanini.ViaReport.Core.Services
             => new string[]
             {
                 GetProjectCriteria(project),
-                GetIssueTypeCriteria(IssueTypes.Epic),
+                GetInIssueTypesCriteria(IssueTypes.Epic),
                 GetNotInDeletedStatusesCriteria(),
                 In("labels", labels)
             };

@@ -30,7 +30,7 @@ namespace Stefanini.ViaReport.Core.Helpers
         }
 
         private static Tuple<DateTime, DateTime> CreateRangeTuple(DateTime date, int groupWeekBy)
-            => Tuple.Create(date, date.AddDays((INCREASE_7_DAYS * groupWeekBy) - 1));
+            => Tuple.Create(date.Date, date.AddDays((INCREASE_7_DAYS * groupWeekBy) - 1).Date);
 
         private static DateTime GetFirstDayInWeekOfTheYear(DateTime dateTime, int groupWeekBy)
         {

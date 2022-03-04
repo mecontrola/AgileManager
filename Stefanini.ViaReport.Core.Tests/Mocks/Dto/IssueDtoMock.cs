@@ -1,4 +1,5 @@
 ﻿using Stefanini.ViaReport.Core.Data.Dto.Jira;
+using Stefanini.ViaReport.Core.Tests.TestUtils.Helpers;
 using System.Collections.Generic;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Dto
@@ -27,5 +28,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Dto
                 CreateIssue1(),
                 CreateIssue2()
             };
+
+        public static IssueDto CreateIssueByJson(string key)
+            => ApiUtilMockHelper.LoadIssueJsonMock(key);
     }
 }

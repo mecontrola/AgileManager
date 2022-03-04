@@ -1,4 +1,5 @@
-﻿using Stefanini.Core.Extensions;
+﻿using Microsoft.Win32;
+using Stefanini.Core.Extensions;
 using Stefanini.Core.Settings;
 using Stefanini.ViaReport.Core.Business;
 using Stefanini.ViaReport.Core.Data.Configurations;
@@ -10,6 +11,7 @@ using Stefanini.ViaReport.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -126,16 +128,27 @@ namespace Stefanini.ViaReport
 
             try
             {
-                var items = await upstreamDownstreamRateBusiness.GetData(settingsHelper.Data.Username,
-                                                                         settingsHelper.Data.Password,
-                                                                         project.Name,
-#pragma warning disable CS8629 // Nullable value type may be null.
-                                                                         initDate.Value,
-#pragma warning restore CS8629 // Nullable value type may be null.
-#pragma warning disable CS8629 // Nullable value type may be null.
-                                                                         endDate.Value,
-#pragma warning restore CS8629 // Nullable value type may be null.
-                                                                         cancellationTokenSource.Token);
+                var openFileDialog = new OpenFileDialog();
+
+                if (openFileDialog.ShowDialog() == false)
+                {
+                    ChangePbStatusAndBtnExecute(true, true);
+                    return;
+                }
+
+                var items = await upstreamDownstreamRateBusiness.GetData(openFileDialog.FileName, cancellationTokenSource.Token);
+
+
+//                var items = await upstreamDownstreamRateBusiness.GetData(settingsHelper.Data.Username,
+//                                                                         settingsHelper.Data.Password,
+//                                                                         project.Name,
+//#pragma warning disable CS8629 // Nullable value type may be null.
+//                                                                         initDate.Value,
+//#pragma warning restore CS8629 // Nullable value type may be null.
+//#pragma warning disable CS8629 // Nullable value type may be null.
+//                                                                         endDate.Value,
+//#pragma warning restore CS8629 // Nullable value type may be null.
+//                                                                         cancellationTokenSource.Token);
 
                 dgDataCollection.AddList(items);
 
