@@ -13,6 +13,6 @@ namespace Stefanini.ViaReport.Core.Converters
         }
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
-            => writer.WriteStringValue(value.ToString());
+            => writer.WriteStringValue($"{value:dd/MM/yyyy HH:mm:ss}");
     }
 }
