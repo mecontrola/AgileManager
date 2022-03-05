@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <SignAssembly>False</SignAssembly>
     <AssemblyName>AHM Report</AssemblyName>
@@ -14,7 +13,24 @@
     <PackageReleaseNotes>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</PackageReleaseNotes>
     <Description>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</Description>
     <PackageIcon>Images\ahm-logo.png</PackageIcon>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <PlatformTarget>$(Platform)</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimization>true</Optimization>
+    <Obfuscate>true</Obfuscate>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings*.json" CopyToPublishDirectory="Never" />
+    <Content Update="*.xml" CopyToPublishDirectory="Never" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Images\information_icon.png" />
@@ -54,7 +70,8 @@
 
   <ItemGroup>
     <None Update="appsettings.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory Condition=" '$(Configuration)' == 'Release' ">Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory Condition=" '$(Configuration)' != 'Release' ">Always</CopyToOutputDirectory>
     </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
