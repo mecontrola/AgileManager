@@ -18,7 +18,7 @@ jobs:
   analyze:
 
     name: analyze
-    runs-on: windows-latest
+    runs-on: linux-latest
 
     strategy:
       fail-fast: false
