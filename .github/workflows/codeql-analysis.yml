@@ -12,7 +12,7 @@ on:
     - '**.cs'
     - '**.csproj'
   schedule:
-    - cron: '0 8 * * 4'
+    - cron: '30 * * * *'
 
 jobs:
   analyze:

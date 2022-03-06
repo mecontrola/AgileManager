@@ -14,6 +14,7 @@
     <Description>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</Description>
     <PackageIcon>Images\ahm-logo.png</PackageIcon>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <Platforms>AnyCPU;x86;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,6 +26,22 @@
     <DebugSymbols>false</DebugSymbols>
     <Optimization>true</Optimization>
     <Obfuscate>true</Obfuscate>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;NU1702</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;NU1702</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;NU1702</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1605;NU1702</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
