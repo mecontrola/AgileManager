@@ -19,7 +19,7 @@ jobs:
 
     env:
       App_Packages_Directory: AppPackages
-      SigningCertificate: GitHubActionsDemo.pfx
+      SigningCertificate: MeControla.Stefanini.pfx
       Solution_Path: Stefanini.sln
       Test_Project_Path: Stefanini.ViaReport.Core.Tests\Stefanini.ViaReport.Core.Tests.csproj
       Wpf_Project_Path: Stefanini.ViaReport\Stefanini.ViaReport.csproj
@@ -43,7 +43,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.302'
+        dotnet-version: 6.0.x
 
     # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
