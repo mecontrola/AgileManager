@@ -17,6 +17,7 @@ namespace Stefanini.ViaReport.Core.Services
         private const string CLAUSE_IN = " IN ";
         private const string CLAUSE_NOT_IN = " NOT IN ";
 
+        protected const string FIELD_KEY = "key";
         protected const string FIELD_CREATED = "created";
         protected const string FIELD_RESOLVED = "resolved";
         protected const string FIELD_FIX_VERSION = "fixVersion";
@@ -39,16 +40,26 @@ namespace Stefanini.ViaReport.Core.Services
                                                      string password,
                                                      string[] criterias,
                                                      CancellationToken cancellationToken)
-            => await searchPost.Execute(username, password, MountJql(criterias), cancellationToken);
+            => await RunCriterias(username, password, criterias, string.Empty, cancellationToken);
 
-        private static SearchInputDto MountJql(string[] criterias)
+        protected async Task<SearchDto> RunCriterias(string username,
+                                                     string password,
+                                                     string[] criterias,
+                                                     string orderBy,
+                                                     CancellationToken cancellationToken)
+            => await searchPost.Execute(username, password, MountSearchData(criterias, orderBy), cancellationToken);
+
+        private static SearchInputDto MountSearchData(string[] criterias, string orderBy)
             => new()
             {
-                Jql = string.Join(CLAUSE_AND, criterias).TrimAll(),
+                Jql = MountJql(criterias, orderBy).TrimAll(),
                 StartAt = 0,
                 MaxResults = 256,
                 Fields = Array.Empty<string>()
             };
+
+        private static string MountJql(string[] criterias, string orderBy)
+            => $"{string.Join(CLAUSE_AND, criterias)} {orderBy}";
 
         protected static string GetProjectCriteria(string project)
             => Equal("project", project);
@@ -92,7 +103,7 @@ namespace Stefanini.ViaReport.Core.Services
         protected static string GetBetweenResolvedDateCriteria(DateTime initDate, DateTime endDate)
             => GetBetweenDatesCriteria(FIELD_RESOLVED, initDate, endDate);
 
-        private static string GetBetweenDatesCriteria(string field, DateTime initDate, DateTime endDate)
+        protected static string GetBetweenDatesCriteria(string field, DateTime initDate, DateTime endDate)
             => And(GetIsGreaterEqualThan(field, initDate), GetIsLessEqualThan(field, endDate));
 
         protected static string GetBasicIssueTypesCriteria()
@@ -145,5 +156,11 @@ namespace Stefanini.ViaReport.Core.Services
 
         private static string DateFormat(DateTime value)
             => $"'{value:yyyy-MM-dd}'";
+
+        protected static string OrderByKey()
+            => OrderBy(FIELD_KEY);
+
+        protected static string OrderBy(string field)
+            => $"ORDER BY {field}";
     }
 }

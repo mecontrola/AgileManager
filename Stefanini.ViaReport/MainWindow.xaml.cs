@@ -450,5 +450,26 @@ namespace Stefanini.ViaReport
             window.SetDataColletion(data);
             window.ShowDialog();
         }
+
+        private async void BtnDeliveryLastCycle_Click(object sender, RoutedEventArgs e)
+        {
+            var project = (JiraProjectDto)CbProjects.SelectedItem;
+            var initDate = TxtInitDate.SelectedDate;
+            var endDate = TxtEndDate.SelectedDate;
+
+            if (!IsValidFilter(settingsHelper.Data, project.Category, initDate, endDate))
+                return;
+
+            var data = await dashboardBusiness.GetDeliveryLastCycleData(settingsHelper.Data.Username,
+                                                                        settingsHelper.Data.Password,
+                                                                        project.Name,
+                                                                        initDate.Value,
+                                                                        endDate.Value,
+                                                                        cancellationTokenSource.Token);
+
+            var window = new DeliveryLastCycleWindow();
+            window.SetDataColletion(data);
+            window.ShowDialog();
+        }
     }
 }
