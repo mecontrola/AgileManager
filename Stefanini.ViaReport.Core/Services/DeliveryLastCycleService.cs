@@ -39,9 +39,9 @@ namespace Stefanini.ViaReport.Core.Services
             var statusInProgress = await statusInProgressService.GetList(username, password, cancellationToken);
             var statusDone = await statusDoneService.GetList(username, password, cancellationToken);
             var search = await issuesResolvedInDateRangeService.GetData(username, password, project, initDate, endDate, cancellationToken);
-            var issues = new List<DeliveryLastCycleIssueDto>();
             var statusInProgressList = statusInProgress.Select(x => x.Key).ToList();
             var statusDoneList = statusDone.Select(x => x.Key).ToList();
+            var issues = new List<DeliveryLastCycleIssueDto>();
 
             foreach (var issue in search.Issues)
             {
@@ -50,15 +50,21 @@ namespace Stefanini.ViaReport.Core.Services
                 issues.Add(CreateIssueInfo(issueBacklog, statusInProgressList, statusDoneList));
             }
 
-            return new()
+            return CreateDeliveryLastCycleDto(initDate, endDate, issues);
+        }
+
+        private static DeliveryLastCycleDto CreateDeliveryLastCycleDto(DateTime initDate, DateTime endDate, IList<DeliveryLastCycleIssueDto> issues)
+            => new()
             {
                 StartDate = initDate,
                 EndDate = endDate,
                 Throughtput = issues.Count,
-                LeadTimeAverage = issues.Sum(x => x.LeadTime) / issues.Count,
+                LeadTimeAverage = CalculateLeadTimeAverage(issues),
                 Issues = issues
             };
-        }
+
+        private static int CalculateLeadTimeAverage(IList<DeliveryLastCycleIssueDto> issues)
+            => (int)issues.Sum(x => x.LeadTime) / issues.Count;
 
         private async Task<IssueDto> GetBacklogData(string username, string password, string issueKey, CancellationToken cancellationToken)
             => await issueGet.Execute(username, password, issueKey, cancellationToken);
@@ -75,8 +81,7 @@ namespace Stefanini.ViaReport.Core.Services
         {
             var dateInProgress = recoverDateTimeFirstStatusMatchBacklogHelper.GetDateTime(changelog, statusInProgress);
             var dateDone = recoverDateTimeFirstStatusMatchBacklogHelper.GetDateTime(changelog, statusDone);
-            var total = businessDayHelper.Diff(dateInProgress.Value, dateDone.Value);
-            return Math.Round(total) - 1;
+            return businessDayHelper.Diff(dateInProgress.Value, dateDone.Value);
         }
     }
 }

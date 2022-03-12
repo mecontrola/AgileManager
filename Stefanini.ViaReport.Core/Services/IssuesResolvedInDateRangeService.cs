@@ -6,8 +6,6 @@ namespace Stefanini.ViaReport.Core.Services
 {
     public class IssuesResolvedInDateRangeService : BaseIssuesInDateRangesService, IIssuesResolvedInDateRangeService
     {
-        private const string CUSTOM_FIELD_END_DATE = "cf[14503]";
-
         public IssuesResolvedInDateRangeService(ISearchPost searchPost)
             : base(searchPost)
         { }
@@ -17,8 +15,7 @@ namespace Stefanini.ViaReport.Core.Services
             {
                 GetProjectCriteria(project),
                 GetNotInDeletedStatusesCriteria(),
-                Or(GetBetweenResolvedDateCriteria(initDate, endDate),
-                   GetBetweenDatesCriteria(CUSTOM_FIELD_END_DATE, initDate, endDate)),
+                GetBetweenResolvedDateCriteria(initDate, endDate),
                 GetInIssueTypesCriteria(GetIssueTypes())
             };
 

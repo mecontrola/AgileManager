@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Stefanini.ViaReport.Core.Services;
+using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Services
 {
-    public class StatusDoneServiceTests
+    public class StatusDoneServiceTests : BaseStatusServiceTests<StatusDoneService>
     {
+        [Fact(DisplayName = "[StatusDoneService.GetList] Deve retornar um dictionary (id, name), contendo os status da categoria Done.")]
+        public async void DeveRetornarStatusCategoriaInProgress()
+            => await RunTest(StatusDtoMock.CreateDictionaryDone());
     }
 }
