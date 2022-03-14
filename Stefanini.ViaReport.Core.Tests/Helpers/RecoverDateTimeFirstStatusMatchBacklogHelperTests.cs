@@ -27,7 +27,7 @@ namespace Stefanini.ViaReport.Core.Tests.Helpers
             var actual = helper.GetDateTime(GetChangelog(), GetStatuses());
 
             actual.Should().NotBeNull();
-            actual.Value.Should().Be(expected);
+            actual.Value.Date.Should().Be(expected.Date);
         }
 
         private static IList<string> GetStatuses()

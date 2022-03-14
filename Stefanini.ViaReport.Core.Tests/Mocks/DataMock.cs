@@ -57,7 +57,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static readonly DateTime DATETIME_QUARTER_2_2000 = new(2000, 5, 5);
         public static readonly DateTime DATETIME_QUARTER_3_2000 = new(2000, 8, 8);
         public static readonly DateTime DATETIME_QUARTER_4_2000 = new(2000, 11, 11);
-        public static readonly DateTime DATETIME_CHANGELOG_STATUS = new(2022, 1, 17, 10, 7, 4, 930, DateTimeKind.Utc);
+        public static readonly DateTime DATETIME_CHANGELOG_STATUS = new(2022, 1, 17);
         public static readonly DateTime DATETIME_START_CYCLE = new(2022, 2, 21);
         public static readonly DateTime DATETIME_END_CYCLE = new(2022, 3, 6);
 
