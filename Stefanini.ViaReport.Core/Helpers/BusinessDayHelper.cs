@@ -18,8 +18,6 @@ namespace Stefanini.ViaReport.Core.Helpers
 
             firstDay = firstDay.Date;
             lastDay = lastDay.Date;
-            if (firstDay > lastDay)
-                throw new ArgumentException($"{ARGUMENT_LAST_BIG_FIRST} {lastDay}");
             
             TimeSpan span = lastDay - firstDay;
             int businessDays = span.Days + 1;

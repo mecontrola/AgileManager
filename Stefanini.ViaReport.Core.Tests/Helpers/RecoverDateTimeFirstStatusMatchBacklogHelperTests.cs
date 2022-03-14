@@ -20,7 +20,7 @@ namespace Stefanini.ViaReport.Core.Tests.Helpers
             helper = new RecoverDateTimeFirstStatusMatchBacklogHelper();
         }
 
-        [Fact(DisplayName = "[RecoverDateTimeFirstStatusMatchBacklogHelper] Deve retornar a primeira ocorrência de status existente no backlog de uma issue.")]
+        [Fact(DisplayName = "[RecoverDateTimeFirstStatusMatchBacklogHelper.GetChangelog] Deve retornar a primeira ocorrência de status existente no backlog de uma issue.")]
         public void DeveRetornarPrimeiraStatusListaFornecida()
         {
             var expected = DataMock.DATETIME_CHANGELOG_STATUS;
