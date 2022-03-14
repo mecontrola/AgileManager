@@ -167,6 +167,18 @@
     <None Update="Mocks\Server\Jsons\issue.get.SEA-230.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-232.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-233.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-234.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-235.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Mocks\Server\Jsons\issue.get.SEA-236.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -188,7 +200,43 @@
     <None Update="Mocks\Server\Jsons\issue.get.SEA-242.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-245.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-246.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-248.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Mocks\Server\Jsons\issue.get.SEA-25.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-254.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-255.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-257.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-259.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-262.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-264.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-266.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-267.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\issue.get.SEA-273.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Mocks\Server\Jsons\issue.get.SEA-34.json">
@@ -255,6 +303,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Mocks\Server\Jsons\search.post.all.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Server\Jsons\search.post.done.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Mocks\Server\Jsons\session.get.json">

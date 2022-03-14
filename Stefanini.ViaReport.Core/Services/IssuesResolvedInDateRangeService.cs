@@ -19,6 +19,9 @@ namespace Stefanini.ViaReport.Core.Services
                 GetInIssueTypesCriteria(GetIssueTypes())
             };
 
+        protected override string CreateOrderBy()
+            => OrderByKey();
+
         private static IssueTypes[] GetIssueTypes()
             => new[]
             {

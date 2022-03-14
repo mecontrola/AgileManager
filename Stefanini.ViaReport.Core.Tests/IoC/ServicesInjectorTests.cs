@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class ServicesInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 21;
+        private const int TOTAL_RECORDS = 24;
 
         [Fact(DisplayName = "[ServicesInjector.AddServices] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -30,12 +30,15 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.Should().HaveService<ICFDEasyBIExportService>().WithImplementation<CFDEasyBIExportService>().AsScoped();
             serviceCollection.Should().HaveService<ICFDExportReportIntegrationService>().WithImplementation<CFDExportReportIntegrationService>().AsScoped();
             //serviceCollection.Should().HaveService<ICFDReportSanitizeDataService>().WithImplementation<CFDReportSanitizeDataService>().AsScoped();
+            serviceCollection.Should().HaveService<IDeliveryLastCycleService>().WithImplementation<DeliveryLastCycleService>().AsScoped();
             serviceCollection.Should().HaveService<IIssuesCreatedInDateRangeService>().WithImplementation<IssuesCreatedInDateRangeService>().AsScoped();
             serviceCollection.Should().HaveService<IIssuesEpicByLabelService>().WithImplementation<IssuesEpicByLabelService>().AsScoped();
             serviceCollection.Should().HaveService<IIssuesNotFixVersionService>().WithImplementation<IssuesNotFixVersionService>().AsScoped();
             serviceCollection.Should().HaveService<IIssuesResolvedInDateRangeService>().WithImplementation<IssuesResolvedInDateRangeService>().AsScoped();
             serviceCollection.Should().HaveService<IJiraAuthService>().WithImplementation<JiraAuthService>().AsScoped();
             serviceCollection.Should().HaveService<IJiraProjectsService>().WithImplementation<JiraProjectsService>().AsScoped();
+            serviceCollection.Should().HaveService<IStatusDoneService>().WithImplementation<StatusDoneService>().AsScoped();
+            serviceCollection.Should().HaveService<IStatusInProgressService>().WithImplementation<StatusInProgressService>().AsScoped();
             serviceCollection.Should().HaveService<ITechnicalDebitIssuesCancelledInDateRangeService>().WithImplementation<TechnicalDebitIssuesCancelledInDateRangeService>().AsScoped();
             serviceCollection.Should().HaveService<ITechnicalDebitIssuesCreatedAndResolvedInDateRangeService>().WithImplementation<TechnicalDebitIssuesCreatedAndResolvedInDateRangeService>().AsScoped();
             serviceCollection.Should().HaveService<ITechnicalDebitIssuesCreatedInDateRangeService>().WithImplementation<TechnicalDebitIssuesCreatedInDateRangeService>().AsScoped();

@@ -24,7 +24,7 @@ namespace Stefanini.Core.Extensions
 
         [DebuggerStepThrough]
         public static string TrimAll(this string value)
-            => Regex.Replace(value, @"\s+", " ");
+            => Regex.Replace(value, @"\s+", " ").Trim();
 
         [DebuggerStepThrough]
         public static string ToMD5(this string input)

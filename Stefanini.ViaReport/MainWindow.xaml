@@ -44,6 +44,7 @@
             <MenuItem Header="Tools" Name="MiTools" IsEnabled="False">
                 <MenuItem Name="BtnDashboard" Header="Dashboard" Click="BtnDashboard_Click"/>
                 <MenuItem Name="BtnNoFixVersion" Header="No Fix Version" Click="BtnNoFixVersion_Click"/>
+                <MenuItem Name="BtnDeliveryLastCycle" Header="Delivery Last Cycle" Click="BtnDeliveryLastCycle_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Name="BtnAbout" Header="About" Click="BtnAbout_Click"/>

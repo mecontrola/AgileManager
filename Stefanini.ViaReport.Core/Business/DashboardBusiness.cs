@@ -16,16 +16,19 @@ namespace Stefanini.ViaReport.Core.Business
         private const int WEEKS_GROUP_BY = 2;
         private const int DAYS_REMOVE = 120;
 
+        private readonly IDeliveryLastCycleService deliveryLastCycleService;
         private readonly IIssuesResolvedInDateRangeService issuesResolvedInDateRangeService;
         private readonly IIssuesEpicByLabelService issuesEpicByLabelService;
         private readonly IGenerateWeeksFromRangeDateHelper generateWeeksFromRangeDateHelper;
         private readonly IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper;
 
-        public DashboardBusiness(IIssuesResolvedInDateRangeService issuesResolvedInDateRangeService,
+        public DashboardBusiness(IDeliveryLastCycleService deliveryLastCycleService,
+                                 IIssuesResolvedInDateRangeService issuesResolvedInDateRangeService,
                                  IIssuesEpicByLabelService issuesEpicByLabelService,
                                  IGenerateWeeksFromRangeDateHelper generateWeeksFromRangeDateHelper,
                                  IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper)
         {
+            this.deliveryLastCycleService = deliveryLastCycleService;
             this.issuesResolvedInDateRangeService = issuesResolvedInDateRangeService;
             this.issuesEpicByLabelService = issuesEpicByLabelService;
             this.generateWeeksFromRangeDateHelper = generateWeeksFromRangeDateHelper;
@@ -71,5 +74,8 @@ namespace Stefanini.ViaReport.Core.Business
                 Items = list.ToList()
             };
         }
+
+        public async Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(string username, string password, string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
+            => await deliveryLastCycleService.GetData(username, password, project, initDate, endDate, cancellationToken);
     }
 }
