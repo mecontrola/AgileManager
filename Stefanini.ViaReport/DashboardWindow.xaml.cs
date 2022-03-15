@@ -35,7 +35,7 @@ namespace Stefanini.ViaReport
             FillDataGrid(DgThroughput, dgThroughputDataCollection, data.Throughput.Items);
             //FillDataGrid(dgLeadTimeDataCollection, data.LeadTime.Items);
             //FillDataGrid(dgCycleTimeDataCollection, data.CycleTime.Items);
-            //FillDataGrid(dgQuarterEpicsDataCollection, data.QuarterEpics.Items);
+            FillDataGrid(DgQuarterEpics, dgQuarterEpicsDataCollection, data.QuarterEpics.Items);
 
             //dgThroughputDataCollection.Clear();
             //dgThroughputDataCollection.AddList(data.Throughput.Items);
@@ -72,7 +72,7 @@ namespace Stefanini.ViaReport
             var item = link?.DataContext as DashboardInfoItemDto ?? new DashboardInfoItemDto();
             
             var window = new IssueWindow();
-            window.DefineTitle("Detalhes");
+            window.DefineTitle("Details");
             window.SetDataColletion(item.Issues);
             window.ShowDialog();
         }

@@ -1,5 +1,6 @@
 ﻿using Stefanini.Core.Extensions;
 using Stefanini.Core.Settings;
+using Stefanini.ViaReport.Core.Data.Dto.Settings;
 
 namespace Stefanini.ViaReport.Core.Helpers
 {
@@ -7,13 +8,13 @@ namespace Stefanini.ViaReport.Core.Helpers
     {
         private const string SETTINGS_FILENAME = "usersettings.json";
 
-        private readonly ISettingsManager<UserSettings> settingsManager;
+        private readonly ISettingsManager<AppSettingsDto> settingsManager;
 
         public SettingsHelper()
-            : this(new SettingsManager<UserSettings>(SETTINGS_FILENAME))
+            : this(new SettingsManager<AppSettingsDto>(SETTINGS_FILENAME))
         { }
 
-        public SettingsHelper(ISettingsManager<UserSettings> settingsManager)
+        public SettingsHelper(ISettingsManager<AppSettingsDto> settingsManager)
         {
             this.settingsManager = settingsManager;
 
@@ -21,15 +22,21 @@ namespace Stefanini.ViaReport.Core.Helpers
             {
                 Username = settingsManager.Data.Username,
                 Password = settingsManager.Data.Password.Base64Decode(),
+                PersistFilter = settingsManager.Data.PersistFilter,
+                FilterData = settingsManager.Data.FilterData,
             };
         }
 
-        public UserSettings Data { get; set; }
+        public AppSettingsDto Data { get; set; }
 
         public void Save()
         {
             settingsManager.Data.Username = Data.Username;
             settingsManager.Data.Password = Data.Password.Base64Encode();
+            settingsManager.Data.PersistFilter = Data.PersistFilter;
+            settingsManager.Data.FilterData = settingsManager.Data.PersistFilter
+                                            ? Data.FilterData
+                                            : null;
             settingsManager.SaveSettings();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Stefanini.Core.Settings;
+using Stefanini.ViaReport.Core.Data.Dto.Settings;
 using Stefanini.ViaReport.Core.Tests.Mocks.Entities.Settings;
 using System.IO;
 using Xunit;
@@ -15,10 +16,10 @@ namespace Stefanini.ViaReport.Core.Tests.Settings
         [Fact(DisplayName = "[SettingsManager.LoadSettings] Deve carregar as informações padrões quando não houvem alterações de configuração.")]
         public void DeveCarregarInformacoesPadroesArquivo()
         {
-            var settings = new SettingsManager<UserSettings>(FILENAME);
+            var settings = new SettingsManager<AppSettingsDto>(FILENAME);
 
             var actual = settings.LoadSettings();
-            var expected = UserSettingsMock.CreateEmpty();
+            var expected = AppSettingsDtoMock.CreateEmpty();
 
             File.Exists(FILEPATH).Should().BeTrue();
 
@@ -30,12 +31,14 @@ namespace Stefanini.ViaReport.Core.Tests.Settings
         [Fact(DisplayName = "[SettingsManager.LoadSettings] Deve carregar as informações quando forem salvas as alterações de configuração.")]
         public void DeveCarregarInformacoesAlteradasArquivo()
         {
-            var settings = new SettingsManager<UserSettings>(FILENAME);
-            settings.Data = UserSettingsMock.Create();
+            var settings = new SettingsManager<AppSettingsDto>(FILENAME)
+            {
+                Data = AppSettingsDtoMock.Create()
+            };
             settings.SaveSettings();
 
             var actual = settings.LoadSettings();
-            var expected = UserSettingsMock.Create();
+            var expected = AppSettingsDtoMock.Create();
 
             File.Exists(FILEPATH).Should().BeTrue();
 

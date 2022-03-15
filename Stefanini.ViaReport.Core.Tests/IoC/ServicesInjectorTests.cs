@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class ServicesInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 24;
+        private const int TOTAL_RECORDS = 23;
 
         [Fact(DisplayName = "[ServicesInjector.AddServices] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -27,9 +27,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.Should().HaveService<IBugIssuesExistedInDateRangeService>().WithImplementation<BugIssuesExistedInDateRangeService>().AsScoped();
             serviceCollection.Should().HaveService<IBugIssuesOpenedInDateRangeService>().WithImplementation<BugIssuesOpenedInDateRangeService>().AsScoped();
             serviceCollection.Should().HaveService<IBugIssuesResolvedInDateRangeService>().WithImplementation<BugIssuesResolvedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<ICFDEasyBIExportService>().WithImplementation<CFDEasyBIExportService>().AsScoped();
             serviceCollection.Should().HaveService<ICFDExportReportIntegrationService>().WithImplementation<CFDExportReportIntegrationService>().AsScoped();
-            //serviceCollection.Should().HaveService<ICFDReportSanitizeDataService>().WithImplementation<CFDReportSanitizeDataService>().AsScoped();
             serviceCollection.Should().HaveService<IDeliveryLastCycleService>().WithImplementation<DeliveryLastCycleService>().AsScoped();
             serviceCollection.Should().HaveService<IIssuesCreatedInDateRangeService>().WithImplementation<IssuesCreatedInDateRangeService>().AsScoped();
             serviceCollection.Should().HaveService<IIssuesEpicByLabelService>().WithImplementation<IssuesEpicByLabelService>().AsScoped();

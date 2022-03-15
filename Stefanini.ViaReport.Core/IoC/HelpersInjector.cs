@@ -18,11 +18,10 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddSingleton<ICalculateUpstreamDownstreamRateHelper, CalculateUpstreamDownstreamRateHelper>();
             services.TryAddSingleton<IDateTimeFromStringHelper, DateTimeFromStringHelper>();
             services.TryAddSingleton<IGenerateWeeksFromRangeDateHelper, GenerateWeeksFromRangeDateHelper>();
-            services.TryAddSingleton<IProjectNameCfdEasyBIExportHelper, ProjectNameCfdEasyBIExportHelper>();
             services.TryAddSingleton<IQuarterFromDateTimeHelper, QuarterFromDateTimeHelper>();
+            services.TryAddSingleton<IQuarterGenerateListHelper, QuarterGenerateListHelper>();
             services.TryAddSingleton<IReadCFDFileExportHelper, ReadCFDFileExportHelper>();
             services.TryAddSingleton<IRecoverDateTimeFirstStatusMatchBacklogHelper, RecoverDateTimeFirstStatusMatchBacklogHelper>();
-            services.TryAddSingleton<ISatinizeEasyBIDataHelper, SatinizeEasyBIDataHelper>();
             services.TryAddSingleton<ISettingsHelper, SettingsHelper>();
             services.TryAddSingleton<IWeekOfTheYearFormatHelper, WeekOfTheYearFormatHelper>();
         }

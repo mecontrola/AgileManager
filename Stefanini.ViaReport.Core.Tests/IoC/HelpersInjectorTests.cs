@@ -28,9 +28,9 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.Should().HaveService<IGenerateWeeksFromRangeDateHelper>().WithImplementation<GenerateWeeksFromRangeDateHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IProjectNameCfdEasyBIExportHelper>().WithImplementation<ProjectNameCfdEasyBIExportHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IQuarterFromDateTimeHelper>().WithImplementation<QuarterFromDateTimeHelper>().AsSingleton();
+            serviceCollection.Should().HaveService<IQuarterGenerateListHelper>().WithImplementation<QuarterGenerateListHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IReadCFDFileExportHelper>().WithImplementation<ReadCFDFileExportHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IRecoverDateTimeFirstStatusMatchBacklogHelper>().WithImplementation<RecoverDateTimeFirstStatusMatchBacklogHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<ISatinizeEasyBIDataHelper>().WithImplementation<SatinizeEasyBIDataHelper>().AsSingleton();
             serviceCollection.Should().HaveService<ISettingsHelper>().WithImplementation<SettingsHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IWeekOfTheYearFormatHelper>().WithImplementation<WeekOfTheYearFormatHelper>().AsSingleton();
         }

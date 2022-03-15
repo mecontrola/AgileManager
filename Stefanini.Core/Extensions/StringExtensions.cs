@@ -38,5 +38,18 @@ namespace Stefanini.Core.Extensions
 
             return sBuilder.ToString();
         }
+
+        [DebuggerStepThrough]
+        public static DateTime? ToDateTime(this string value)
+        {
+            try
+            {
+                return Convert.ToDateTime(value);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

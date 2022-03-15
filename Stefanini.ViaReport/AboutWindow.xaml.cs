@@ -12,9 +12,9 @@ namespace Stefanini.ViaReport
         {
             InitializeComponent();
 
-            LbTitle.Content = $"Sobre {AssemblyTitle}";
+            LbTitle.Content = $"About {AssemblyTitle}";
             LbProductName.Content = AssemblyProduct;
-            LbVersion.Content = $"Versão {AssemblyVersion}";
+            LbVersion.Content = $"Version {AssemblyVersion}";
             LbCopyright.Content = AssemblyCopyright;
             LbCompany.Content = AssemblyCompany;
             TxtDescription.Text = AssemblyDescription;

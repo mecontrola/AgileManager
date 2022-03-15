@@ -36,8 +36,11 @@ namespace Stefanini.ViaReport.Core.Tests.Services
 
             api.Received().Execute(Arg.Any<string>(),
                                    Arg.Any<string>(),
-                                   Arg.Is<SearchInputDto>(x => x.Jql.Equals(GetJqlExpected())),
+                                   Arg.Is<SearchInputDto>(x => CheckEqualJql(x)),
                                    Arg.Any<CancellationToken>());
         }
+
+        private bool CheckEqualJql(SearchInputDto input)
+            => input.Jql.Equals(GetJqlExpected());
     }
 }

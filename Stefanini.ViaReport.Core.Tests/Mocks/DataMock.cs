@@ -12,6 +12,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public const string VALUE_DEFAULT_TEXT2 = "Simply String Test Anything";
         public const string JSON_CLASS_TEST = @"{""field_in_class1"":5,""field_in_class2"":9}";
         public const string JSON_CLASS_TEST_DATE = @"{""FieldInClass1"":5,""FieldInClass2"":9,""FieldDateTime"":""05/05/2000 00:00:00""}";
+        public const string TEXT_DATETIME = "2000-05-05";
         public const string TEXT_DATETIME_WITH_WEEK = "W18, May 05 2000";
         public const string TEXT_QUARTER_1_2000 = "Q12000";
         public const string TEXT_QUARTER_2_2000 = "Q22000";

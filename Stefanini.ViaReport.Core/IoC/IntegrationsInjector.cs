@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Stefanini.ViaReport.Core.Integrations.Jira.EasyBI;
 using Stefanini.ViaReport.Core.Integrations.Jira.V1.Auth;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
@@ -16,7 +15,6 @@ namespace Stefanini.ViaReport.Core.IoC
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            services.TryAddScoped<ICFDExportReportIntegration, CFDExportReportIntegration>();
             services.TryAddScoped<ISessionGet, SessionGet>();
             services.TryAddScoped<IProjectGetAll, ProjectGetAll>();
             services.TryAddScoped<ISearchPost, SearchPost>();
