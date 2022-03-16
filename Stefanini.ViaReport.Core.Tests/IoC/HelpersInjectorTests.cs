@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class HelpersInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 13;
+        private const int TOTAL_RECORDS = 12;
 
         [Fact(DisplayName = "[MappersInjector.AddMappers] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -26,7 +26,6 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.Should().HaveService<ICalculateUpstreamDownstreamRateHelper>().WithImplementation<CalculateUpstreamDownstreamRateHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IDateTimeFromStringHelper>().WithImplementation<DateTimeFromStringHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IGenerateWeeksFromRangeDateHelper>().WithImplementation<GenerateWeeksFromRangeDateHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IProjectNameCfdEasyBIExportHelper>().WithImplementation<ProjectNameCfdEasyBIExportHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IQuarterFromDateTimeHelper>().WithImplementation<QuarterFromDateTimeHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IQuarterGenerateListHelper>().WithImplementation<QuarterGenerateListHelper>().AsSingleton();
             serviceCollection.Should().HaveService<IReadCFDFileExportHelper>().WithImplementation<ReadCFDFileExportHelper>().AsSingleton();

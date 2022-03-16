@@ -1,13 +1,9 @@
 ﻿using FluentAssertions;
-using NSubstitute;
 using Stefanini.ViaReport.Core.Business;
-using Stefanini.ViaReport.Core.Data.Enums;
 using Stefanini.ViaReport.Core.Helpers;
-using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.Integrations.Jira;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
-using Stefanini.ViaReport.Core.Tests.Mocks.Services;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,22 +15,26 @@ namespace Stefanini.ViaReport.Core.Tests.Business
 
         public UpstreamDownstreamRateBusinessTests()
         {
-            var calculateGrowthToDoInProgressHelper = Substitute.For<ICalculateGrowthToDoInProgressHelper>();
-            var calculateUpstreamDownstreamRateHelper = Substitute.For<ICalculateUpstreamDownstreamRateHelper>();
+            var weekOfTheYearFormatHelper = new WeekOfTheYearFormatHelper();
+            var dateTimeFromStringHelper = new DateTimeFromStringHelper();
 
-            var readCFDFileExportHelper = Substitute.For<IReadCFDFileExportHelper>();
+            var calculateGrowthToDoInProgressHelper = new CalculateGrowthToDoInProgressHelper();
+            var calculateUpstreamDownstreamRateHelper = new CalculateUpstreamDownstreamRateHelper(weekOfTheYearFormatHelper);
+            var readCFDFileExportHelper = new ReadCFDFileExportHelper(dateTimeFromStringHelper);
 
             business = new UpstreamDownstreamRateBusiness(calculateGrowthToDoInProgressHelper,
                                                           calculateUpstreamDownstreamRateHelper,
                                                           readCFDFileExportHelper);
         }
 
-        //[Fact(DisplayName = "[UpstreamDownstreamRateBusiness.GetPreData]")]
+        [Fact(DisplayName = "[UpstreamDownstreamRateBusiness.GetData] Deve recuperar a exportação do arquivo CSV referente ao indicador CFD e realizar o cálculo da Saúde do Backlog.")]
         public async Task Deve()
         {
-            var expected = CFDtoMock.Create();
-            var actual = await business.GetData(string.Empty,
-                                                   GetCancellationToken());
+            var expected = AHMInfoDtoMock.CreateCheckFile();
+            var actual = await business.GetData(DataMock.FILENAMA_CFD_CSV_IMPORT, GetCancellationToken());
+
+            actual.Count.Should().Be(expected.Count);
+            actual.Should().BeEquivalentTo(expected);
         }
     }
 }

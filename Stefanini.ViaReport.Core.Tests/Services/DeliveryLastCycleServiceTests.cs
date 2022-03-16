@@ -4,16 +4,15 @@ using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
+using Stefanini.ViaReport.Core.Tests.TestUtils;
 using System.Threading;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Services
 {
-    public class DeliveryLastCycleServiceTests
+    public class DeliveryLastCycleServiceTests : BaseAsyncMethods
     {
         private readonly IDeliveryLastCycleService service;
-
-        private readonly CancellationTokenSource cancellationTokenSource;
 
         public DeliveryLastCycleServiceTests()
         {
@@ -28,8 +27,6 @@ namespace Stefanini.ViaReport.Core.Tests.Services
                                                    new BusinessDayHelper(),
                                                    new RecoverDateTimeFirstStatusMatchBacklogHelper(),
                                                    issueGet);
-
-            cancellationTokenSource = new CancellationTokenSource();
         }
 
         [Fact(DisplayName = "[DeliveryLastCycleService.GetData] Deve gerar os dados de Throughput e Lead Time referente ao projeto e intervalo de tempo informado.")]
@@ -41,7 +38,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services
                                                DataMock.TEXT_SEARCH_PROJECT,
                                                DataMock.DATETIME_START_CYCLE,
                                                DataMock.DATETIME_END_CYCLE,
-                                               cancellationTokenSource.Token);
+                                               GetCancellationToken());
 
             actual.Should().NotBeNull();
             actual.Should().BeEquivalentTo(expected);

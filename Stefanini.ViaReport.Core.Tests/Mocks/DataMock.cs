@@ -78,5 +78,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static readonly string[] LIST_PROJECT_CATEGORIES_DECISAO = new[] { "Add to Cart", "Clube de Prêmios", "Payment to Checkout", "Plataforma Decisão", "Shipping Information", "Televendas" };
         public static readonly string[] LIST_PROJECT_CATEGORIES_DESCOBERTA_USUARIO = new[] { "Acessibilidade e SEO", "Busca", "CMS", "DPTO", "Home e Personalização", "Plataforma Descoberta", "Product Detail Page", "Via ADS" };
         public static readonly string[] LIST_PROJECT_CATEGORIES_FIDELIZACAO = new[] { "Listas", "Loyalty", "Tagueamento", "VIP", "Web Experience" };
+
+        public const string FILENAMA_CFD_CSV_IMPORT = @"Mocks\Imports\cfd_-_colunas_por_semana.csv";
     }
 }

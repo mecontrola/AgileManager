@@ -35,6 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Mocks\Imports\cfd_-_colunas_por_semana.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Mocks\Server\Jsons\issue.get.SEA-100.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
