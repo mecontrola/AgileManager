@@ -60,37 +60,37 @@ namespace Stefanini.ViaReport.Core.Business
         }
 
         private DashboardInfoDto OrganizeThroughputData(IDictionary<string, Tuple<DateTime, DateTime>> rangeDate, SearchDto data)
-        {
-            var list = rangeDate.Select(itm =>
+            => new()
             {
-                var itens = data.Issues
-                                .Where(issue => GetResolvedDate(issue)?.Date >= itm.Value.Item1.Date
-                                             && GetResolvedDate(issue)?.Date <= itm.Value.Item2.Date)
-                                .Select(issue => issueDtoToIssueInfoDtoMapper.ToMap(issue));
+                Average = CalculateAverage(data.Total, rangeDate.Count),
+                Items = rangeDate.Select(itm => GenerateItem(itm, data))
+                                 .ToList()
+            };
 
-                return new DashboardInfoItemDto
-                {
-                    Date = itm.Value.Item1,
-                    Value = itens?.Count() ?? 0,
-                    Issues = (itens ?? Array.Empty<IssueInfoDto>()).ToList()
-                };
-            });
+        private DashboardInfoItemDto GenerateItem(KeyValuePair<string, Tuple<DateTime, DateTime>> itm, SearchDto data)
+        {
+            var itens = data.Issues
+                            .Where(issue => GetResolvedDate(issue)?.Date >= itm.Value.Item1.Date
+                                         && GetResolvedDate(issue)?.Date <= itm.Value.Item2.Date)
+                            .Select(issue => issueDtoToIssueInfoDtoMapper.ToMap(issue));
 
             return new()
             {
-                Average = data.Total / rangeDate.Count,
-                Items = list.ToList()
+                Date = itm.Value.Item1,
+                Value = itens?.Count() ?? 0,
+                Issues = (itens ?? Array.Empty<IssueInfoDto>()).ToList()
             };
         }
+
+        private static decimal CalculateAverage(long total, int count)
+            => total / count;
 
         private static DateTime? GetResolvedDate(IssueDto issue)
             => issue.Fields.Resolutiondate?.Date
             ?? issue.Fields.Customfield_14503.ToDateTime();
 
         private DashboardInfoDto OrganizeEpicData(SearchDto epics)
-        {
-
-            return new()
+            => new()
             {
                 Average = epics.Issues.Count,
                 Items = epics.Issues.Select(x => new DashboardInfoItemDto
@@ -99,7 +99,6 @@ namespace Stefanini.ViaReport.Core.Business
                     Value = ConvertStringToDecimal(x.Fields.Customfield_15703)
                 }).ToList()
             };
-        }
 
         private static decimal ConvertStringToDecimal(string value)
         {
@@ -107,7 +106,6 @@ namespace Stefanini.ViaReport.Core.Business
             var percent = decimal.Parse(value);
             return percent / 100;
         }
-
 
         public async Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(string username, string password, string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
             => await deliveryLastCycleService.GetData(username, password, project, initDate, endDate, cancellationToken);
