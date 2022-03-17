@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class ServicesInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 24;
+        private const int TOTAL_RECORDS = 23;
 
         [Fact(DisplayName = "[ServicesInjector.AddServices] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -20,31 +20,29 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.AddServices();
 
             serviceCollection.Should().HaveCount(TOTAL_RECORDS);
-            serviceCollection.Should().HaveService<IBugIncidentIssuesCreateInDateRangeService>().WithImplementation<BugIncidentIssuesCreateInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IBugIssuesCancelledInDateRangeService>().WithImplementation<BugIssuesCancelledInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IBugIssuesCreatedAndResolvedInDateRangeService>().WithImplementation<BugIssuesCreatedAndResolvedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IBugIssuesCreatedInDateRangeService>().WithImplementation<BugIssuesCreatedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IBugIssuesExistedInDateRangeService>().WithImplementation<BugIssuesExistedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IBugIssuesOpenedInDateRangeService>().WithImplementation<BugIssuesOpenedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IBugIssuesResolvedInDateRangeService>().WithImplementation<BugIssuesResolvedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<ICFDEasyBIExportService>().WithImplementation<CFDEasyBIExportService>().AsScoped();
-            serviceCollection.Should().HaveService<ICFDExportReportIntegrationService>().WithImplementation<CFDExportReportIntegrationService>().AsScoped();
-            //serviceCollection.Should().HaveService<ICFDReportSanitizeDataService>().WithImplementation<CFDReportSanitizeDataService>().AsScoped();
-            serviceCollection.Should().HaveService<IDeliveryLastCycleService>().WithImplementation<DeliveryLastCycleService>().AsScoped();
-            serviceCollection.Should().HaveService<IIssuesCreatedInDateRangeService>().WithImplementation<IssuesCreatedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IIssuesEpicByLabelService>().WithImplementation<IssuesEpicByLabelService>().AsScoped();
-            serviceCollection.Should().HaveService<IIssuesNotFixVersionService>().WithImplementation<IssuesNotFixVersionService>().AsScoped();
-            serviceCollection.Should().HaveService<IIssuesResolvedInDateRangeService>().WithImplementation<IssuesResolvedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<IJiraAuthService>().WithImplementation<JiraAuthService>().AsScoped();
-            serviceCollection.Should().HaveService<IJiraProjectsService>().WithImplementation<JiraProjectsService>().AsScoped();
-            serviceCollection.Should().HaveService<IStatusDoneService>().WithImplementation<StatusDoneService>().AsScoped();
-            serviceCollection.Should().HaveService<IStatusInProgressService>().WithImplementation<StatusInProgressService>().AsScoped();
-            serviceCollection.Should().HaveService<ITechnicalDebitIssuesCancelledInDateRangeService>().WithImplementation<TechnicalDebitIssuesCancelledInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<ITechnicalDebitIssuesCreatedAndResolvedInDateRangeService>().WithImplementation<TechnicalDebitIssuesCreatedAndResolvedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<ITechnicalDebitIssuesCreatedInDateRangeService>().WithImplementation<TechnicalDebitIssuesCreatedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<ITechnicalDebitIssuesExistedInDateRangeService>().WithImplementation<TechnicalDebitIssuesExistedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<ITechnicalDebitIssuesOpenedInDateRangeService>().WithImplementation<TechnicalDebitIssuesOpenedInDateRangeService>().AsScoped();
-            serviceCollection.Should().HaveService<ITechnicalDebitIssuesResolvedInDateRangeService>().WithImplementation<TechnicalDebitIssuesResolvedInDateRangeService>().AsScoped();
+            serviceCollection.ShouldAsScoped<IBugIncidentIssuesCreateInDateRangeService, BugIncidentIssuesCreateInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IBugIssuesCancelledInDateRangeService, BugIssuesCancelledInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IBugIssuesCreatedAndResolvedInDateRangeService, BugIssuesCreatedAndResolvedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IBugIssuesCreatedInDateRangeService, BugIssuesCreatedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IBugIssuesExistedInDateRangeService, BugIssuesExistedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IBugIssuesOpenedInDateRangeService, BugIssuesOpenedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IBugIssuesResolvedInDateRangeService, BugIssuesResolvedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<ICFDExportReportIntegrationService, CFDExportReportIntegrationService>();
+            serviceCollection.ShouldAsScoped<IDeliveryLastCycleService, DeliveryLastCycleService>();
+            serviceCollection.ShouldAsScoped<IIssuesCreatedInDateRangeService, IssuesCreatedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IIssuesEpicByLabelService, IssuesEpicByLabelService>();
+            serviceCollection.ShouldAsScoped<IIssuesNotFixVersionService, IssuesNotFixVersionService>();
+            serviceCollection.ShouldAsScoped<IIssuesResolvedInDateRangeService, IssuesResolvedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<IJiraAuthService, JiraAuthService>();
+            serviceCollection.ShouldAsScoped<IJiraProjectsService, JiraProjectsService>();
+            serviceCollection.ShouldAsScoped<IStatusDoneService, StatusDoneService>();
+            serviceCollection.ShouldAsScoped<IStatusInProgressService, StatusInProgressService>();
+            serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesCancelledInDateRangeService, TechnicalDebitIssuesCancelledInDateRangeService>();
+            serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesCreatedAndResolvedInDateRangeService, TechnicalDebitIssuesCreatedAndResolvedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesCreatedInDateRangeService, TechnicalDebitIssuesCreatedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesExistedInDateRangeService, TechnicalDebitIssuesExistedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesOpenedInDateRangeService, TechnicalDebitIssuesOpenedInDateRangeService>();
+            serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesResolvedInDateRangeService, TechnicalDebitIssuesResolvedInDateRangeService>();
         }
     }
 }

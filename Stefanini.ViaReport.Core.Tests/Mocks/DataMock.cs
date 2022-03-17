@@ -12,6 +12,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public const string VALUE_DEFAULT_TEXT2 = "Simply String Test Anything";
         public const string JSON_CLASS_TEST = @"{""field_in_class1"":5,""field_in_class2"":9}";
         public const string JSON_CLASS_TEST_DATE = @"{""FieldInClass1"":5,""FieldInClass2"":9,""FieldDateTime"":""05/05/2000 00:00:00""}";
+        public const string TEXT_DATETIME = "2000-05-05";
         public const string TEXT_DATETIME_WITH_WEEK = "W18, May 05 2000";
         public const string TEXT_QUARTER_1_2000 = "Q12000";
         public const string TEXT_QUARTER_2_2000 = "Q22000";
@@ -77,5 +78,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static readonly string[] LIST_PROJECT_CATEGORIES_DECISAO = new[] { "Add to Cart", "Clube de Prêmios", "Payment to Checkout", "Plataforma Decisão", "Shipping Information", "Televendas" };
         public static readonly string[] LIST_PROJECT_CATEGORIES_DESCOBERTA_USUARIO = new[] { "Acessibilidade e SEO", "Busca", "CMS", "DPTO", "Home e Personalização", "Plataforma Descoberta", "Product Detail Page", "Via ADS" };
         public static readonly string[] LIST_PROJECT_CATEGORIES_FIDELIZACAO = new[] { "Listas", "Loyalty", "Tagueamento", "VIP", "Web Experience" };
+
+        public const string FILENAMA_CFD_CSV_IMPORT = @"Mocks\Imports\cfd_-_colunas_por_semana.csv";
     }
 }

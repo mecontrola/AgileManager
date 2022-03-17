@@ -11,12 +11,9 @@
         <converters:DashboardIssuesConverter x:Key="DashboardIssuesConverter" />
     </Window.Resources>
     <DockPanel>
-        <GroupBox Header="Filter" Height="50"  DockPanel.Dock="Top">
-            <Button Name="BtnFilter" Content="Filter" Height="24" Width="100" />
-        </GroupBox>
         <Grid>
-            <GroupBox Header="Throughput" Margin="4,4,402,192">
-                <DataGrid Name="DgThroughput" Margin="0,0,0,0" AutoGenerateColumns="False">
+            <GroupBox Header="Throughput" Margin="4,4,402,220">
+                <DataGrid Name="DgThroughput" Margin="0,0,0,0" AutoGenerateColumns="False" CanUserAddRows="false">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Date}" Header="Date" />
                         <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
@@ -30,14 +27,20 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-            <GroupBox Header="Lead Time" Margin="402,4,4,192">
+            <GroupBox Header="Lead Time" Margin="402,4,4,220">
                 <DataGrid Name="DgLeadTime" Margin="0,0,0,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
             </GroupBox>
-            <GroupBox Header="Cycle Time" Margin="4,192,402,4">
+            <GroupBox Header="Cycle Time" Margin="4,220,402,4">
                 <DataGrid Name="DgCycleTime" Margin="0,0,0,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
             </GroupBox>
-            <GroupBox Header="Quarter Epics" Margin="402,192,4,4">
-                <DataGrid Name="DgQuarterEpics" Margin="0,0,0,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            <GroupBox Header="Quarter Epics" Margin="402,220,4,4">
+                <DataGrid Name="DgQuarterEpics"  Margin="0,0,0,0" AutoGenerateColumns="False" CanUserAddRows="false">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Issues[0].Key}" Header="Key" />
+                        <DataGridTextColumn Binding="{Binding Issues[0].Description}" Header="Description" />
+                        <DataGridTextColumn Binding="{Binding Value, StringFormat={}{0:0}%}" Header="Percent" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </GroupBox>
         </Grid>
     </DockPanel>

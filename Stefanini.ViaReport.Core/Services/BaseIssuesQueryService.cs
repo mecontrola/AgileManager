@@ -88,9 +88,6 @@ namespace Stefanini.ViaReport.Core.Services
         private static string GetDeletedStatusesCriteria(string @operator, StatusTypes[] statuses)
             => $"{FIELD_STATUS} {@operator} ({string.Join(',', DELETED_STATUSES.Union(statuses).Select(itm => itm.GetDescription()))})";
 
-        protected static string GetInStatusCategoriesCriteria(params StatusCategories[] statuses)
-            => GetInStatusCategoriesCriteria(CLAUSE_IN, statuses);
-
         protected static string GetNotInStatusCategoriesCriteria(params StatusCategories[] statuses)
             => GetInStatusCategoriesCriteria(CLAUSE_NOT_IN, statuses);
 
@@ -118,17 +115,11 @@ namespace Stefanini.ViaReport.Core.Services
         protected static string In<T>(string field, T[] values, Func<T, string> selector)
             => $"{field}{CLAUSE_IN}({string.Join(',', values.Select(selector))})";
 
-        protected static string NotIn<T>(string field, T[] values)
-            => NotIn<T>(field, values, itm => itm.ToString());
-
         protected static string NotIn<T>(string field, T[] values, Func<T, string> selector)
             => $"{field}{CLAUSE_NOT_IN}({string.Join(',', values.Select(selector))})";
 
         protected static string IsNull(string field)
             => $"{field} IS NULL";
-
-        protected static string IsNotNull(string field)
-            => $"{field} IS NOT NULL";
 
         protected static string And(params string[] criterias)
             => string.Join(CLAUSE_AND, criterias);

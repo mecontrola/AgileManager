@@ -1,7 +1,5 @@
-﻿using Stefanini.Core.Extensions;
-using Stefanini.Core.Settings;
+﻿using Stefanini.ViaReport.Core.Data.Dto.Settings;
 using Stefanini.ViaReport.Core.Helpers;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Stefanini.ViaReport
@@ -26,15 +24,15 @@ namespace Stefanini.ViaReport
 
         private async void BtnAuthenticate_Click(object sender, RoutedEventArgs e)
         {
-            settingsHelper.Data = new UserSettings
+            settingsHelper.Data = new AppSettingsDto
             {
                 Username = txtUsername.Text,
-                Password = txtPassword.Password
-
+                Password = txtPassword.Password,
+                PersistFilter = settingsHelper.Data.PersistFilter
             };
             settingsHelper.Save();
 
-            var parentForm = (MainWindow)GetWindow(Owner);    
+            var parentForm = (MainWindow)GetWindow(Owner);
             await parentForm.CheckJiraAuth();
         }
     }

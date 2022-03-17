@@ -30,6 +30,14 @@ namespace Stefanini.ViaReport.Core.Tests.Helpers
             actual.Value.Date.Should().Be(expected.Date);
         }
 
+        [Fact(DisplayName = "[RecoverDateTimeFirstStatusMatchBacklogHelper.GetChangelog] Deve retornar null quando não existerem changelogs na issue.")]
+        public void DeveRetornarNullQuandoVazio()
+        {
+            var actual = helper.GetDateTime(ChangelogDtoMock.CreateEmpty(), GetStatuses());
+
+            actual.Should().BeNull();
+        }
+
         private static IList<string> GetStatuses()
             => StatusDtoMock.CreateListInProgress()
                             .Select(x => x.Id)

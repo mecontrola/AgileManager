@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions.Extensions
+namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions
 {
     /// <inheritdoc />
     /// <summary>

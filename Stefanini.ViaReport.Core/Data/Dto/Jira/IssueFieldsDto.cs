@@ -15,5 +15,8 @@ namespace Stefanini.ViaReport.Core.Data.Dto.Jira
         public IssueDto Parent { get; set; }
         public IssueFieldsWorklogDto Worklog { get; set; }
         public IList<IssuelinkDto> Issuelinks { get; set; }
+
+        public string Customfield_14503 { get; set; }
+        public string Customfield_15703 { get; set; }
     }
 }

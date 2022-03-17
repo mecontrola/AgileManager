@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class HelpersInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 13;
+        private const int TOTAL_RECORDS = 12;
 
         [Fact(DisplayName = "[MappersInjector.AddMappers] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -20,19 +20,18 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.AddHelpers();
 
             serviceCollection.Should().HaveCount(TOTAL_RECORDS);
-            serviceCollection.Should().HaveService<IAverageUpstreamDownstreamRateHelper>().WithImplementation<AverageUpstreamDownstreamRateHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IBusinessDayHelper>().WithImplementation<BusinessDayHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<ICalculateGrowthToDoInProgressHelper>().WithImplementation<CalculateGrowthToDoInProgressHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<ICalculateUpstreamDownstreamRateHelper>().WithImplementation<CalculateUpstreamDownstreamRateHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IDateTimeFromStringHelper>().WithImplementation<DateTimeFromStringHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IGenerateWeeksFromRangeDateHelper>().WithImplementation<GenerateWeeksFromRangeDateHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IProjectNameCfdEasyBIExportHelper>().WithImplementation<ProjectNameCfdEasyBIExportHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IQuarterFromDateTimeHelper>().WithImplementation<QuarterFromDateTimeHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IReadCFDFileExportHelper>().WithImplementation<ReadCFDFileExportHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IRecoverDateTimeFirstStatusMatchBacklogHelper>().WithImplementation<RecoverDateTimeFirstStatusMatchBacklogHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<ISatinizeEasyBIDataHelper>().WithImplementation<SatinizeEasyBIDataHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<ISettingsHelper>().WithImplementation<SettingsHelper>().AsSingleton();
-            serviceCollection.Should().HaveService<IWeekOfTheYearFormatHelper>().WithImplementation<WeekOfTheYearFormatHelper>().AsSingleton();
+            serviceCollection.ShouldAsSingleton<IAverageUpstreamDownstreamRateHelper, AverageUpstreamDownstreamRateHelper>();
+            serviceCollection.ShouldAsSingleton<IBusinessDayHelper, BusinessDayHelper>();
+            serviceCollection.ShouldAsSingleton<ICalculateGrowthToDoInProgressHelper, CalculateGrowthToDoInProgressHelper>();
+            serviceCollection.ShouldAsSingleton<ICalculateUpstreamDownstreamRateHelper, CalculateUpstreamDownstreamRateHelper>();
+            serviceCollection.ShouldAsSingleton<IDateTimeFromStringHelper, DateTimeFromStringHelper>();
+            serviceCollection.ShouldAsSingleton<IGenerateWeeksFromRangeDateHelper, GenerateWeeksFromRangeDateHelper>();
+            serviceCollection.ShouldAsSingleton<IQuarterFromDateTimeHelper, QuarterFromDateTimeHelper>();
+            serviceCollection.ShouldAsSingleton<IQuarterGenerateListHelper, QuarterGenerateListHelper>();
+            serviceCollection.ShouldAsSingleton<IReadCFDFileExportHelper, ReadCFDFileExportHelper>();
+            serviceCollection.ShouldAsSingleton<IRecoverDateTimeFirstStatusMatchBacklogHelper, RecoverDateTimeFirstStatusMatchBacklogHelper>();
+            serviceCollection.ShouldAsSingleton<ISettingsHelper, SettingsHelper>();
+            serviceCollection.ShouldAsSingleton<IWeekOfTheYearFormatHelper, WeekOfTheYearFormatHelper>();
         }
     }
 }

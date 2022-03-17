@@ -1,4 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto;
+﻿using Stefanini.Core.Extensions;
+using Stefanini.ViaReport.Core.Data.Dto;
 using Stefanini.ViaReport.Core.Data.Dto.Jira;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Mappers;
@@ -35,7 +36,7 @@ namespace Stefanini.ViaReport.Core.Business
             this.issueDtoToIssueInfoDtoMapper = issueDtoToIssueInfoDtoMapper;
         }
 
-        public async Task<DashboardDto> GetData(string username, string password, string project, CancellationToken cancellationToken)
+        public async Task<DashboardDto> GetData(string username, string password, string project, string quarter, CancellationToken cancellationToken)
         {
             var rangeDate = generateWeeksFromRangeDateHelper.GenerateList(DateTime.Now.AddDays(-DAYS_REMOVE), DateTime.Now, WEEKS_GROUP_BY);
             var data = await issuesResolvedInDateRangeService.GetData(username,
@@ -45,34 +46,65 @@ namespace Stefanini.ViaReport.Core.Business
                                                                       rangeDate.Values.Last().Item2,
                                                                       cancellationToken);
 
+            var epics = await issuesEpicByLabelService.GetData(username,
+                                                               password,
+                                                               project,
+                                                               new[] { quarter },
+                                                               cancellationToken);
+
             return new()
             {
-                Throughput = OrganizeThroughputData(rangeDate, data)
+                Throughput = OrganizeThroughputData(rangeDate, data),
+                QuarterEpics = OrganizeEpicData(epics),
             };
         }
 
         private DashboardInfoDto OrganizeThroughputData(IDictionary<string, Tuple<DateTime, DateTime>> rangeDate, SearchDto data)
-        {
-            var list = rangeDate.Select(itm =>
+            => new()
             {
-                var itens = data.Issues
-                                .Where(issue => issue.Fields.Resolutiondate?.Date >= itm.Value.Item1.Date
-                                             && issue.Fields.Resolutiondate?.Date <= itm.Value.Item2.Date)
-                                .Select(issue => issueDtoToIssueInfoDtoMapper.ToMap(issue));
+                Average = CalculateAverage(data.Total, rangeDate.Count),
+                Items = rangeDate.Select(itm => GenerateItem(itm, data))
+                                 .ToList()
+            };
 
-                return new DashboardInfoItemDto()
-                {
-                    Date = itm.Value.Item1,
-                    Value = itens?.Count() ?? 0,
-                    Issues = itens?.ToList() ?? Array.Empty<IssueInfoDto>().ToList()
-                };
-            });
+        private DashboardInfoItemDto GenerateItem(KeyValuePair<string, Tuple<DateTime, DateTime>> itm, SearchDto data)
+        {
+            var itens = data.Issues
+                            .Where(issue => GetResolvedDate(issue)?.Date >= itm.Value.Item1.Date
+                                         && GetResolvedDate(issue)?.Date <= itm.Value.Item2.Date)
+                            .Select(issue => issueDtoToIssueInfoDtoMapper.ToMap(issue));
 
             return new()
             {
-                Average = data.Total / rangeDate.Count,
-                Items = list.ToList()
+                Date = itm.Value.Item1,
+                Value = itens?.Count() ?? 0,
+                Issues = (itens ?? Array.Empty<IssueInfoDto>()).ToList()
             };
+        }
+
+        private static decimal CalculateAverage(long total, int count)
+            => ((decimal)total / (decimal)count);
+
+        private static DateTime? GetResolvedDate(IssueDto issue)
+            => issue.Fields.Resolutiondate?.Date
+            ?? issue.Fields.Customfield_14503.ToDateTime();
+
+        private DashboardInfoDto OrganizeEpicData(SearchDto epics)
+            => new()
+            {
+                Average = epics.Issues.Count,
+                Items = epics.Issues.Select(x => new DashboardInfoItemDto
+                {
+                    Issues = new List<IssueInfoDto> { issueDtoToIssueInfoDtoMapper.ToMap(x) },
+                    Value = ConvertStringToDecimal(x.Fields.Customfield_15703)
+                }).ToList()
+            };
+
+        private static decimal ConvertStringToDecimal(string value)
+        {
+            value = value.Replace("%", string.Empty);
+            var percent = decimal.Parse(value);
+            return percent / 100;
         }
 
         public async Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(string username, string password, string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)

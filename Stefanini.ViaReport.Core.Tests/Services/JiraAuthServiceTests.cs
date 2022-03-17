@@ -2,17 +2,15 @@
 using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
+using Stefanini.ViaReport.Core.Tests.TestUtils;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Services
 {
-    public class JiraAuthServiceTests
+    public class JiraAuthServiceTests : BaseAsyncMethods
     {
-        private readonly CancellationTokenSource cancellationTokenSource = new();
-
         [Theory(DisplayName = "[JiraAuthService.IsAuthenticationOk] Deve verificar a autenticação do usuário.")]
         [MemberData(nameof(GetEnumeratorCases))]
         public async Task DeveVerificarAuthenticacao(IJiraAuthService service, bool expected)
@@ -37,8 +35,5 @@ namespace Stefanini.ViaReport.Core.Tests.Services
 
         private static IJiraAuthService CreateServiceWithJiraForbiddenException()
             => new JiraAuthService(SessionGetMock.CreateWithJiraForbiddenException());
-
-        private CancellationToken GetCancellationToken()
-            => cancellationTokenSource.Token;
     }
 }

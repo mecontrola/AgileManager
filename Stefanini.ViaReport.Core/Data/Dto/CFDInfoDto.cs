@@ -6,6 +6,5 @@ namespace Stefanini.ViaReport.Core.Data.Dto
     {
         public DateTime Date { get; set; }
         public decimal? Value { get; set; }
-        public string[] Issues { get; set; }
     }
 }
