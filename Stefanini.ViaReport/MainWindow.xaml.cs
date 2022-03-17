@@ -140,11 +140,12 @@ namespace Stefanini.ViaReport
             var list = ((CbProjects.ItemsSource as ListCollectionView)
                            .SourceCollection as IList<JiraProjectDto>);
 
-            return list.Select((value, index) => new { value, index })
-                        .First(p => p.value.Category != null
-                                 && p.value.Category.Equals(project.Category)
-                                 && p.value.Name.Equals(project.Name))
-                        .index;
+            return list?.Select((value, index) => new { value, index })
+                       .First(p => p.value.Category != null
+                                && p.value.Category.Equals(project.Category)
+                                && p.value.Name.Equals(project.Name))
+                       .index
+                ?? -1;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
