@@ -83,7 +83,7 @@ namespace Stefanini.ViaReport.Core.Business
         }
 
         private static decimal CalculateAverage(long total, int count)
-            => total / count;
+            => (decimal)total / (decimal)count;
 
         private static DateTime? GetResolvedDate(IssueDto issue)
             => issue.Fields.Resolutiondate?.Date
