@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions.Extensions
+namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions
 {
 #if !DEBUG
     [System.Diagnostics.DebuggerNonUserCode]

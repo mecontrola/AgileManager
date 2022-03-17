@@ -23,11 +23,11 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.AddIntegrations();
 
             serviceCollection.Should().HaveCount(TOTAL_RECORDS);
-            serviceCollection.Should().HaveService<ISessionGet>().WithImplementation<SessionGet>().AsScoped();
-            serviceCollection.Should().HaveService<IProjectGetAll>().WithImplementation<ProjectGetAll>().AsScoped();
-            serviceCollection.Should().HaveService<ISearchPost>().WithImplementation<SearchPost>().AsScoped();
-            serviceCollection.Should().HaveService<IIssueGet>().WithImplementation<IssueGet>().AsScoped();
-            serviceCollection.Should().HaveService<IStatusGetAll>().WithImplementation<StatusGetAll>().AsScoped();
+            serviceCollection.ShouldAsScoped<ISessionGet, SessionGet>();
+            serviceCollection.ShouldAsScoped<IProjectGetAll, ProjectGetAll>();
+            serviceCollection.ShouldAsScoped<ISearchPost, SearchPost>();
+            serviceCollection.ShouldAsScoped<IIssueGet, IssueGet>();
+            serviceCollection.ShouldAsScoped<IStatusGetAll, StatusGetAll>();
         }
     }
 }
