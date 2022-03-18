@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Stefanini.ViaReport.Core.Business;
+using Stefanini.ViaReport.Core.Data.Dto;
 using Stefanini.ViaReport.Core.Mappers;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
@@ -30,7 +31,19 @@ namespace Stefanini.ViaReport.Core.Tests.Business
                                                                   DataMock.VALUE_PASSWORD,
                                                                   DataMock.TEXT_SEARCH_PROJECT,
                                                                   GetCancellationToken());
-            actual.Should().BeEquivalentTo(expected);
+
+            for (int i = 0, l = actual.Count; i < l; i++)
+                AssertIssue(actual[i], expected[i]);
+        }
+
+        private static void AssertIssue(IssueInfoDto actual, IssueInfoDto expected)
+        {
+            actual.Key.Should().BeEquivalentTo(expected.Key);
+            actual.Description.Should().BeEquivalentTo(expected.Description);
+            actual.Status.Should().BeEquivalentTo(expected.Status);
+            actual.Created.Date.Should().Be(expected.Created.Date);
+            actual.Resolved.Value.Date.Should().Be(expected.Resolved.Value.Date);
+            actual.Link.Should().BeEquivalentTo(expected.Link);
         }
     }
 }
