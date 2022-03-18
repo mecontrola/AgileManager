@@ -1,0 +1,36 @@
+name: Coveralls
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    types: [closed]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0.x' ]
+
+    env:
+      Test_Project_Path: Stefanini.ViaReport.Core.Tests
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Generate coverage report
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:Exclude="[xunit.*]*
+
+    - name: Publish coverage report to coveralls.io
+      uses: coverallsapp/github-action@v1.0.1
+      with:
+        github-token: ${{ secrets.GIT_TOKEN }}
+        path-to-lcov: ./$env:Test_Project_Path/coverage.info 

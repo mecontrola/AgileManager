@@ -12,7 +12,8 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        dotnet-version: ['6.0.x' ]
+        dotnet-version: [ '6.0.x' ]
+        build-configuration: [ 'Release' ]
 
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +26,7 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore --configuration ${{ matrix.build-configuration }}
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --configuration ${{ matrix.build-configuration }}
