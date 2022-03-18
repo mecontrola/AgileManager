@@ -11,10 +11,10 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        dotnet-version: ['6.0.x' ]
+        dotnet-version: [ '6.0.x' ]
 
     env:
-      Test_Project_Path: Stefanini.ViaReport.Core.Tests
+      TEST_PROJECT_PATH: Stefanini.ViaReport.Core.Tests
 
     steps:
     - uses: actions/checkout@v2
@@ -33,4 +33,4 @@ jobs:
       uses: coverallsapp/github-action@v1.0.1
       with:
         github-token: ${{ secrets.GIT_TOKEN }}
-        path-to-lcov: ./$env:Test_Project_Path/coverage.info 
+        path-to-lcov: ./${{ env:TEST_PROJECT_PATH }}/coverage.info 
