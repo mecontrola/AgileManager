@@ -33,4 +33,4 @@ jobs:
         dotnet tool install coveralls.net --tool-path tools
         $coveralls = ".\tools\csmacnz.coveralls.exe"
         
-        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch ${{ github.ref }} --serviceName ${{ matrix.coveralls-service-name }} --lcov -i ${{ matrix.file-lcov-path }} --useRelativePaths --commitId ${{ github.sha }}
+        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch "${{ github.ref }}" --serviceName ${{ matrix.coveralls-service-name }} --lcov -i ${{ matrix.file-lcov-path }} --useRelativePaths --commitId ${{ github.sha }}
