@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         dotnet-version: [ '6.0.x' ]
+        file-lcov-path: [ './Stefanini.ViaReport.Core.Tests/coverage.info' ]
 
     steps:
     - uses: actions/checkout@v2
@@ -28,9 +29,7 @@ jobs:
 
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@v1.0.1
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        COVERALLS_GIT_BRANCH: ${{ github.ref }}
       with:
         github-token: ${{ secrets.GIT_TOKEN }}
-        path-to-lcov: ./Stefanini.ViaReport.Core.Tests/coverage.info 
+        git-branch: ${{ github.ref }}
+        path-to-lcov: ${{ matrix.file-lcov-path }}
