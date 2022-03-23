@@ -13,6 +13,7 @@ jobs:
       matrix:
         dotnet-version: [ '6.0.x' ]
         file-lcov-path: [ './Stefanini.ViaReport.Core.Tests/coverage.info' ]
+        coveralls-service-name: 'Git Hub Action'
 
     steps:
     - uses: actions/checkout@v2
@@ -28,8 +29,8 @@ jobs:
       run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
 
     - name: Publish coverage report to coveralls.io
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GIT_TOKEN }}
-        git-branch: ${{ github.ref }}
-        path-to-lcov: ${{ matrix.file-lcov-path }}
+      run: |
+        dotnet tool install coveralls.net --tool-path tools
+        $coveralls = ".\tools\csmacnz.coveralls.exe"
+        
+        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch ${{ github.ref }} --serviceName ${{ matrix.coveralls-service-name }} --lcov -i ${{ matrix.file-lcov-path }} --useRelativePaths --commitId ${{ github.sha }}
