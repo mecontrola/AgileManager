@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        dotnet-version: [ '6.0.x' ]
+        dotnet-version: [ '5.0.x', '6.0.x' ]
         file-lcov-path: [ './Stefanini.ViaReport.Core.Tests/coverage.info' ]
         coveralls-service-name: [ 'Git Hub Action' ]
 
@@ -31,8 +31,8 @@ jobs:
     - name: Publish coverage report to coveralls.io
       run: |
         dotnet new tool-manifest
-        
-        dotnet tool install --add-source https://ci.appveyor.com/nuget/coveralls-net-t37a9a9unhwk coveralls.net --tool-path tools
+        dotnet tool install coveralls.net --tool-path tools
+        dotnet tool restore
         
         $coveralls = ".\tools\csmacnz.coveralls.exe"
         
