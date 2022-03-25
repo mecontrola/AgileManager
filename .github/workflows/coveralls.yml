@@ -5,7 +5,8 @@ on:
     branches: [ main, develop ]
     types: [closed]
 env:
-  file-lcov-path: './Stefanini.ViaReport.Core.Tests/coverage.info'
+  path-lcov: './Stefanini.ViaReport.Core.Tests'
+  filename-lcov: 'coverage.info'
   coveralls-service-name: 'Git Hub Action'
 
 jobs:
@@ -33,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: coverage-file
-        path: ${{ env.file-lcov-path }}
+        path: ${{ env.path-lcov }}
 
   publish:
     needs: build-test
@@ -45,7 +46,7 @@ jobs:
       uses: actions/download-artifact@master
       with:
         name: coverage-file
-        path: ${{ env.file-lcov-path }}
+        path: ${{ env.path-lcov }}
     
     - name: Publish coverage report to coveralls.io
       run: |
@@ -55,4 +56,4 @@ jobs:
         
         $coveralls = ".\tools\csmacnz.coveralls.exe"
         
-        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch "${{ github.ref }}" --serviceName "${{ env.coveralls-service-name }}" --lcov -i ${{ env.file-lcov-path }} --useRelativePaths --commitId ${{ github.sha }}
+        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch "${{ github.ref }}" --serviceName "${{ env.coveralls-service-name }}" --lcov -i ${{ env.path-lcov }}/${{ env.filename-lcov }} --useRelativePaths --commitId ${{ github.sha }}
