@@ -11,7 +11,7 @@
         <converters:LinkIssueConverter x:Key="LinkIssueConverter" />
     </Window.Resources>
     <Grid>
-        <DataGrid Name="DgData" Margin="5,5,5,30" AutoGenerateColumns="False">
+        <DataGrid Name="DgData" Margin="5,5,5,30" AutoGenerateColumns="False" CanUserAddRows="false">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Key}" Header="Issue" />
                 <DataGridTextColumn Binding="{Binding Description}" Header="Description" />

@@ -16,7 +16,7 @@ namespace Stefanini.ViaReport.Core.Helpers
         private const string PATTERN_LINE_INPROGRESS = "InProgress";
         private const string PATTERN_LINE_DONE = "Done";
         private const string PATTERN_LINE_MONTHS = "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec";
-        private const string PATTERN_LINE = $"^\"(?<{PATTERN_LINE_DATE}>[W|w][0-9]{{2,}},\\s({PATTERN_LINE_MONTHS})\\s[0-9]{{2}}\\s[0-9]{{4}})\",(?<{PATTERN_LINE_TODO}>[0-9]+),(?<{PATTERN_LINE_INPROGRESS}>[0-9]+),(?<{PATTERN_LINE_DONE}>[0-9]+)";
+        private const string PATTERN_LINE = $"^\"(?<{PATTERN_LINE_DATE}>[W|w][0-9]{{2,}},\\s({PATTERN_LINE_MONTHS})\\s[0-9]{{2}}\\s[0-9]{{4}})\",(?<{PATTERN_LINE_DONE}>[0-9]+),(?<{PATTERN_LINE_INPROGRESS}>[0-9]+),(?<{PATTERN_LINE_TODO}>[0-9]+)";
 
         private readonly IDateTimeFromStringHelper dateTimeFromStringHelper;
 

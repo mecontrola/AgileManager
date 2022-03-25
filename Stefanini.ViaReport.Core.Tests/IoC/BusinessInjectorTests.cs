@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Stefanini.ViaReport.Core.Business;
 using Stefanini.ViaReport.Core.IoC;
-using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions.Extensions;
 using Xunit;
 
@@ -21,10 +20,10 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.AddBusiness();
 
             serviceCollection.Should().HaveCount(TOTAL_RECORDS);
-            serviceCollection.Should().HaveService<IDashboardBusiness>().WithImplementation<DashboardBusiness>().AsScoped();
-            serviceCollection.Should().HaveService<IDownstreamJiraIndicatorsBusiness>().WithImplementation<DownstreamJiraIndicatorsBusiness>().AsScoped();
-            serviceCollection.Should().HaveService<IFixVersionBusiness>().WithImplementation<FixVersionBusiness>().AsScoped();
-            serviceCollection.Should().HaveService<IUpstreamDownstreamRateBusiness>().WithImplementation<UpstreamDownstreamRateBusiness>().AsScoped();
+            serviceCollection.ShouldAsScoped<IDashboardBusiness, DashboardBusiness>();
+            serviceCollection.ShouldAsScoped<IDownstreamJiraIndicatorsBusiness, DownstreamJiraIndicatorsBusiness>();
+            serviceCollection.ShouldAsScoped<IFixVersionBusiness, FixVersionBusiness>();
+            serviceCollection.ShouldAsScoped<IUpstreamDownstreamRateBusiness, UpstreamDownstreamRateBusiness>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using NSubstitute;
 using Stefanini.Core.Extensions;
 using Stefanini.Core.Settings;
+using Stefanini.ViaReport.Core.Data.Dto.Settings;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Tests.Mocks.Entities.Settings;
 using System.IO;
@@ -13,18 +14,18 @@ namespace Stefanini.ViaReport.Core.Tests.Helpers
     {
         private static readonly string FILEPATH = Path.Combine(Directory.GetCurrentDirectory(), "usersettings.json");
 
-        private readonly ISettingsManager<UserSettings> settings;
+        private readonly ISettingsManager<AppSettingsDto> settings;
 
         public SettingsHelperTests()
         {
-            settings = Substitute.For<ISettingsManager<UserSettings>>();
-            settings.Data.Returns(UserSettingsMock.CreateEmpty());
+            settings = Substitute.For<ISettingsManager<AppSettingsDto>>();
+            settings.Data.Returns(AppSettingsDtoMock.CreateEmpty());
         }
 
         [Fact(DisplayName = "[SettingsHelper.Constructor] Deve gerar o arquivo e salvar com as informações default ao criar instancia do objeto.")]
         public void DeveGerarArquivoSalvarDadosDefault()
         {
-            var data = UserSettingsMock.CreateEmpty();
+            var data = AppSettingsDtoMock.CreateEmpty();
             var settingsHelper = new SettingsHelper();
 
             settingsHelper.Data.Username.Should().BeEquivalentTo(data.Username);
@@ -37,7 +38,7 @@ namespace Stefanini.ViaReport.Core.Tests.Helpers
         [Fact(DisplayName = "[SettingsHelper.Save] Deve preencher com as informações e criptografar com Base64 a senha e salvar no arquivo.")]
         public void DevePreencherSalvarDadosArquivo()
         {
-            var data = UserSettingsMock.Create();
+            var data = AppSettingsDtoMock.Create();
 
             var settingsHelper = new SettingsHelper(settings)
             {

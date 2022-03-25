@@ -3,16 +3,14 @@ using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
-using System.Threading;
+using Stefanini.ViaReport.Core.Tests.TestUtils;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Services
 {
-    public class JiraProjectsServiceTests
+    public class JiraProjectsServiceTests : BaseAsyncMethods
     {
-        private readonly CancellationTokenSource cancellationTokenSource = new();
-
         private readonly IJiraProjectsService service;
 
         public JiraProjectsServiceTests()
@@ -30,8 +28,5 @@ namespace Stefanini.ViaReport.Core.Tests.Services
 
             actual.Should().BeEquivalentTo(expected);
         }
-
-        private CancellationToken GetCancellationToken()
-            => cancellationTokenSource.Token;
     }
 }

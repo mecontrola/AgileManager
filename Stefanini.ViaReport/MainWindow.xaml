@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stefanini.ViaReport"
         mc:Ignorable="d"
-        Title="[Jira] EasyBI AHM" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="[Jira] EasyBI AHM" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.Resources>
         <Image x:Key="BtnBugsCreatedIconDetail" Source="Images/table_icon.png"/>
         <Image x:Key="BtnBugsOpenedIconDetail" Source="Images/table_icon.png"/>
@@ -40,10 +40,12 @@
             </MenuItem>
             <MenuItem Header="Settings">
                 <MenuItem Name="BtnAuthentication" Header="Authentication" Click="BtnAuthenticate_Click"/>
+                <MenuItem Name="BtnPreferences" Header="Preferences" Click="BtnPreferences_Click"/>
             </MenuItem>
             <MenuItem Header="Tools" Name="MiTools" IsEnabled="False">
                 <MenuItem Name="BtnDashboard" Header="Dashboard" Click="BtnDashboard_Click"/>
                 <MenuItem Name="BtnNoFixVersion" Header="No Fix Version" Click="BtnNoFixVersion_Click"/>
+                <MenuItem Name="BtnDeliveryLastCycle" Header="Delivery Last Cycle" Click="BtnDeliveryLastCycle_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Name="BtnAbout" Header="About" Click="BtnAbout_Click"/>
@@ -77,7 +79,7 @@
                 </DockPanel>
             </StatusBarItem>
         </StatusBar>
-        <GroupBox Header="Filtros" DockPanel.Dock="Top" Margin="5,5,5,5" Height="60">
+        <GroupBox Header="Filters" DockPanel.Dock="Top" Margin="5,5,5,5" Height="88">
             <Grid Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80"/>
@@ -87,8 +89,12 @@
                     <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Projeto" Margin="5,5,5,5" Grid.Column="0" HorizontalContentAlignment="Right" />
-                <ComboBox Name="CbProjects" Grid.Column="1" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Top" Width="200" IsEnabled="False" SelectionChanged="CbProjects_SelectionChanged">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36"/>
+                    <RowDefinition Height="36"/>
+                </Grid.RowDefinitions>
+                <Label Content="Project" Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Right" />
+                <ComboBox Name="CbProjects" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Top" Width="200" IsEnabled="False" SelectionChanged="CbProjects_SelectionChanged">
                     <ComboBox.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
@@ -104,17 +110,19 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Label Content="Data Inicial" Margin="5,5,5,5" Grid.Column="2" HorizontalContentAlignment="Right"/>
-                <DatePicker Name="TxtInitDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Grid.Column="3" />
-                <Label Content="Data Final" Margin="5,5,5,5" Grid.Column="4" HorizontalContentAlignment="Right"/>
-                <DatePicker Name="TxtEndDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Grid.Column="5"/>
+                <Label Content="Start Date" Margin="5,5,5,5" Grid.Row="0" Grid.Column="2" HorizontalContentAlignment="Right"/>
+                <DatePicker Name="TxtInitDate" Margin="5,5,5,5" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <Label Content="End Date" Margin="5,5,5,5" Grid.Row="0" Grid.Column="4" HorizontalContentAlignment="Right"/>
+                <DatePicker Name="TxtEndDate" Margin="5,5,5,5" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label Content="Quarter" Margin="5,5,5,5" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Right" />
+                <ComboBox Name="CbQuarters" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Top" Width="200" IsEnabled="False"/>
             </Grid>
         </GroupBox>
         <TabControl>
             <TabItem Header="Upstream">
                 <Grid Background="#FFF">
                     <Button Name="BtnAverage" Content="Calcular Média" Margin="0,5,115,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Height="20" Visibility="Hidden" Click="ButtonAverage_Click"/>
-                    <Button Name="BtnExecute" Content="Executar" Margin="0,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Height="20" Click="Button_Click"/>
+                    <Button Name="BtnExecute" Content="Run" Margin="0,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Height="20" Click="Button_Click"/>
                     <DataGrid Name="dgData" Margin="5,35,5,5" AutoGenerateColumns="False" LoadingRow="DgData_LoadingRow">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Binding="{Binding IsChecked}"  Header=""/>
@@ -128,7 +136,7 @@
             </TabItem>
             <TabItem Header="Downstream" Height="20" VerticalAlignment="Top">
                 <Grid Background="#FFF">
-                    <GroupBox Header="Resultado" Margin="5,30,5,5">
+                    <GroupBox Header="Informations" Margin="5,30,5,5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="250"/>
@@ -167,18 +175,18 @@
                             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Grid.Column="4" Grid.Row="5" Content="Débitos Técnicos Adicionados e Resolvidos"/>
                             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Grid.Column="4" Grid.Row="6" Content="Débitos Técnicos Cancelados"/>
 
-                            <Button Content="{StaticResource BtnBugsCreatedIconDetail}" Grid.Column="1" Grid.Row="1" Name="BtnBugsCreated" Click="BtnBugsCreated_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnBugsOpenedIconDetail}" Grid.Column="1" Grid.Row="2" Name="BtnBugsOpened" Click="BtnBugsOpened_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnBugsExistedIconDetail}" Grid.Column="1" Grid.Row="3" Name="BtnBugsExisted" Click="BtnBugsExisted_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnBugsResolvedIconDetail}" Grid.Column="1" Grid.Row="4" Name="BtnBugsResolved" Click="BtnBugsResolved_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnBugsCreatedAndResolvedIconDetail}" Grid.Column="1" Grid.Row="5" Name="BtnBugsCreatedAndResolved" Click="BtnBugsCreatedAndResolved_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnBugsCancelledIconDetail}" Grid.Column="1" Grid.Row="6" Name="BtnBugsCancelled" Click="BtnBugsCancelled_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnTechnicalDebitCreatedIconDetail}" Grid.Column="5" Grid.Row="1" Name="BtnTechnicalDebitCreated" Click="BtnTechnicalDebitCreated_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnTechnicalDebitOpenedIconDetail}" Grid.Column="5" Grid.Row="2" Name="BtnTechnicalDebitOpened" Click="BtnTechnicalDebitOpened_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnTechnicalDebitExistedIconDetail}" Grid.Column="5" Grid.Row="3" Name="BtnTechnicalDebitExisted" Click="BtnTechnicalDebitExisted_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnTechnicalDebitResolvedIconDetail}" Grid.Column="5" Grid.Row="4" Name="BtnTechnicalDebitResolved" Click="BtnTechnicalDebitResolved_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnTechnicalDebitCreatedAndResolvedIconDetail}" Grid.Column="5" Grid.Row="5" Name="BtnTechnicalDebitCreatedAndResolved" Click="BtnTechnicalDebitCreatedAndResolved_Click" IsEnabled="False"/>
-                            <Button Content="{StaticResource BtnTechnicalDebitCancelledIconDetail}" Grid.Column="5" Grid.Row="6" Name="BtnTechnicalDebitCancelled" Click="BtnTechnicalDebitCancelled_Click" IsEnabled="False"/>
+                            <Button Content="{StaticResource BtnBugsCreatedIconDetail}" Grid.Column="1" Grid.Row="1" Name="BtnBugsCreated" Click="BtnBugsCreated_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnBugsOpenedIconDetail}" Grid.Column="1" Grid.Row="2" Name="BtnBugsOpened" Click="BtnBugsOpened_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnBugsExistedIconDetail}" Grid.Column="1" Grid.Row="3" Name="BtnBugsExisted" Click="BtnBugsExisted_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnBugsResolvedIconDetail}" Grid.Column="1" Grid.Row="4" Name="BtnBugsResolved" Click="BtnBugsResolved_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnBugsCreatedAndResolvedIconDetail}" Grid.Column="1" Grid.Row="5" Name="BtnBugsCreatedAndResolved" Click="BtnBugsCreatedAndResolved_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnBugsCancelledIconDetail}" Grid.Column="1" Grid.Row="6" Name="BtnBugsCancelled" Click="BtnBugsCancelled_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnTechnicalDebitCreatedIconDetail}" Grid.Column="5" Grid.Row="1" Name="BtnTechnicalDebitCreated" Click="BtnTechnicalDebitCreated_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnTechnicalDebitOpenedIconDetail}" Grid.Column="5" Grid.Row="2" Name="BtnTechnicalDebitOpened" Click="BtnTechnicalDebitOpened_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnTechnicalDebitExistedIconDetail}" Grid.Column="5" Grid.Row="3" Name="BtnTechnicalDebitExisted" Click="BtnTechnicalDebitExisted_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnTechnicalDebitResolvedIconDetail}" Grid.Column="5" Grid.Row="4" Name="BtnTechnicalDebitResolved" Click="BtnTechnicalDebitResolved_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnTechnicalDebitCreatedAndResolvedIconDetail}" Grid.Column="5" Grid.Row="5" Name="BtnTechnicalDebitCreatedAndResolved" Click="BtnTechnicalDebitCreatedAndResolved_Click" IsEnabled="False" Height="20"/>
+                            <Button Content="{StaticResource BtnTechnicalDebitCancelledIconDetail}" Grid.Column="5" Grid.Row="6" Name="BtnTechnicalDebitCancelled" Click="BtnTechnicalDebitCancelled_Click" IsEnabled="False" Height="20"/>
 
                             <Label Content="{StaticResource LbBugsCreatedIconInfo}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2,0,0,0" Padding="0,0,0,0" Grid.Column="2" Grid.Row="1" ToolTip="Bugs adicionados durante o período independente da situação atual" />
                             <Label Content="{StaticResource LbBugsOpenedIconInfo}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2,0,0,0" Padding="0,0,0,0" Grid.Column="2" Grid.Row="2" ToolTip="Bugs não finalizados ou cancelados até o momento" />
@@ -208,7 +216,7 @@
                             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Grid.Column="7" Grid.Row="6" Name="TxtTechnicalDebitCancelled"/>
                         </Grid>
                     </GroupBox>
-                    <Button Name="BtnDownExecute" Content="Executar" Margin="0,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Height="20" Click="BtnDownExecute_Click" />
+                    <Button Name="BtnDownExecute" Content="Run" Margin="0,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Height="20" Click="BtnDownExecute_Click" />
                 </Grid>
             </TabItem>
         </TabControl>

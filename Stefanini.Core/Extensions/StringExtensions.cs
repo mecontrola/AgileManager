@@ -24,7 +24,7 @@ namespace Stefanini.Core.Extensions
 
         [DebuggerStepThrough]
         public static string TrimAll(this string value)
-            => Regex.Replace(value, @"\s+", " ");
+            => Regex.Replace(value, @"\s+", " ").Trim();
 
         [DebuggerStepThrough]
         public static string ToMD5(this string input)
@@ -37,6 +37,19 @@ namespace Stefanini.Core.Extensions
                 sBuilder.Append(data[i].ToString("x2"));
 
             return sBuilder.ToString();
+        }
+
+        [DebuggerStepThrough]
+        public static DateTime? ToDateTime(this string value)
+        {
+            try
+            {
+                return Convert.ToDateTime(value);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

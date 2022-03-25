@@ -20,7 +20,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.AddMappers();
 
             serviceCollection.Should().HaveCount(TOTAL_RECORDS);
-            serviceCollection.Should().HaveService<IIssueDtoToIssueInfoDtoMapper>().WithImplementation<IssueDtoToIssueInfoDtoMapper>().AsSingleton();
+            serviceCollection.ShouldAsSingleton<IIssueDtoToIssueInfoDtoMapper, IssueDtoToIssueInfoDtoMapper>();
         }
     }
 }

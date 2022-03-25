@@ -18,8 +18,11 @@ namespace Stefanini.ViaReport.Core.Services
                                              DateTime initDate,
                                              DateTime endDate,
                                              CancellationToken cancellationToken)
-            => await RunCriterias(username, password, CreateJql(project, initDate, endDate), cancellationToken);
+            => await RunCriterias(username, password, CreateJql(project, initDate, endDate), CreateOrderBy(), cancellationToken);
 
         protected abstract string[] CreateJql(string project, DateTime initDate, DateTime endDate);
+
+        protected virtual string CreateOrderBy()
+            => string.Empty;
     }
 }

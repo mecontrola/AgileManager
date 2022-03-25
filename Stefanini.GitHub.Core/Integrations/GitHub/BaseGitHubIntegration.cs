@@ -28,7 +28,6 @@ namespace Stefanini.GitHub.Core.Integrations.GitHub
                 PropertyNamingPolicy = propertyNamingPolicy,
                 WriteIndented = false
             };
-            //jsonOptions.Converters.Add(new DateTimeJiraConverter());
         }
 
         protected string URL { get; set; }
@@ -64,12 +63,12 @@ namespace Stefanini.GitHub.Core.Integrations.GitHub
 
         private async Task<TResponse> GetResponse<TResponse>(HttpResponseMessage response)
         {
-            await GetResponseError(response);
+            GetResponseError(response);
 
             return await GetDeserializeResponde<TResponse>(response);
         }
 
-        private async Task GetResponseError(HttpResponseMessage response)
+        private static void GetResponseError(HttpResponseMessage response)
         {
             if (IsStatusOk(response))
                 return;
