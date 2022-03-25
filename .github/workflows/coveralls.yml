@@ -4,19 +4,20 @@ on:
   pull_request:
     branches: [ main, develop ]
     types: [closed]
+env:
+  file-lcov-path: './Stefanini.ViaReport.Core.Tests/coverage.info'
+  coveralls-service-name: 'Git Hub Action'
 
 jobs:
-  build:
-
+  build-test:
     runs-on: windows-latest
     strategy:
       matrix:
-        dotnet-version: [ '5.0.x', '6.0.x' ]
-        file-lcov-path: [ './Stefanini.ViaReport.Core.Tests/coverage.info' ]
-        coveralls-service-name: [ 'Git Hub Action' ]
+        dotnet-version: [ '6.0.x' ]
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Setup .NET ${{ matrix.dotnet-version }}
       uses: actions/setup-dotnet@v1
       with:
@@ -28,6 +29,24 @@ jobs:
     - name: Generate coverage report
       run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
 
+    - name: Save coverage file
+      uses: actions/upload-artifact@master
+      with:
+        name: coverage-file
+        path: ${{ env.file-lcov-path }}
+
+  publish:
+    needs: build-test
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@master
+    
+    - name: Load coverage file
+      uses: actions/download-artifact@master
+      with:
+        name: coverage-file
+        path: ${{ env.file-lcov-path }}
+    
     - name: Publish coverage report to coveralls.io
       run: |
         dotnet new tool-manifest
@@ -36,4 +55,4 @@ jobs:
         
         $coveralls = ".\tools\csmacnz.coveralls.exe"
         
-        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch "${{ github.ref }}" --serviceName "${{ matrix.coveralls-service-name }}" --lcov -i ${{ matrix.file-lcov-path }} --useRelativePaths --commitId ${{ github.sha }}
+        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch "${{ github.ref }}" --serviceName "${{ env.coveralls-service-name }}" --lcov -i ${{ env.file-lcov-path }} --useRelativePaths --commitId ${{ github.sha }}
