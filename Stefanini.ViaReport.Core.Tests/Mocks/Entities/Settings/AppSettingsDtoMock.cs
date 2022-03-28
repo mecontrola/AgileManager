@@ -12,7 +12,16 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Entities.Settings
             {
                 Username = DataMock.VALUE_DEFAULT_TEXT,
                 Password = DataMock.VALUE_DEFAULT_TEXT2,
-                PersistFilter = true
+                PersistFilter = false,
+            };
+
+        public static AppSettingsDto CreateWithCacheFilter()
+            => new()
+            {
+                Username = DataMock.VALUE_DEFAULT_TEXT,
+                Password = DataMock.VALUE_DEFAULT_TEXT2,
+                PersistFilter = true,
+                FilterData = AppFilterDtoMock.Create()
             };
     }
 }
