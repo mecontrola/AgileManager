@@ -12,6 +12,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
         private readonly SearchPostMock searchPostMock = new();
         private readonly SessionGetMock sessionGetMock = new();
         private readonly StatusGetAllMock statusGetAllMock = new();
+        private readonly ExceptionApiMock exceptionApiMock = new();
 
         private readonly CancellationTokenSource cancellationTokenSource = new();
 
@@ -33,6 +34,9 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
 
         protected void ConfigureStatusGetAll()
             => statusGetAllMock.Create(server);
+
+        protected void ConfigureExceptionApi()
+            => exceptionApiMock.Create(server);
 
         protected IJiraConfiguration GetConfiguration()
             => new JiraConfiguration
