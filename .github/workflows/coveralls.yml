@@ -55,4 +55,4 @@ jobs:
         
         $coveralls = ".\tools\csmacnz.coveralls.exe"
         
-        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch "${GITHUB_REF#refs/heads/}" --serviceName "${{ env.coveralls-service-name }}" --lcov -i ${{ env.path-lcov }}/${{ env.filename-lcov }} --useRelativePaths --commitId ${{ github.sha }}
+        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitBranch "${{ GITHUB_REF#refs/heads/ }}" --serviceName "${{ env.coveralls-service-name }}" --lcov -i ${{ env.path-lcov }}/${{ env.filename-lcov }} --useRelativePaths --commitId ${{ github.sha }}
