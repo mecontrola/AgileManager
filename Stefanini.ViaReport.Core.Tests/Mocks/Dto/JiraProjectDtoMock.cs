@@ -6,7 +6,10 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Dto
 {
     public class JiraProjectDtoMock
     {
-        public static IList<JiraProjectDto> Create()
+        public static JiraProjectDto Create()
+            => CreateList().First();
+
+        public static IList<JiraProjectDto> CreateList()
             => GetData().Select(x => CreateJiraProjectList(x.Key, x.Value))
                         .SelectMany(x => x)
                         .ToList();

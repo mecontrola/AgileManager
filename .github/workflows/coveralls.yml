@@ -1,8 +1,10 @@
 name: Coveralls
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ develop ]
     types: [closed]
 env:
   path-lcov: './Stefanini.ViaReport.Core.Tests'
@@ -28,7 +30,7 @@ jobs:
       run: dotnet restore
       
     - name: Generate coverage report
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      run: dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
 
     - name: Save coverage file
       uses: actions/upload-artifact@master
