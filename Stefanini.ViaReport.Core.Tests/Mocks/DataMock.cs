@@ -34,6 +34,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public const string TEXT_STATUS_EM_TESTE = "Em Teste";
         public const string TEXT_STATUS_PARA_HOMOLOGACAO = "Para Homologação";
         public const string TEXT_STATUS_EM_HOMOLOGACAO = "Em Homologação";
+        public const string TEXT_EASYBI_ACCOUNT = "8812";
 
         public const int VALUE_DEFAULT_5 = 5;
         public const int VALUE_DEFAULT_9 = 9;
@@ -53,6 +54,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public const int INT_STATUS_EM_HOMOLOGACAO = 12100;
         public const int INT_STATUS_BACKLOG = 10514;
         public const int INT_STATUS_REPLENISHMENT = 13213;
+        public const int INT_CACHE_MINUTES = 10;
 
         public static readonly DateTime DATETIME_QUARTER_1_2000 = new(2000, 2, 2);
         public static readonly DateTime DATETIME_QUARTER_2_2000 = new(2000, 5, 5);
@@ -62,14 +64,15 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static readonly DateTime DATETIME_START_CYCLE = new(2022, 2, 21);
         public static readonly DateTime DATETIME_END_CYCLE = new(2022, 3, 6);
 
+        public const string JIRA_HOST = "https://jira.hostname.com";
         public const string ISSUE_KEY_1 = "TST-1";
         public const string ISSUE_KEY_2 = "TST-2";
         public const string ISSUE_DESCRIPTION_1 = "TST-1 issue description";
         public const string ISSUE_DESCRIPTION_2 = "TST-2 issue description";
-        public const string ISSUE_LINK_1 = "https://jira.hostname.com/browse/TST-1";
-        public const string ISSUE_LINK_2 = "https://jira.hostname.com/browse/TST-2";
-        public const string ISSUE_SELF_1 = "https://jira.hostname.com/rest/api/2/issue/1";
-        public const string ISSUE_SELF_2 = "https://jira.hostname.com/rest/api/2/issue/2";
+        public const string ISSUE_LINK_1 = JIRA_HOST + "/browse/TST-1";
+        public const string ISSUE_LINK_2 = JIRA_HOST + "/browse/TST-2";
+        public const string ISSUE_SELF_1 = JIRA_HOST + "/rest/api/2/issue/1";
+        public const string ISSUE_SELF_2 = JIRA_HOST + "/rest/api/2/issue/2";
         public const string ISSUE_STATUS_1 = "Backlog";
         public const string ISSUE_STATUS_2 = "Replenishment";
 

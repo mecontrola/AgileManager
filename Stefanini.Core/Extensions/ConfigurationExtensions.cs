@@ -22,6 +22,7 @@ namespace Stefanini.Core.Extensions
             return cfg;
         }
 
+        [DebuggerStepThrough]
         private static string GetConfigurationName<T>()
             where T : new()
             => typeof(T).Name.Replace(CONFIGURATION_SUFFIX, string.Empty).ToLower();

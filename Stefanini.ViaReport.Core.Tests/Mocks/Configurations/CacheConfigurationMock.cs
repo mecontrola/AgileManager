@@ -7,7 +7,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Configurations
         public static ICacheConfiguration Create()
             => new CacheConfiguration
             {
-                Cache = 10
+                Cache = DataMock.INT_CACHE_MINUTES
             };
     }
 }

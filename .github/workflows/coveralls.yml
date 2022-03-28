@@ -2,10 +2,7 @@ name: Coveralls
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ develop ]
-    types: [closed]
+    branches: [ main, develop ]
 env:
   path-lcov: './Stefanini.ViaReport.Core.Tests'
   filename-lcov: 'coverage.info'
