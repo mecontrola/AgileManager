@@ -16,7 +16,8 @@ jobs:
         dotnet-version: [ '6.0.x' ]
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@master
     
     - name: Setup .NET ${{ matrix.dotnet-version }}
       uses: actions/setup-dotnet@v1
@@ -39,7 +40,8 @@ jobs:
     needs: build-test
     runs-on: windows-2019
     steps:
-    - uses: actions/checkout@master
+    - name: Checkout
+      uses: actions/checkout@master
     
     - name: Load coverage file
       uses: actions/download-artifact@master
