@@ -34,7 +34,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public const string TEXT_STATUS_EM_TESTE = "Em Teste";
         public const string TEXT_STATUS_PARA_HOMOLOGACAO = "Para Homologação";
         public const string TEXT_STATUS_EM_HOMOLOGACAO = "Em Homologação";
-        public const string TEXT_EASYBI_ACCOUNT = "8812";
+        public const string TEXT_EASYBI_ACCOUNT = "51";
 
         public const int VALUE_DEFAULT_5 = 5;
         public const int VALUE_DEFAULT_9 = 9;
