@@ -57,12 +57,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\ahm-logo.png" />
+    <Resource Include="Images\ahm-logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\information_icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\sign_check_icon.png" />
-    <Resource Include="Images\sign_error_icon.png" />
+    <Resource Include="Images\sign_check_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\sign_error_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\table_icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -70,15 +76,12 @@
 
   <ItemGroup>
     <None Update="appsettings.Development.json">
-      <CopyToOutputDirectory Condition=" '$(Configuration)' == 'Release' ">Never</CopyToOutputDirectory>
-      <CopyToOutputDirectory Condition=" '$(Configuration)' != 'Release' ">Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Images\ahm-logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
