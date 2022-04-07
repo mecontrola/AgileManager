@@ -28,11 +28,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Update="appsettings*.json" CopyToPublishDirectory="Never" />
-    <Content Update="*.xml" CopyToPublishDirectory="Never" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Images\information_icon.png" />
     <None Remove="Images\sign_check_icon.png" />
     <None Remove="Images\sign_error_icon.png" />
