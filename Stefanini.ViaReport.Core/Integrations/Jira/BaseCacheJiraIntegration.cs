@@ -27,7 +27,7 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
         protected static void SaveCacheFile(string url, string json)
             => File.WriteAllText(GenerateFileName(url), json);
 
-        private static string GenerateFileName(string url)
+        protected static string GenerateFileName(string url)
             => Path.Combine(PathBase(), $"{url.ToMD5()}.cache");
 
         private static string PathBase()

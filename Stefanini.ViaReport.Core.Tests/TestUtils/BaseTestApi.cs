@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using WireMock.Server;
 
 namespace Stefanini.ViaReport.Core.Tests.TestUtils
@@ -12,6 +13,7 @@ namespace Stefanini.ViaReport.Core.Tests.TestUtils
             server = WireMockServer.Start();
         }
 
+        [SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize", Justification = "<Pending>")]
         public void Dispose()
             => server.Stop();
     }

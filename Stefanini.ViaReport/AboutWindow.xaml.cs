@@ -29,7 +29,7 @@ namespace Stefanini.ViaReport
             {
                 var title = GetValueFromAssembly<AssemblyTitleAttribute>(itm => itm.Title);
                 return string.IsNullOrWhiteSpace(title)
-                     ? Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location) : title;
+                     ? Path.GetFileNameWithoutExtension(AppContext.BaseDirectory) : title;
             }
         }
 

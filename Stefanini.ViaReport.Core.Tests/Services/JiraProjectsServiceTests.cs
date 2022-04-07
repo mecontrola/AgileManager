@@ -23,7 +23,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services
         [Fact(DisplayName = "[JiraProjectsService.LoadList] Deve retornar a lista de projetos cadastrados no Jira organizados por categoria.")]
         public async Task DeveListarProjetosJira()
         {
-            var expected = JiraProjectDtoMock.Create();
+            var expected = JiraProjectDtoMock.CreateList();
             var actual = await service.LoadList(DataMock.VALUE_USERNAME, DataMock.VALUE_PASSWORD, GetCancellationToken());
 
             actual.Should().BeEquivalentTo(expected);

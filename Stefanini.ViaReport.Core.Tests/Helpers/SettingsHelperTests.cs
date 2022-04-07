@@ -48,6 +48,26 @@ namespace Stefanini.ViaReport.Core.Tests.Helpers
 
             settings.Data.Username.Should().BeEquivalentTo(data.Username);
             settings.Data.Password.Should().BeEquivalentTo(data.Password.Base64Encode());
+            settings.Data.PersistFilter.Should().Be(data.PersistFilter);
+            settings.Data.FilterData.Should().BeNull();
+            settings.Received(1).SaveSettings();
+        }
+
+        [Fact(DisplayName = "[SettingsHelper.Save] Deve preencher com as informações e criptografar com Base64 a senha e salvar no arquivo juntamento com as opções de filtro.")]
+        public void DevePreencherSalvarDadosArquivoComDadosFiltro()
+        {
+            var data = AppSettingsDtoMock.CreateWithCacheFilter();
+
+            var settingsHelper = new SettingsHelper(settings)
+            {
+                Data = data
+            };
+            settingsHelper.Save();
+
+            settings.Data.Username.Should().BeEquivalentTo(data.Username);
+            settings.Data.Password.Should().BeEquivalentTo(data.Password.Base64Encode());
+            settings.Data.PersistFilter.Should().Be(data.PersistFilter);
+            settings.Data.FilterData.Should().Be(data.FilterData);
             settings.Received(1).SaveSettings();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Stefanini.ViaReport.Core.Data.Configurations;
+using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Server.Settings;
 using Stefanini.ViaReport.Core.Tests.TestUtils;
 using System.Threading;
@@ -12,6 +13,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
         private readonly SearchPostMock searchPostMock = new();
         private readonly SessionGetMock sessionGetMock = new();
         private readonly StatusGetAllMock statusGetAllMock = new();
+        private readonly ExceptionApiMock exceptionApiMock = new();
 
         private readonly CancellationTokenSource cancellationTokenSource = new();
 
@@ -34,11 +36,14 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
         protected void ConfigureStatusGetAll()
             => statusGetAllMock.Create(server);
 
+        protected void ConfigureExceptionApi()
+            => exceptionApiMock.Create(server);
+
         protected IJiraConfiguration GetConfiguration()
             => new JiraConfiguration
             {
                 Path = server.Urls[0],
-                EasyBIAccount = "51",
+                EasyBIAccount = DataMock.TEXT_EASYBI_ACCOUNT,
                 Cache = 0
             };
 

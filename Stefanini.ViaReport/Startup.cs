@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Stefanini.Core.Extensions;
-using Stefanini.ViaReport.Core.Data.Configurations;
+using Stefanini.ViaReport.Core.Extensions;
 using Stefanini.ViaReport.Core.IoC;
 
 namespace Stefanini.ViaReport
@@ -17,8 +16,8 @@ namespace Stefanini.ViaReport
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var applicationConfiguration = GetApplicationConfiguration();
-            var jiraConfiguration = GetJiraConfiguration();
+            var applicationConfiguration = Configuration.GetApplicationConfiguration();
+            var jiraConfiguration = Configuration.GetJiraConfiguration();
 
             services.AddSingleton(applicationConfiguration);
             services.AddSingleton(jiraConfiguration);
@@ -31,11 +30,5 @@ namespace Stefanini.ViaReport
             services.AddMappers();
             services.AddIntegrations();
         }
-
-        private IApplicationConfiguration GetApplicationConfiguration()
-            => Configuration.Load<ApplicationConfiguration>();
-
-        private IJiraConfiguration GetJiraConfiguration()
-            => Configuration.Load<JiraConfiguration>();
     }
 }
