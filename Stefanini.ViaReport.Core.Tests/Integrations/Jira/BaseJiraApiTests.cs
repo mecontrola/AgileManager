@@ -1,4 +1,5 @@
 ﻿using Stefanini.ViaReport.Core.Data.Configurations;
+using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Server.Settings;
 using Stefanini.ViaReport.Core.Tests.TestUtils;
 using System.Threading;
@@ -42,7 +43,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
             => new JiraConfiguration
             {
                 Path = server.Urls[0],
-                EasyBIAccount = "51",
+                EasyBIAccount = DataMock.TEXT_EASYBI_ACCOUNT,
                 Cache = 0
             };
 
