@@ -9,6 +9,7 @@ using Stefanini.ViaReport.Core.Exceptions;
 using Stefanini.ViaReport.Core.Extensions;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Services;
+using Stefanini.ViaReport.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,17 +22,22 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Windows.UI.Notifications;
 
 namespace Stefanini.ViaReport
 {
     public partial class MainWindow : Window
     {
+        public const string APP_TITLE = "[Jira] EasyBI AHM";
+
         private const string PATH_IMAGE_CHECK_OK = "Images/sign_check_icon.png";
         private const string PATH_IMAGE_CHECK_FAIL = "Images/sign_error_icon.png";
+        private const string PATH_IMAGE_NEW_RELEASE = "Images/new_release_icon-48.png";
         private const string DEFAULT_COMBOBOX_ITEM_NAME = "Select item";
 
         private const int DEFAULT_COMBOBOX_ITEM_ID = 0;
 
+        private readonly BackgroundWorker worker;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ObservableCollection<AHMInfoDto> dgDataCollection;
 
@@ -50,6 +56,8 @@ namespace Stefanini.ViaReport
         private readonly IQuarterGenerateListHelper quarterGenerateListHelper;
         private readonly IDateTimeFromStringHelper dateTimeFromStringHelper;
 
+        private readonly IUpdateToastHelper updateToastHelper;
+
         private readonly ImageSource imageAuthCheck;
         private readonly ImageSource imageAuthError;
 
@@ -65,7 +73,8 @@ namespace Stefanini.ViaReport
                           ISettingsHelper settingsHelper,
                           IAverageUpstreamDownstreamRateHelper averageUpstreamDownstreamRateHelper,
                           IQuarterGenerateListHelper quarterGenerateListHelper,
-                          IDateTimeFromStringHelper dateTimeFromStringHelper)
+                          IDateTimeFromStringHelper dateTimeFromStringHelper,
+                          IUpdateToastHelper updateToastHelper)
         {
             this.applicationConfiguration = applicationConfiguration;
             this.dashboardBusiness = dashboardBusiness;
@@ -78,7 +87,9 @@ namespace Stefanini.ViaReport
             this.averageUpstreamDownstreamRateHelper = averageUpstreamDownstreamRateHelper;
             this.quarterGenerateListHelper = quarterGenerateListHelper;
             this.dateTimeFromStringHelper = dateTimeFromStringHelper;
+            this.updateToastHelper = updateToastHelper;
 
+            worker = new BackgroundWorker();
             cancellationTokenSource = new CancellationTokenSource();
             dgDataCollection = new ObservableCollection<AHMInfoDto>();
 
@@ -139,6 +150,9 @@ namespace Stefanini.ViaReport
         {
             var list = ((CbProjects.ItemsSource as ListCollectionView)
                            .SourceCollection as IList<JiraProjectDto>);
+
+            if (project == null)
+                return -1;
 
             return list?.Select((value, index) => new { value, index })
                        .First(p => p.value.Category != null
@@ -288,10 +302,13 @@ namespace Stefanini.ViaReport
         {
             var img = new BitmapImage();
             img.BeginInit();
-            img.UriSource = new Uri($"pack://application:,,,/{path}");
+            img.UriSource = CreateIconUri(path);
             img.EndInit();
             return img;
         }
+
+        private static Uri CreateIconUri(string path)
+            => new($"pack://application:,,,/{path}");
 
         private void CbProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -324,6 +341,33 @@ namespace Stefanini.ViaReport
             {
                 Owner = GetWindow(this)
             }.ShowDialog();
+
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+            => OpenUpdateForm();
+
+        private void OpenUpdateForm()
+            => new UpdateWindow
+            {
+                Owner = GetWindow(this)
+            }.ShowDialog();
+        //{
+        //    //new ToastContentBuilder()
+        //    //   //.AddAppLogoOverride(new Uri($"ms-resource:///{PATH_IMAGE_NEW_RELEASE}"), ToastGenericAppLogoCrop.Circle)
+        //    //   .AddHeader("6289", "[Jira] EasyBI AHM", "action=openConversation&id=6289")
+        //    //   //.AddArgument("action", "viewConversation")
+        //    //   //.AddArgument("conversationId", 9813)
+        //    //   .AddText("New update available")
+        //    //   .AddText("Perform the update by accessing the menu Help and Update")
+        //    //   .Show();
+        //   
+        //
+        //    updateToastHelper.Show(Toast_Activated);
+        //}
+
+        private void Toast_Activated(ToastNotification sender, object args)
+        {
+            MessageBox.Show("Atualizando");
+        }
 
         private async void BtnDownExecute_Click(object sender, RoutedEventArgs e)
         {
@@ -449,11 +493,15 @@ namespace Stefanini.ViaReport
             if (filter == null)
                 return;
 
+            ChangePbStatusAndBtnExecute(false);
+
             var data = await dashboardBusiness.GetData(settingsHelper.Data.Username,
                                                        settingsHelper.Data.Password,
                                                        filter.Project.Name,
                                                        filter.Quarter,
                                                        cancellationTokenSource.Token);
+
+            ChangePbStatusAndBtnExecute(true);
 
             var window = new DashboardWindow();
             window.SetDataColletion(data);
@@ -466,10 +514,14 @@ namespace Stefanini.ViaReport
             if (filter == null)
                 return;
 
+            ChangePbStatusAndBtnExecute(false);
+
             var data = await fixVersionBusiness.GetListIssuesNoFixVersion(settingsHelper.Data.Username,
                                                                           settingsHelper.Data.Password,
                                                                           filter.Project.Name,
                                                                           cancellationTokenSource.Token);
+
+            ChangePbStatusAndBtnExecute(true);
 
             var window = new IssueWindow();
             window.DefineTitle("Issues not Fix");
@@ -498,12 +550,16 @@ namespace Stefanini.ViaReport
             if (filter == null)
                 return;
 
+            ChangePbStatusAndBtnExecute(false);
+
             var data = await dashboardBusiness.GetDeliveryLastCycleData(settingsHelper.Data.Username,
                                                                         settingsHelper.Data.Password,
                                                                         filter.Project.Name,
                                                                         filter.StartDate.Value,
                                                                         filter.EndDate.Value,
                                                                         cancellationTokenSource.Token);
+
+            ChangePbStatusAndBtnExecute(true);
 
             var window = new DeliveryLastCycleWindow();
             window.SetDataColletion(data);
@@ -513,19 +569,19 @@ namespace Stefanini.ViaReport
         private bool settingsSaved = false;
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (settingsHelper.Data.PersistFilter && !settingsSaved)
-            {
-                settingsHelper.Data.FilterData = new AppFilterDto
-                {
-                    Project = (JiraProjectDto)CbProjects.SelectedItem,
-                    Quarter = (string)CbQuarters.SelectedItem,
-                    StartDate = TxtInitDate.SelectedDate,
-                    EndDate = TxtEndDate.SelectedDate,
-                };
-                settingsHelper.Save();
+            if (!settingsHelper.Data.PersistFilter || settingsSaved)
+                return;
 
-                settingsSaved = true;
-            }
+            settingsHelper.Data.FilterData = new AppFilterDto
+            {
+                Project = (JiraProjectDto)CbProjects.SelectedItem,
+                Quarter = (string)CbQuarters.SelectedItem,
+                StartDate = TxtInitDate.SelectedDate,
+                EndDate = TxtEndDate.SelectedDate,
+            };
+            settingsHelper.Save();
+
+            settingsSaved = true;
         }
     }
 }

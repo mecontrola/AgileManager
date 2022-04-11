@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace Stefanini.ViaReport
 {
-    public partial class App : Application
+    sealed partial class App : Application
     {
         private static readonly string CONFIGURATION_FILENAME = "appsettings.json";
         private static readonly string CONFIGURATION_FILENAME_DEVELOPMENT = "appsettings.Development.json";

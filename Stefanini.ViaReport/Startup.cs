@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Stefanini.Core.Extensions;
 using Stefanini.ViaReport.Core.Data.Configurations;
 using Stefanini.ViaReport.Core.IoC;
+using Stefanini.ViaReport.Helpers;
 
 namespace Stefanini.ViaReport
 {
@@ -24,6 +25,8 @@ namespace Stefanini.ViaReport
             services.AddSingleton(jiraConfiguration);
             services.AddSingleton<MainWindow>();
             services.AddSingleton<AuthenticationWindow>();
+
+            services.AddSingleton<IUpdateToastHelper, UpdateToastHelper>();
 
             services.AddBusiness();
             services.AddHelpers();
