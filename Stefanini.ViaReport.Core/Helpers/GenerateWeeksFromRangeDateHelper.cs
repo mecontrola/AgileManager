@@ -23,14 +23,14 @@ namespace Stefanini.ViaReport.Core.Helpers
 
                 list.Add($"{week}|{year}", CreateRangeTuple(firstDayOfWeekYear, groupWeekBy));
 
-                firstDayOfWeekYear = firstDayOfWeekYear.AddDays(INCREASE_7_DAYS * groupWeekBy);
+                firstDayOfWeekYear = firstDayOfWeekYear.AddDays((double)INCREASE_7_DAYS * groupWeekBy);
             }
 
             return list;
         }
 
         private static Tuple<DateTime, DateTime> CreateRangeTuple(DateTime date, int groupWeekBy)
-            => Tuple.Create(date.Date, date.AddDays((INCREASE_7_DAYS * groupWeekBy) - 1).Date);
+            => Tuple.Create(date.Date, date.AddDays((double)(INCREASE_7_DAYS * groupWeekBy) - 1).Date);
 
         private static DateTime GetFirstDayInWeekOfTheYear(DateTime dateTime, int groupWeekBy)
         {

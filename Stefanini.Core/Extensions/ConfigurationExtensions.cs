@@ -7,7 +7,9 @@ namespace Stefanini.Core.Extensions
     {
         private static readonly string CONFIGURATION_SUFFIX = "Configuration";
 
-        [DebuggerStepThrough]
+#if !DEBUG
+        [System.Diagnostics.DebuggerStepThrough]
+#endif
         public static T Load<T>(this IConfiguration configuration)
             where T : new()
         {
@@ -22,7 +24,9 @@ namespace Stefanini.Core.Extensions
             return cfg;
         }
 
-        [DebuggerStepThrough]
+#if !DEBUG
+        [System.Diagnostics.DebuggerStepThrough]
+#endif
         private static string GetConfigurationName<T>()
             where T : new()
             => typeof(T).Name.Replace(CONFIGURATION_SUFFIX, string.Empty).ToLower();

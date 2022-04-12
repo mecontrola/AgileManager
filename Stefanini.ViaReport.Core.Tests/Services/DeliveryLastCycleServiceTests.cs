@@ -5,7 +5,6 @@ using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
 using Stefanini.ViaReport.Core.Tests.TestUtils;
-using System.Threading;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Services

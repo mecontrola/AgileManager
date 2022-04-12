@@ -1,10 +1,6 @@
 ﻿using FluentAssertions;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
 using Stefanini.ViaReport.Core.Tests.Mocks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,7 +11,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira.V2.Issues
         private readonly IIssueGet issueGet;
 
         public IssueGetTests()
-            :base()
+            : base()
         {
             ConfigureIssueGet();
 

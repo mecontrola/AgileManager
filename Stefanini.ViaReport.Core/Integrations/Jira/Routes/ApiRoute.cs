@@ -13,7 +13,7 @@
 
             public const string GET = URL_BASE + "/{issueKey}?expand=changelog";
         }
-        
+
         public static class Project
         {
             private const string URL_BASE = ROUTE_PREFIX_V2 + "/project";

@@ -7,8 +7,8 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyName>AHM Report</AssemblyName>
     <StartupObject>Stefanini.ViaReport.App</StartupObject>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <ApplicationIcon>Images\ahm-logo-32.ico</ApplicationIcon>
     <PackageReleaseNotes>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</PackageReleaseNotes>
     <Description>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</Description>
@@ -61,9 +61,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\new_release_icon.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\new_release_icon-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\sign_check_icon.png">

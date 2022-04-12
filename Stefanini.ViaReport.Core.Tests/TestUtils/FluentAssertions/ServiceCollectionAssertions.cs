@@ -21,8 +21,7 @@ namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions
         /// </summary>
         /// <param name="subject"></param>
         internal ServiceCollectionAssertions(IServiceCollection subject) : base(subject)
-        {
-        }
+        { }
 
         /// <inheritdoc />
         /// <summary>
@@ -47,16 +46,16 @@ namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions
             if (Subject is null)
             {
                 Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:services} to contain {0} item(s){reason}, but found <null>.", expected);
+                       .BecauseOf(because, becauseArgs)
+                       .FailWith("Expected {context:services} to contain {0} item(s){reason}, but found <null>.", expected);
             }
 
-            int actualCount = Subject.Count();
+            var actualCount = Subject.Count;
 
             Execute.Assertion
-                .ForCondition(actualCount == expected)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:services} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
+                   .ForCondition(actualCount == expected)
+                   .BecauseOf(because, becauseArgs)
+                   .FailWith("Expected {context:services} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
 
             return new AndConstraint<ServiceCollectionAssertions>(this);
         }
@@ -82,9 +81,8 @@ namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions
             if (!services.Any())
             {
                 Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:services} to have a service of type {0} registered, but found none.",
-                        typeof(TService));
+                       .BecauseOf(because, becauseArgs)
+                       .FailWith("Expected {context:services} to have a service of type {0} registered, but found none.", typeof(TService));
             }
 
             return new ServiceAssertions<TService>(Subject, services, 1);
