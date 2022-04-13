@@ -7,12 +7,6 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Dto
     {
         private const string PROJECT_RESULT_FILE_NAME = "project.get.all.json";
 
-        public static ProjectDto CreateSearch()
-            => new()
-            {
-                Name = DataMock.TEXT_SEARCH_PROJECT
-            };
-
         public static ProjectDto[] CreateByJson()
             => ApiUtilMockHelper.LoadJsonMock<ProjectDto[]>(PROJECT_RESULT_FILE_NAME);
     }
