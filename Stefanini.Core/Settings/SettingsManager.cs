@@ -3,14 +3,14 @@ using System.Text.Json;
 
 namespace Stefanini.Core.Settings
 {
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public class SettingsManager<T> : ISettingsManager<T>
         where T : class, new()
     {
         private readonly string filePath;
 
-#if !DEBUG
-        [System.Diagnostics.DebuggerStepThrough]
-#endif
         public T Data { get; set; }
 
         public SettingsManager(string fileName)
@@ -29,15 +29,9 @@ namespace Stefanini.Core.Settings
             return Path.Combine(appData, fileName);
         }
 
-#if !DEBUG
-        [System.Diagnostics.DebuggerStepThrough]
-#endif
         public T LoadSettings()
             => JsonSerializer.Deserialize<T>(File.ReadAllText(filePath));
 
-#if !DEBUG
-        [System.Diagnostics.DebuggerStepThrough]
-#endif
         public void SaveSettings()
             => SaveData(Data);
 
