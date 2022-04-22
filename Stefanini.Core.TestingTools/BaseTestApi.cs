@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using WireMock.Server;
 
-namespace Stefanini.ViaReport.Core.Tests.TestUtils
+namespace Stefanini.Core.TestingTools
 {
-    public abstract class BaseTestApi : IDisposable
+    public abstract class BaseTestApi : BaseAsyncMethods, IDisposable
     {
         protected readonly WireMockServer server;
 

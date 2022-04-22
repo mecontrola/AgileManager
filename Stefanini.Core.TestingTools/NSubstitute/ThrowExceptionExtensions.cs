@@ -3,7 +3,7 @@ using NSubstitute.Core;
 using System;
 using System.Threading.Tasks;
 
-namespace Stefanini.ViaReport.Core.Tests.TestUtils.NSubstitute
+namespace Stefanini.Core.TestingTools.NSubstitute
 {
     public static class ThrowExceptionExtensions
     {

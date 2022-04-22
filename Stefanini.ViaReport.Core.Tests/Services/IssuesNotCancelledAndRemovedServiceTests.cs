@@ -1,14 +1,9 @@
 ﻿using NSubstitute;
+using Stefanini.Core.TestingTools;
 using Stefanini.ViaReport.Core.Data.Dto.Jira.Inputs;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
 using Stefanini.ViaReport.Core.Services;
-using Stefanini.ViaReport.Core.Tests.TestUtils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Services

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions.Extensions
+namespace Stefanini.Core.TestingTools.FluentAssertions.Extensions
 {
     public static class AssertionExtensions
     {

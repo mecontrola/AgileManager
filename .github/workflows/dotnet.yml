@@ -24,10 +24,10 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore --nologo --verbosity=minimal --force
 
     - name: Build
-      run: dotnet build --no-restore --configuration ${{ matrix.build-configuration }}
+      run: dotnet build --nologo --verbosity=minimal --no-restore --configuration ${{ matrix.build-configuration }}
 
     - name: Test
-      run: dotnet test --no-restore --no-build --verbosity normal --configuration ${{ matrix.build-configuration }}
+      run: dotnet test --nologo --verbosity=minimal --no-restore --no-build --configuration ${{ matrix.build-configuration }}

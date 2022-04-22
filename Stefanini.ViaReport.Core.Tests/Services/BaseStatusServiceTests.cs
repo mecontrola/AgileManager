@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using NSubstitute;
+using Stefanini.Core.TestingTools;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
 using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
-using Stefanini.ViaReport.Core.Tests.TestUtils;
 using System;
 using System.Collections.Generic;
 using System.Threading;

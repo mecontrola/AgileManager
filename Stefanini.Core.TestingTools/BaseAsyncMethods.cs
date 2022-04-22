@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace Stefanini.ViaReport.Core.Tests.TestUtils
+namespace Stefanini.Core.TestingTools
 {
     public abstract class BaseAsyncMethods
     {
