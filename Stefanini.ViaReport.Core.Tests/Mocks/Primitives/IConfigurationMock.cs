@@ -1,16 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Stefanini.Core.TestingTools.Helpers;
 using Stefanini.ViaReport.Core.Data.Configurations;
 using System.Collections.Generic;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Primitives
 {
-    public class IConfigurationMock
+    public class IConfigurationMock : BaseConfigurationMockHelper
     {
         private static readonly string CONFIGURATION_SUFFIX = "Configuration";
-
-        private static IConfiguration CreateConfigurationInstance(IDictionary<string, string> dataSettings)
-            => new ConfigurationBuilder().AddInMemoryCollection(dataSettings)
-                                         .Build();
 
         public static IConfiguration CreateWithAppAndJiraConfiguration()
             => CreateConfigurationInstance(DataSettingsWithAppAndJiraConfiguration());

@@ -12,6 +12,7 @@
     <Compile Include="..\Stefanini.Core.TestingTools\FluentAssertions\ServiceAssertions.cs" Link="TestUtils\FluentAssertions\ServiceAssertions.cs" />
     <Compile Include="..\Stefanini.Core.TestingTools\FluentAssertions\ServiceCollectionAssertions.cs" Link="TestUtils\FluentAssertions\ServiceCollectionAssertions.cs" />
     <Compile Include="..\Stefanini.Core.TestingTools\Helpers\BaseApiUtilMockHelper.cs" Link="TestUtils\Helpers\BaseApiUtilMockHelper.cs" />
+    <Compile Include="..\Stefanini.Core.TestingTools\Helpers\BaseConfigurationMockHelper.cs" Link="TestUtils\Helpers\BaseConfigurationMockHelper.cs" />
     <Compile Include="..\Stefanini.Core.TestingTools\NSubstitute\ThrowExceptionExtensions.cs" Link="TestUtils\NSubstitute\ThrowExceptionExtensions.cs" />
     <Compile Include="..\Stefanini.Core.TestingTools\BaseAsyncMethods.cs" Link="TestUtils\BaseAsyncMethods.cs" />
     <Compile Include="..\Stefanini.Core.TestingTools\BaseTestApi.cs" Link="TestUtils\BaseTestApi.cs" />
