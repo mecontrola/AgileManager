@@ -8,7 +8,7 @@
         Title="[Jira] EasyBI AHM - Updater" Height="120" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ContentRendered="Window_ContentRendered">
     <DockPanel>
         <Label DockPanel.Dock="Top" Name="LbStatus" Margin="5,5,5,0" Height="26" VerticalAlignment="Top"/>
-        <Label DockPanel.Dock="Top" Margin="5,5,5,0" Content="A aplicação será iniciada automaticamente após conclução." Height="26"/>
+        <Label DockPanel.Dock="Top" Margin="5,5,5,0" Content="A aplicação será iniciada automaticamente após conclusão." Height="26"/>
         <ProgressBar DockPanel.Dock="Bottom" Name="PbProgress" Margin="5,0,5,5" Height="10" VerticalAlignment="Bottom" Visibility="Hidden"/>
     </DockPanel>
 </Window>

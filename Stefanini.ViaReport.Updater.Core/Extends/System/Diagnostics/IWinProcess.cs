@@ -1,9 +1,8 @@
-﻿using System;
-
-namespace Stefanini.ViaReport.Updater.Core.Extends.System.Diagnostics
+﻿namespace System.Diagnostics
 {
     public interface IWinProcess : IDisposable
     {
+        bool HasProcess();
         void Kill();
         void WaitForExit();
     }

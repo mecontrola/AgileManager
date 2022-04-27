@@ -1,9 +1,9 @@
 ﻿using NSubstitute;
 using Stefanini.ViaReport.Updater.Core.Data.Configurations;
-using Stefanini.ViaReport.Updater.Core.Extends.System.Diagnostics;
 using Stefanini.ViaReport.Updater.Core.Helpers;
 using Stefanini.ViaReport.Updater.Core.Tests.Mocks;
 using Stefanini.ViaReport.Updater.Core.Tests.Mocks.Configurations;
+using System.Diagnostics;
 using Xunit;
 
 namespace Stefanini.ViaReport.Updater.Core.Tests.Helpers
@@ -20,6 +20,7 @@ namespace Stefanini.ViaReport.Updater.Core.Tests.Helpers
         public Step02HelperTests()
         {
             process = Substitute.For<IWinProcess>();
+            process.HasProcess().Returns(true);
 
             updaterConfiguration = UpdaterConfigurationMock.Create();
             toolsHelper = Substitute.For<IToolsHelper>();
@@ -32,7 +33,7 @@ namespace Stefanini.ViaReport.Updater.Core.Tests.Helpers
         [Fact(DisplayName = "[Step02Helper.Run] Deve finalizar a rotina quando o processo não for encontrado.")]
         public void DeveFinalizarQuandoProcessoNaoEncontrado()
         {
-            toolsHelper.FindProcessRunning(Arg.Any<string>()).Returns((IWinProcess)null);
+            process.HasProcess().Returns(false);
 
             helper.Run();
 

@@ -10,6 +10,7 @@ using Stefanini.ViaReport.Core.Extensions;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Helpers;
+using Stefanini.ViaReport.Updater.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Windows.UI.Notifications;
+using Info = Stefanini.ViaReport.Helpers.AssemblyInfoHelper;
 
 namespace Stefanini.ViaReport
 {
@@ -36,10 +39,11 @@ namespace Stefanini.ViaReport
         private const string DEFAULT_COMBOBOX_ITEM_NAME = "Select item";
 
         private const int DEFAULT_COMBOBOX_ITEM_ID = 0;
+        private const int TIME_CHECK_UPDATE_30_MINUTES = 30;
 
-        private readonly BackgroundWorker worker;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ObservableCollection<AHMInfoDto> dgDataCollection;
+        private readonly PeriodicTimer timer = new(TimeSpan.FromMinutes(TIME_CHECK_UPDATE_30_MINUTES));
 
         private readonly IApplicationConfiguration applicationConfiguration;
 
@@ -55,6 +59,7 @@ namespace Stefanini.ViaReport
         private readonly IAverageUpstreamDownstreamRateHelper averageUpstreamDownstreamRateHelper;
         private readonly IQuarterGenerateListHelper quarterGenerateListHelper;
         private readonly IDateTimeFromStringHelper dateTimeFromStringHelper;
+        private readonly IRemoteVersionHelper remoteVersionHelper;
 
         private readonly IUpdateToastHelper updateToastHelper;
 
@@ -74,7 +79,8 @@ namespace Stefanini.ViaReport
                           IAverageUpstreamDownstreamRateHelper averageUpstreamDownstreamRateHelper,
                           IQuarterGenerateListHelper quarterGenerateListHelper,
                           IDateTimeFromStringHelper dateTimeFromStringHelper,
-                          IUpdateToastHelper updateToastHelper)
+                          IUpdateToastHelper updateToastHelper,
+                          IRemoteVersionHelper remoteVersionHelper)
         {
             this.applicationConfiguration = applicationConfiguration;
             this.dashboardBusiness = dashboardBusiness;
@@ -88,8 +94,8 @@ namespace Stefanini.ViaReport
             this.quarterGenerateListHelper = quarterGenerateListHelper;
             this.dateTimeFromStringHelper = dateTimeFromStringHelper;
             this.updateToastHelper = updateToastHelper;
+            this.remoteVersionHelper = remoteVersionHelper;
 
-            worker = new BackgroundWorker();
             cancellationTokenSource = new CancellationTokenSource();
             dgDataCollection = new ObservableCollection<AHMInfoDto>();
 
@@ -98,6 +104,8 @@ namespace Stefanini.ViaReport
 
             InitializeComponent();
             _ = InitializeData();
+
+            CheckUpdate();
         }
 
         private async Task InitializeData()
@@ -155,10 +163,10 @@ namespace Stefanini.ViaReport
                 return -1;
 
             return list?.Select((value, index) => new { value, index })
-                       .First(p => p.value.Category != null
-                                && p.value.Category.Equals(project.Category)
-                                && p.value.Name.Equals(project.Name))
-                       .index
+                        .First(p => p.value.Category != null
+                                 && p.value.Category.Equals(project.Category)
+                                 && p.value.Name.Equals(project.Name))
+                        .index
                 ?? -1;
         }
 
@@ -311,9 +319,7 @@ namespace Stefanini.ViaReport
             => new($"pack://application:,,,/{path}");
 
         private void CbProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            BtnExecute.IsEnabled = true;
-        }
+            => BtnExecute.IsEnabled = true;
 
         private void BtnAuthenticate_Click(object sender, RoutedEventArgs e)
             => OpenAuthenticationForm();
@@ -346,28 +352,25 @@ namespace Stefanini.ViaReport
             => OpenUpdateForm();
 
         private void OpenUpdateForm()
-            => new UpdateWindow
+            => new UpdateWindow(remoteVersionHelper)
             {
                 Owner = GetWindow(this)
             }.ShowDialog();
-        //{
-        //    //new ToastContentBuilder()
-        //    //   //.AddAppLogoOverride(new Uri($"ms-resource:///{PATH_IMAGE_NEW_RELEASE}"), ToastGenericAppLogoCrop.Circle)
-        //    //   .AddHeader("6289", "[Jira] EasyBI AHM", "action=openConversation&id=6289")
-        //    //   //.AddArgument("action", "viewConversation")
-        //    //   //.AddArgument("conversationId", 9813)
-        //    //   .AddText("New update available")
-        //    //   .AddText("Perform the update by accessing the menu Help and Update")
-        //    //   .Show();
-        //   
-        //
-        //    updateToastHelper.Show(Toast_Activated);
-        //}
+
+        private async void CheckUpdate()
+        {
+            while (await timer.WaitForNextTickAsync())
+            {
+                var avaliable = await remoteVersionHelper.GetVersion(cancellationTokenSource.Token);
+                var current = Version.Parse(Info.AssemblyVersion);
+
+                if (avaliable > current)
+                    updateToastHelper.Show(Toast_Activated);
+            }
+        }
 
         private void Toast_Activated(ToastNotification sender, object args)
-        {
-            MessageBox.Show("Atualizando");
-        }
+            => Dispatcher.BeginInvoke(DispatcherPriority.Background, OpenUpdateForm);
 
         private async void BtnDownExecute_Click(object sender, RoutedEventArgs e)
         {

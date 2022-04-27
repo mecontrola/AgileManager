@@ -40,9 +40,7 @@ namespace Stefanini.ViaReport
         private void OnStartup(object sender, StartupEventArgs e)
         {
             var mainWindow = serviceProvider.GetService<MainWindow>();
-#pragma warning disable CS8602 // Desreferência de uma referência possivelmente nula.
             mainWindow.Show();
-#pragma warning restore CS8602 // Desreferência de uma referência possivelmente nula.
         }
     }
 }

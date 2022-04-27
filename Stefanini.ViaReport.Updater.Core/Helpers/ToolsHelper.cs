@@ -1,5 +1,4 @@
-﻿using Stefanini.ViaReport.Updater.Core.Extends.System.Diagnostics;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -9,8 +8,11 @@ namespace Stefanini.ViaReport.Updater.Core.Helpers
     public class ToolsHelper : IToolsHelper
     {
         public IWinProcess FindProcessRunning(string processName)
-            => (WinProcess)Process.GetProcesses()
-                                  .FirstOrDefault(p => p.ProcessName.StartsWith(processName));
+        {
+            var process = Process.GetProcesses()
+                                 .FirstOrDefault(p => processName.StartsWith(p.ProcessName));
+            return new WinProcess(process);
+        }
 
         public string GetFileVersion(string path)
             => FileVersionInfo.GetVersionInfo(path)?.FileVersion;

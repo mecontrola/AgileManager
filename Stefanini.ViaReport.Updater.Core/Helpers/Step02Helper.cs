@@ -18,7 +18,7 @@ namespace Stefanini.ViaReport.Updater.Core.Helpers
         {
             var process = toolsHelper.FindProcessRunning(updaterConfiguration.ApplicationName);
 
-            if (process == null)
+            if (!process.HasProcess())
                 return;
 
             process.Kill();

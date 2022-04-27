@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Updater.Core.Extends.System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Stefanini.ViaReport.Updater.Core.Helpers
 {
