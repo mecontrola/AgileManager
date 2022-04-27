@@ -3,14 +3,14 @@ using System.Text.Json;
 
 namespace Stefanini.Core.Settings
 {
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public class SettingsManager<T> : ISettingsManager<T>
         where T : class, new()
     {
         private readonly string filePath;
 
-#if !DEBUG
-        [System.Diagnostics.DebuggerStepThrough]
-#endif
         public T Data { get; set; }
 
         public SettingsManager(string fileName)

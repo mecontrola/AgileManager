@@ -4,6 +4,7 @@ using Stefanini.ViaReport.Updater.Core.Services;
 using Stefanini.ViaReport.Updater.Extensions;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Windows;
 
@@ -33,7 +34,8 @@ namespace Stefanini.ViaReport.Updater
                                                               (show, percent) => UpdateProgressBar(show, percent),
                                                               cancellationTokenSource.Token);
 
-            Process.Start(updaterConfiguration.ApplicationName);
+            if (File.Exists(updaterConfiguration.ApplicationName))
+                Process.Start(updaterConfiguration.ApplicationName);
 
             Close();
         }

@@ -20,9 +20,8 @@ dotnet test %~dp0Stefanini.sln ^
             /p:CoverletOutputFormat=cobertura ^
             /p:Exclude="[xunit.*]*
 
-dotnet "%~dp0tools\ReportGenerator.dll" ^
-           -reports:%~dp0BuildReports\UnitTests\**\*.cobertura.xml ^
-           -targetdir:%~dp0BuildReports\Coverage ^
-           -reporttypes:HTML;HTMLSummary
+dotnet reportgenerator -reports:%~dp0BuildReports\UnitTests\**\*.cobertura.xml ^
+                       -targetdir:%~dp0BuildReports\Coverage ^
+                       -reporttypes:HTML;HTMLSummary
 
 start "report" "%~dp0BuildReports\Coverage\index.html"
