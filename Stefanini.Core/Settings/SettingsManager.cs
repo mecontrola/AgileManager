@@ -29,15 +29,9 @@ namespace Stefanini.Core.Settings
             return Path.Combine(appData, fileName);
         }
 
-#if !DEBUG
-        [System.Diagnostics.DebuggerStepThrough]
-#endif
         public T LoadSettings()
             => JsonSerializer.Deserialize<T>(File.ReadAllText(filePath));
 
-#if !DEBUG
-        [System.Diagnostics.DebuggerStepThrough]
-#endif
         public void SaveSettings()
             => SaveData(Data);
 
