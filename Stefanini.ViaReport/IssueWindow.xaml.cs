@@ -39,9 +39,11 @@ namespace Stefanini.ViaReport
         {
             var link = (Hyperlink)e.OriginalSource;
 
-            var psi = new ProcessStartInfo();
-            psi.UseShellExecute = true;
-            psi.FileName = link.NavigateUri.AbsoluteUri;
+            var psi = new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                FileName = link.NavigateUri.AbsoluteUri
+            };
             Process.Start(psi);
         }
     }

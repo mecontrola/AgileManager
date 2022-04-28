@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Stefanini.ViaReport.Core.Helpers
 {
@@ -18,7 +16,7 @@ namespace Stefanini.ViaReport.Core.Helpers
 
             firstDay = firstDay.Date;
             lastDay = lastDay.Date;
-            
+
             TimeSpan span = lastDay - firstDay;
             int businessDays = span.Days + 1;
             int fullWeekCount = businessDays / 7;
@@ -41,10 +39,10 @@ namespace Stefanini.ViaReport.Core.Helpers
                 else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
                     businessDays -= 1;
             }
-            
+
             // subtract the weekends during the full weeks in the interval
             businessDays -= fullWeekCount + fullWeekCount;
-            
+
             // subtract the number of bank holidays during the time interval
             foreach (DateTime bankHoliday in holidays)
             {
@@ -52,8 +50,8 @@ namespace Stefanini.ViaReport.Core.Helpers
                 if (firstDay <= bh && bh <= lastDay)
                     --businessDays;
             }
-            
-            return businessDays -1 ;
+
+            return businessDays - 1;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Stefanini.ViaReport.Core.Helpers
 
             var week = dateTime.GetWeekOfYear();
 
-            return ((week - (week % groupWeekBy)) / groupWeekBy) + (groupWeekBy == 1 ? 0 : 1);// (week % groupWeekBy);
+            return ((week - (week % groupWeekBy)) / groupWeekBy) + (groupWeekBy == 1 ? 0 : 1);
         }
     }
 }

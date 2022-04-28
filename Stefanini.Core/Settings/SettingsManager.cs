@@ -3,6 +3,9 @@ using System.Text.Json;
 
 namespace Stefanini.Core.Settings
 {
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public class SettingsManager<T> : ISettingsManager<T>
         where T : class, new()
     {

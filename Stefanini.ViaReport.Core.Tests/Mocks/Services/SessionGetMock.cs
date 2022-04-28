@@ -1,8 +1,8 @@
 ﻿using NSubstitute;
+using Stefanini.Core.TestingTools.NSubstitute;
 using Stefanini.ViaReport.Core.Exceptions;
 using Stefanini.ViaReport.Core.Integrations.Jira.V1.Auth;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
-using Stefanini.ViaReport.Core.Tests.TestUtils.NSubstitute;
 using System;
 using System.Threading;
 

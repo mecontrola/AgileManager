@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using Stefanini.Core.TestingTools.FluentAssertions.Extensions;
 using Stefanini.ViaReport.Core.Business;
 using Stefanini.ViaReport.Core.IoC;
-using Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions.Extensions;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.IoC

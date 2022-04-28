@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
+using Stefanini.Core.TestingTools;
 using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
-using Stefanini.ViaReport.Core.Tests.TestUtils;
 using System.Threading.Tasks;
 using Xunit;
 

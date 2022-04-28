@@ -9,6 +9,8 @@ using Stefanini.ViaReport.Core.Exceptions;
 using Stefanini.ViaReport.Core.Extensions;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Services;
+using Stefanini.ViaReport.Helpers;
+using Stefanini.ViaReport.Updater.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,19 +23,27 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Windows.UI.Notifications;
+using Info = Stefanini.ViaReport.Helpers.AssemblyInfoHelper;
 
 namespace Stefanini.ViaReport
 {
     public partial class MainWindow : Window
     {
+        public const string APP_TITLE = "[Jira] EasyBI AHM";
+
         private const string PATH_IMAGE_CHECK_OK = "Images/sign_check_icon.png";
         private const string PATH_IMAGE_CHECK_FAIL = "Images/sign_error_icon.png";
+        private const string PATH_IMAGE_NEW_RELEASE = "Images/new_release_icon-48.png";
         private const string DEFAULT_COMBOBOX_ITEM_NAME = "Select item";
 
         private const int DEFAULT_COMBOBOX_ITEM_ID = 0;
+        private const int TIME_CHECK_UPDATE_30_MINUTES = 30;
 
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ObservableCollection<AHMInfoDto> dgDataCollection;
+        private readonly PeriodicTimer timer = new(TimeSpan.FromMinutes(TIME_CHECK_UPDATE_30_MINUTES));
 
         private readonly IApplicationConfiguration applicationConfiguration;
 
@@ -49,6 +59,9 @@ namespace Stefanini.ViaReport
         private readonly IAverageUpstreamDownstreamRateHelper averageUpstreamDownstreamRateHelper;
         private readonly IQuarterGenerateListHelper quarterGenerateListHelper;
         private readonly IDateTimeFromStringHelper dateTimeFromStringHelper;
+        private readonly IRemoteVersionHelper remoteVersionHelper;
+
+        private readonly IUpdateToastHelper updateToastHelper;
 
         private readonly ImageSource imageAuthCheck;
         private readonly ImageSource imageAuthError;
@@ -65,7 +78,9 @@ namespace Stefanini.ViaReport
                           ISettingsHelper settingsHelper,
                           IAverageUpstreamDownstreamRateHelper averageUpstreamDownstreamRateHelper,
                           IQuarterGenerateListHelper quarterGenerateListHelper,
-                          IDateTimeFromStringHelper dateTimeFromStringHelper)
+                          IDateTimeFromStringHelper dateTimeFromStringHelper,
+                          IUpdateToastHelper updateToastHelper,
+                          IRemoteVersionHelper remoteVersionHelper)
         {
             this.applicationConfiguration = applicationConfiguration;
             this.dashboardBusiness = dashboardBusiness;
@@ -78,6 +93,8 @@ namespace Stefanini.ViaReport
             this.averageUpstreamDownstreamRateHelper = averageUpstreamDownstreamRateHelper;
             this.quarterGenerateListHelper = quarterGenerateListHelper;
             this.dateTimeFromStringHelper = dateTimeFromStringHelper;
+            this.updateToastHelper = updateToastHelper;
+            this.remoteVersionHelper = remoteVersionHelper;
 
             cancellationTokenSource = new CancellationTokenSource();
             dgDataCollection = new ObservableCollection<AHMInfoDto>();
@@ -87,6 +104,8 @@ namespace Stefanini.ViaReport
 
             InitializeComponent();
             _ = InitializeData();
+
+            CheckUpdate();
         }
 
         private async Task InitializeData()
@@ -140,11 +159,14 @@ namespace Stefanini.ViaReport
             var list = ((CbProjects.ItemsSource as ListCollectionView)
                            .SourceCollection as IList<JiraProjectDto>);
 
+            if (project == null)
+                return -1;
+
             return list?.Select((value, index) => new { value, index })
-                       .First(p => p.value.Category != null
-                                && p.value.Category.Equals(project.Category)
-                                && p.value.Name.Equals(project.Name))
-                       .index
+                        .First(p => p.value.Category != null
+                                 && p.value.Category.Equals(project.Category)
+                                 && p.value.Name.Equals(project.Name))
+                        .index
                 ?? -1;
         }
 
@@ -288,15 +310,16 @@ namespace Stefanini.ViaReport
         {
             var img = new BitmapImage();
             img.BeginInit();
-            img.UriSource = new Uri($"pack://application:,,,/{path}");
+            img.UriSource = CreateIconUri(path);
             img.EndInit();
             return img;
         }
 
+        private static Uri CreateIconUri(string path)
+            => new($"pack://application:,,,/{path}");
+
         private void CbProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            BtnExecute.IsEnabled = true;
-        }
+            => BtnExecute.IsEnabled = true;
 
         private void BtnAuthenticate_Click(object sender, RoutedEventArgs e)
             => OpenAuthenticationForm();
@@ -324,6 +347,30 @@ namespace Stefanini.ViaReport
             {
                 Owner = GetWindow(this)
             }.ShowDialog();
+
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+            => OpenUpdateForm();
+
+        private void OpenUpdateForm()
+            => new UpdateWindow(remoteVersionHelper)
+            {
+                Owner = GetWindow(this)
+            }.ShowDialog();
+
+        private async void CheckUpdate()
+        {
+            while (await timer.WaitForNextTickAsync())
+            {
+                var avaliable = await remoteVersionHelper.GetVersion(cancellationTokenSource.Token);
+                var current = Version.Parse(Info.AssemblyVersion);
+
+                if (avaliable > current)
+                    updateToastHelper.Show(Toast_Activated);
+            }
+        }
+
+        private void Toast_Activated(ToastNotification sender, object args)
+            => Dispatcher.BeginInvoke(DispatcherPriority.Background, OpenUpdateForm);
 
         private async void BtnDownExecute_Click(object sender, RoutedEventArgs e)
         {
@@ -449,11 +496,15 @@ namespace Stefanini.ViaReport
             if (filter == null)
                 return;
 
+            ChangePbStatusAndBtnExecute(false);
+
             var data = await dashboardBusiness.GetData(settingsHelper.Data.Username,
                                                        settingsHelper.Data.Password,
                                                        filter.Project.Name,
                                                        filter.Quarter,
                                                        cancellationTokenSource.Token);
+
+            ChangePbStatusAndBtnExecute(true);
 
             var window = new DashboardWindow();
             window.SetDataColletion(data);
@@ -466,10 +517,14 @@ namespace Stefanini.ViaReport
             if (filter == null)
                 return;
 
+            ChangePbStatusAndBtnExecute(false);
+
             var data = await fixVersionBusiness.GetListIssuesNoFixVersion(settingsHelper.Data.Username,
                                                                           settingsHelper.Data.Password,
                                                                           filter.Project.Name,
                                                                           cancellationTokenSource.Token);
+
+            ChangePbStatusAndBtnExecute(true);
 
             var window = new IssueWindow();
             window.DefineTitle("Issues not Fix");
@@ -498,12 +553,16 @@ namespace Stefanini.ViaReport
             if (filter == null)
                 return;
 
+            ChangePbStatusAndBtnExecute(false);
+
             var data = await dashboardBusiness.GetDeliveryLastCycleData(settingsHelper.Data.Username,
                                                                         settingsHelper.Data.Password,
                                                                         filter.Project.Name,
                                                                         filter.StartDate.Value,
                                                                         filter.EndDate.Value,
                                                                         cancellationTokenSource.Token);
+
+            ChangePbStatusAndBtnExecute(true);
 
             var window = new DeliveryLastCycleWindow();
             window.SetDataColletion(data);
@@ -513,19 +572,19 @@ namespace Stefanini.ViaReport
         private bool settingsSaved = false;
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (settingsHelper.Data.PersistFilter && !settingsSaved)
-            {
-                settingsHelper.Data.FilterData = new AppFilterDto
-                {
-                    Project = (JiraProjectDto)CbProjects.SelectedItem,
-                    Quarter = (string)CbQuarters.SelectedItem,
-                    StartDate = TxtInitDate.SelectedDate,
-                    EndDate = TxtEndDate.SelectedDate,
-                };
-                settingsHelper.Save();
+            if (!settingsHelper.Data.PersistFilter || settingsSaved)
+                return;
 
-                settingsSaved = true;
-            }
+            settingsHelper.Data.FilterData = new AppFilterDto
+            {
+                Project = (JiraProjectDto)CbProjects.SelectedItem,
+                Quarter = (string)CbQuarters.SelectedItem,
+                StartDate = TxtInitDate.SelectedDate,
+                EndDate = TxtEndDate.SelectedDate,
+            };
+            settingsHelper.Save();
+
+            settingsSaved = true;
         }
     }
 }

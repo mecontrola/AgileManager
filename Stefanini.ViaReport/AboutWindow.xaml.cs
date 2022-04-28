@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
+using Info = Stefanini.ViaReport.Helpers.AssemblyInfoHelper;
 
 namespace Stefanini.ViaReport
 {
@@ -12,48 +9,15 @@ namespace Stefanini.ViaReport
         {
             InitializeComponent();
 
-            LbTitle.Content = $"About {AssemblyTitle}";
-            LbProductName.Content = AssemblyProduct;
-            LbVersion.Content = $"Version {AssemblyVersion}";
-            LbCopyright.Content = AssemblyCopyright;
-            LbCompany.Content = AssemblyCompany;
-            TxtDescription.Text = AssemblyDescription;
+            LbTitle.Content = $"About {Info.AssemblyTitle}";
+            LbProductName.Content = Info.AssemblyProduct;
+            LbVersion.Content = $"Version {Info.AssemblyVersion}";
+            LbCopyright.Content = Info.AssemblyCopyright;
+            LbCompany.Content = Info.AssemblyCompany;
+            TxtDescription.Text = Info.AssemblyDescription;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
             => Close();
-
-        private static string AssemblyTitle
-        {
-            get
-            {
-                var title = GetValueFromAssembly<AssemblyTitleAttribute>(itm => itm.Title);
-                return string.IsNullOrWhiteSpace(title)
-                     ? Path.GetFileNameWithoutExtension(AppContext.BaseDirectory) : title;
-            }
-        }
-
-        private static string AssemblyVersion { get; }
-            = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? string.Empty;
-
-        private static string AssemblyDescription { get; }
-            = GetValueFromAssembly<AssemblyDescriptionAttribute>(itm => itm.Description);
-
-        private static string AssemblyProduct { get; }
-            = GetValueFromAssembly<AssemblyProductAttribute>(itm => itm.Product);
-
-        private static string AssemblyCopyright { get; }
-            = GetValueFromAssembly<AssemblyCopyrightAttribute>(itm => itm.Copyright);
-
-        private static string AssemblyCompany { get; }
-            = GetValueFromAssembly<AssemblyCompanyAttribute>(itm => itm.Company);
-
-        private static string GetValueFromAssembly<T>(Func<T, string> predicate)
-        {
-            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(T), false);
-            return attributes.Any()
-                 ? predicate((T)attributes[0])
-                 : string.Empty;
-        }
     }
 }

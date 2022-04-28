@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stefanini.ViaReport"
         mc:Ignorable="d"
-        Title="[Jira] EasyBI AHM" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="{x:Static local:MainWindow.APP_TITLE}" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.Resources>
         <Image x:Key="BtnBugsCreatedIconDetail" Source="Images/table_icon.png"/>
         <Image x:Key="BtnBugsOpenedIconDetail" Source="Images/table_icon.png"/>
@@ -48,6 +48,12 @@
                 <MenuItem Name="BtnDeliveryLastCycle" Header="Delivery Last Cycle" Click="BtnDeliveryLastCycle_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
+                <MenuItem Name="BtnUpdate" Header="Update" Click="BtnUpdate_Click">
+                    <MenuItem.Icon>
+                        <Image Name="IconUpdate" Source="Images/new_release_icon.png" Visibility="Hidden" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
                 <MenuItem Name="BtnAbout" Header="About" Click="BtnAbout_Click"/>
             </MenuItem>
         </Menu>

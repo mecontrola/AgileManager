@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace Stefanini.ViaReport
 {
-    public partial class App : Application
+    sealed partial class App : Application
     {
         private static readonly string CONFIGURATION_FILENAME = "appsettings.json";
         private static readonly string CONFIGURATION_FILENAME_DEVELOPMENT = "appsettings.Development.json";
@@ -40,9 +40,7 @@ namespace Stefanini.ViaReport
         private void OnStartup(object sender, StartupEventArgs e)
         {
             var mainWindow = serviceProvider.GetService<MainWindow>();
-#pragma warning disable CS8602 // Desreferência de uma referência possivelmente nula.
             mainWindow.Show();
-#pragma warning restore CS8602 // Desreferência de uma referência possivelmente nula.
         }
     }
 }

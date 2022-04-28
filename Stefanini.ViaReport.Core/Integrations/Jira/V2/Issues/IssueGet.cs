@@ -19,7 +19,7 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues
         public async Task<IssueDto> Execute(string username, string password, string issueKey, CancellationToken cancellationToken)
         {
             URL = API_URL.Replace("{issueKey}", issueKey);
-            
+
             return await GetAsync<IssueDto>(username, password, cancellationToken);
         }
     }

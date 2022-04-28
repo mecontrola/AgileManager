@@ -1,8 +1,7 @@
-﻿using Stefanini.ViaReport.Core.Data.Configurations;
+﻿using Stefanini.Core.TestingTools;
+using Stefanini.ViaReport.Core.Data.Configurations;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Server.Settings;
-using Stefanini.ViaReport.Core.Tests.TestUtils;
-using System.Threading;
 
 namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
 {
@@ -14,8 +13,6 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
         private readonly SessionGetMock sessionGetMock = new();
         private readonly StatusGetAllMock statusGetAllMock = new();
         private readonly ExceptionApiMock exceptionApiMock = new();
-
-        private readonly CancellationTokenSource cancellationTokenSource = new();
 
         public BaseJiraApiTests()
             : base()
@@ -46,8 +43,5 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
                 EasyBIAccount = DataMock.TEXT_EASYBI_ACCOUNT,
                 Cache = 0
             };
-
-        protected CancellationToken GetCancellationToken()
-            => cancellationTokenSource.Token;
     }
 }

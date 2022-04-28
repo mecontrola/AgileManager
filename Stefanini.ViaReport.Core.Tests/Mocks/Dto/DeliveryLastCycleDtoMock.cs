@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Dto
         public static DeliveryLastCycleDto Create()
             => new()
             {
-                StartDate =  DataMock.DATETIME_START_CYCLE,
+                StartDate = DataMock.DATETIME_START_CYCLE,
                 EndDate = DataMock.DATETIME_END_CYCLE,
                 Throughtput = 20,
                 LeadTimeAverage = 6,
