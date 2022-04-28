@@ -4,8 +4,9 @@ on:
   push:
     branches: [ main, develop ]
 env:
-  path-lcov: './Stefanini.ViaReport.Core.Tests'
-  filename-lcov: 'coverage.info'
+  path-lcov: './Coverage'
+  filename-lcov: 'lcov.info'
+  filename-tmp-lcov: 'coverage.info'
   coveralls-service-name: 'Git Hub Action'
 
 jobs:
@@ -25,10 +26,23 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore --nologo --verbosity=minimal --force
+
+    - name: Build
+      run: dotnet build --nologo --verbosity=minimal --no-restore
       
     - name: Generate coverage report
-      run: dotnet test --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      run: dotnet test --nologo --verbosity=minimal --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+
+    - name: Merge coverage report projects
+      run: |
+        dotnet new tool-manifest
+        dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
+        dotnet tool restore
+        
+        $reportgenerator = ".\tools\reportgenerator.exe"
+        
+        & $reportgenerator -reports:**/${{ env.filename-tmp-lcov }} -targetdir:${{ env.path-lcov }} -reporttypes:lcov
 
     - name: Save coverage file
       uses: actions/upload-artifact@master

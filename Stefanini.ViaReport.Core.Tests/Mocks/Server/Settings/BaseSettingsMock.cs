@@ -8,6 +8,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Server.Settings
 {
     public abstract class BaseSettingsMock
     {
+        private const string HEADER_CONTENT_TYPE_NAME = "Content-Type";
+        private const string HEADER_CONTENT_TYPE_VALUE = "application/json";
         public abstract void Create(WireMockServer server);
 
         protected static IRequestBuilder RequestGetBuild(string url)
@@ -18,14 +20,14 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Server.Settings
 
         protected static IResponseBuilder ResponseBuild(string filename)
             => Response.Create()
-                       .WithHeader("Content-Type", "application/json")
+                       .WithHeader(HEADER_CONTENT_TYPE_NAME, HEADER_CONTENT_TYPE_VALUE)
                        .WithStatusCode(200)
                        .WithBody(ApiUtilMockHelper.ReadJsonFile(filename))
                        .WithTransformer();
 
         protected static IResponseBuilder ResponseBuild(HttpStatusCode httpStatusCode)
             => Response.Create()
-                       .WithHeader("Content-Type", "application/json")
+                       .WithHeader(HEADER_CONTENT_TYPE_NAME, HEADER_CONTENT_TYPE_VALUE)
                        .WithStatusCode(httpStatusCode);
     }
 }

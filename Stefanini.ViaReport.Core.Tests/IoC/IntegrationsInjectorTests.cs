@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
+using Stefanini.Core.TestingTools.FluentAssertions.Extensions;
 using Stefanini.ViaReport.Core.Integrations.Jira.V1.Auth;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
 using Stefanini.ViaReport.Core.IoC;
-using Stefanini.ViaReport.Core.Tests.TestUtils.FluentAssertions.Extensions;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.IoC

@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
+using Stefanini.Core.TestingTools;
 using Stefanini.ViaReport.Core.Business;
 using Stefanini.ViaReport.Core.Data.Dto;
 using Stefanini.ViaReport.Core.Mappers;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
-using Stefanini.ViaReport.Core.Tests.TestUtils;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Business

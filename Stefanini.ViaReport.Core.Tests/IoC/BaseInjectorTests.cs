@@ -15,7 +15,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 
         protected static void RunServiceCollectionNull(Action<IServiceCollection> action)
         {
-            var act = () => action((IServiceCollection)null);
+            var act = () => action(null);
             act.Should().Throw<ArgumentNullException>();
         }
     }

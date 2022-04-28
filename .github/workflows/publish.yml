@@ -42,7 +42,7 @@ jobs:
     env:
       app-version: ${{ needs.release.outputs.app-version }}
       app-package-name: 'AHM Report'
-      path-publish: './Stefanini.ViaReport/bin/Release/net6.0-windows/publish'
+      path-publish: '../publish'
       upload_url: ${{ needs.release.outputs.upload_url }}
     steps:
     - name: Checkout v${{ env.app-version }}
@@ -57,7 +57,7 @@ jobs:
       run: dotnet publish --nologo --self-contained -r win-${{ matrix.build-architecture }} -p:PublishProfile=Publish_Win-${{ matrix.build-architecture }} -p:DebugType=None -p:DebugSymbols=false -p:Optimize=true -p:AssemblyVersion=${{ env.app-version }} -p:FileVersion=${{ env.app-version }}
 
     - name: Zip Project ${{ matrix.build-architecture }}
-      run: 7z a -tzip '${{ env.app-package-name }}-v${{ env.app-version }}_${{ matrix.build-architecture }}.zip' -r '${{ env.path-publish }}\*'
+      run: 7z a -tzip '${{ env.app-package-name }}-v${{ env.app-version }}_${{ matrix.build-architecture }}.zip' -r '${{ env.path-publish }}\win-${{ matrix.build-architecture }}\*'
 
     - name: Upload Release ${{ matrix.build-architecture }}
       id: upload-release-asset 

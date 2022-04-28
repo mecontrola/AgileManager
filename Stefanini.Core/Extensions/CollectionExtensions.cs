@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Stefanini.Core.Extensions
 {
     public static class CollectionExtensions
     {
-        [DebuggerStepThrough]
+#if !DEBUG
+        [System.Diagnostics.DebuggerStepThrough]
+#endif
         public static void AddList<T>(this ICollection<T> obj, IEnumerable<T> list)
         {
             obj.Clear();
