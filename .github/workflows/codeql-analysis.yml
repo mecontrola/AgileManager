@@ -11,9 +11,9 @@ on:
 
 jobs:
   analyze:
-
+  
     name: Analyze
-    runs-on: windows-2019
+    runs-on: windows-latest
     permissions:
       actions: read
       contents: read
@@ -23,30 +23,19 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'csharp' ]
-        dotnet-version: [ '6.0.x' ]
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 2
-
-    - run: Git Checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/checkout@v3
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
         config-file: ./.github/codeql/codeql-config.yml
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ matrix.dotnet-version }}
-
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+      uses: github/codeql-action/autobuild@v2
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2
