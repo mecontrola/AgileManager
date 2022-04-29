@@ -1,13 +1,8 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [main,develop]
-    paths:
-    - '**.cs'
-    - '**.csproj'
   pull_request:
-    branches: [develop]
+    branches: [ main, develop ]
     paths:
     - '**.cs'
     - '**.csproj'
@@ -27,16 +22,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['csharp']
-        dotnet-version: ['6.0.x' ]
+        language: [ 'csharp' ]
+        dotnet-version: [ '6.0.x' ]
 
     steps:
-    - name: Checkout repository
+    - name: Checkout Repository
       uses: actions/checkout@v2
       with:
         fetch-depth: 2
 
-    - run: git checkout HEAD^2
+    - run: Git Checkout HEAD^2
       if: ${{ github.event_name == 'pull_request' }}
 
     - name: Initialize CodeQL
@@ -45,7 +40,7 @@ jobs:
         languages: ${{ matrix.language }}
         config-file: ./.github/codeql/codeql-config.yml
 
-    - name: Set up .NET
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ matrix.dotnet-version }}

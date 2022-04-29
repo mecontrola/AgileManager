@@ -103,12 +103,12 @@ namespace Stefanini.ViaReport
             imageAuthError = GetImageSource(PATH_IMAGE_CHECK_FAIL);
 
             InitializeComponent();
-            _ = InitializeData();
-
-            CheckUpdate();
+            InitializeData();
+            
+            RunCheckUpdate();
         }
 
-        private async Task InitializeData()
+        private async void InitializeData()
         {
             await CheckJiraAuth();
 
@@ -121,10 +121,8 @@ namespace Stefanini.ViaReport
         {
             FormAuthenticateIsEnabled(false);
 
-            if (string.IsNullOrWhiteSpace(settingsHelper.Data.Username) || string.IsNullOrWhiteSpace(settingsHelper.Data.Password))
-            {
+            if (IsAuthenticationNullOrWhiteSpace())
                 return;
-            }
 
             var isOk = await jiraAuthService.IsAuthenticationOk(settingsHelper.Data.Username,
                                                                 settingsHelper.Data.Password,
@@ -142,6 +140,10 @@ namespace Stefanini.ViaReport
 
             LoadCbQuarters();
         }
+
+        private bool IsAuthenticationNullOrWhiteSpace()
+            => string.IsNullOrWhiteSpace(settingsHelper.Data.Username)
+            || string.IsNullOrWhiteSpace(settingsHelper.Data.Password);
 
         private void FillFilter()
         {
@@ -234,7 +236,7 @@ namespace Stefanini.ViaReport
 
         private async Task LoadCbProjects()
         {
-            if (string.IsNullOrWhiteSpace(settingsHelper.Data.Username) || string.IsNullOrWhiteSpace(settingsHelper.Data.Password))
+            if (IsAuthenticationNullOrWhiteSpace())
                 return;
 
             var items = await jiraProjectsService.LoadList(settingsHelper.Data.Username,
@@ -357,16 +359,21 @@ namespace Stefanini.ViaReport
                 Owner = GetWindow(this)
             }.ShowDialog();
 
-        private async void CheckUpdate()
+        private async void RunCheckUpdate()
         {
-            while (await timer.WaitForNextTickAsync())
-            {
-                var avaliable = await remoteVersionHelper.GetVersion(cancellationTokenSource.Token);
-                var current = Version.Parse(Info.AssemblyVersion);
+            await CheckUpdate();
 
-                if (avaliable > current)
-                    updateToastHelper.Show(Toast_Activated);
-            }
+            while (await timer.WaitForNextTickAsync())
+                await CheckUpdate();
+        }
+
+        private async Task CheckUpdate()
+        {
+            var avaliable = await remoteVersionHelper.GetVersion(cancellationTokenSource.Token);
+            var current = Version.Parse(Info.AssemblyVersion);
+
+            if (avaliable > current)
+                updateToastHelper.Show(Toast_Activated);
         }
 
         private void Toast_Activated(ToastNotification sender, object args)
