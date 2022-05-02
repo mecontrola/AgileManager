@@ -23,14 +23,17 @@ namespace Stefanini.ViaReport.Core.Helpers
 
                 list.Add($"{week}|{year}", CreateRangeTuple(firstDayOfWeekYear, groupWeekBy));
 
-                firstDayOfWeekYear = firstDayOfWeekYear.AddDays(INCREASE_7_DAYS * groupWeekBy);
+                firstDayOfWeekYear = firstDayOfWeekYear.AddDays(Add7Days(groupWeekBy));
             }
 
             return list;
         }
 
+        private static int Add7Days(int groupWeekBy)
+            => INCREASE_7_DAYS * groupWeekBy;
+
         private static Tuple<DateTime, DateTime> CreateRangeTuple(DateTime date, int groupWeekBy)
-            => Tuple.Create(date.Date, date.AddDays((INCREASE_7_DAYS * groupWeekBy) - 1).Date);
+            => Tuple.Create(date.Date, date.AddDays(Add7Days(groupWeekBy) - 1).Date);
 
         private static DateTime GetFirstDayInWeekOfTheYear(DateTime dateTime, int groupWeekBy)
         {
@@ -44,7 +47,7 @@ namespace Stefanini.ViaReport.Core.Helpers
 
         private static int GetWeekOfTheYear(DateTime dateTime, int groupWeekBy)
         {
-            if (groupWeekBy > 1 && dateTime.Year != dateTime.AddDays(7).Year)
+            if (groupWeekBy > 1 && dateTime.Year != dateTime.AddDays(INCREASE_7_DAYS).Year)
                 return 1;
 
             var week = dateTime.GetWeekOfYear();
