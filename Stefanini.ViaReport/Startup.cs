@@ -3,8 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Stefanini.Core.Extensions;
 using Stefanini.ViaReport.Core.Data.Configurations;
 using Stefanini.ViaReport.Core.IoC;
+using Stefanini.ViaReport.DataStorage.Extensions;
+using Stefanini.ViaReport.DataStorage.IoC;
 using Stefanini.ViaReport.Helpers;
-using Stefanini.ViaReport.Updater.Core.Data.Configurations;
 using Stefanini.ViaReport.Updater.Core.Extensions;
 using Stefanini.ViaReport.Updater.Core.Helpers;
 using Stefanini.ViaReport.Updater.Core.Integrations.Github.Repos;
@@ -13,6 +14,8 @@ namespace Stefanini.ViaReport
 {
     public class Startup
     {
+        private const string DATABASE_CONNECTION_NAME = "DefaultConnection";
+
         private IConfiguration Configuration { get; set; }
 
         public Startup(IConfiguration configuration)
@@ -22,6 +25,8 @@ namespace Stefanini.ViaReport
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDatabaseServices(GetDatabaseConnection());
+
             var applicationConfiguration = GetApplicationConfiguration();
             var jiraConfiguration = GetJiraConfiguration();
 
@@ -39,6 +44,7 @@ namespace Stefanini.ViaReport
             services.AddServices();
             services.AddMappers();
             services.AddIntegrations();
+            services.RegisterRepositories();
         }
 
         private void InjectUpdater(IServiceCollection services)
@@ -54,5 +60,8 @@ namespace Stefanini.ViaReport
 
         private IJiraConfiguration GetJiraConfiguration()
             => Configuration.Load<JiraConfiguration>();
+
+        private string GetDatabaseConnection()
+            => Configuration.GetConnectionString(DATABASE_CONNECTION_NAME);
     }
 }
