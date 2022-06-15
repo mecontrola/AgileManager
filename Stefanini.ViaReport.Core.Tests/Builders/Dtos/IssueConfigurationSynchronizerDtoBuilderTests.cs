@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Stefanini.ViaReport.Core.Builders.Dtos;
 using Stefanini.ViaReport.Core.Tests.Mocks;
-using Stefanini.ViaReport.Core.Tests.Mocks.Data.Synchronizers;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Synchronizers;
 using Stefanini.ViaReport.Core.Tests.Mocks.Entities.Settings;
 using Xunit;
 

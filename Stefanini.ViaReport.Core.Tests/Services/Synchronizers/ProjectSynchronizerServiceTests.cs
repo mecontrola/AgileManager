@@ -6,13 +6,12 @@ using Stefanini.ViaReport.Core.Mappers.DtoToEntity;
 using Stefanini.ViaReport.Core.Services.Synchronizers;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Synchronizers;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities;
-using Stefanini.ViaReport.Core.Tests.Mocks.Data.Synchronizers;
 using Stefanini.ViaReport.Data.Dtos.Jira;
 using Stefanini.ViaReport.Data.Entities;
 using Stefanini.ViaReport.DataStorage.Repositories;
 using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers

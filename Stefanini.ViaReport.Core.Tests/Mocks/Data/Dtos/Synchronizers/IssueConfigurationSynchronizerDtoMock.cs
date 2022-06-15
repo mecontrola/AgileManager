@@ -1,6 +1,6 @@
 ﻿using Stefanini.ViaReport.Data.Dtos.Synchronizers;
 
-namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Synchronizers
+namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Synchronizers
 {
     public class IssueConfigurationSynchronizerDtoMock
     {

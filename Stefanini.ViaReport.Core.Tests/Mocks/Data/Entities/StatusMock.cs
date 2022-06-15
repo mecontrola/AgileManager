@@ -1,4 +1,5 @@
 ﻿using Stefanini.ViaReport.Data.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities
@@ -144,5 +145,23 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities
             => CreateListToDo().Concat(CreateListInProgress())
                                .Concat(CreateListDone())
                                .ToArray();
+
+        public static IDictionary<string, long> CreateDictionary()
+            => new Dictionary<string, long>
+            {
+                { DataMock.INT_STATUS_BACKLOG.ToString(), DataMock.INT_ID_1 },
+                { DataMock.INT_STATUS_REFINAMENTO_FUNCIONAL.ToString(), DataMock.INT_ID_2 },
+                { DataMock.INT_STATUS_REFINAMENTO_TECNICO.ToString(), DataMock.INT_ID_3 },
+                { DataMock.INT_STATUS_REPLENISHMENT.ToString(), DataMock.INT_ID_4 },
+                { DataMock.INT_STATUS_PARA_DESENVOLVIMENTO.ToString(), DataMock.INT_ID_5 },
+                { DataMock.INT_STATUS_EM_DESENVOLVIMENTO.ToString(), DataMock.INT_ID_6 },
+                { DataMock.INT_STATUS_PARA_REVISAO.ToString(), 7 },
+                { DataMock.INT_STATUS_EM_REVISAO.ToString(), 8 },
+                { DataMock.INT_STATUS_TO_TEST.ToString(), 9 },
+                { DataMock.INT_STATUS_IN_TEST.ToString(), 10 },
+                { DataMock.INT_STATUS_PARA_HOMOLOGACAO.ToString(), 11 },
+                { DataMock.INT_STATUS_EM_HOMOLOGACAO.ToString(), 12 },
+                { DataMock.INT_STATUS_DONE.ToString(), 13 },
+            };
     }
 }

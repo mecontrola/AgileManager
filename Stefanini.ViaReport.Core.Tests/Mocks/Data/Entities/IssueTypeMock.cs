@@ -66,5 +66,17 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities
                 CreateTechnicalDebt(),
                 CreateTechnicalImprovement(),
             };
+
+        public static IDictionary<string, long> CreateDictionary()
+            => new Dictionary<string, long>
+            {
+                { $"{(long)IssueTypes.Bug}", DataMock.INT_ID_1 },
+                { $"{(long)IssueTypes.Task}", DataMock.INT_ID_2 },
+                { $"{(long)IssueTypes.Improvement}", DataMock.INT_ID_3 },
+                { $"{(long)IssueTypes.SubTask}", DataMock.INT_ID_4 },
+                { $"{(long)IssueTypes.Epic}", DataMock.INT_ID_5 },
+                { $"{(long)IssueTypes.Story}", DataMock.INT_ID_6 },
+                { $"{(long)IssueTypes.TechnicalDebt}", 7 },
+            };
     }
 }

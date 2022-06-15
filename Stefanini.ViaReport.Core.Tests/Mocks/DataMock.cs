@@ -47,6 +47,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static int INT_ID_2 { get; } = 2;
         public static int INT_ID_3 { get; } = 3;
         public static int INT_ID_4 { get; } = 4;
+        public static int INT_ID_5 { get; } = 5;
+        public static int INT_ID_6 { get; } = 6;
         public static int INT_COREAPPS_PROJECT_KEY { get; } = 16313;
         public static int INT_CHOOSE_PROJECT_KEY { get; } = 20209;
         public static int INT_LOYALTY_PROJECT_KEY { get; } = 21021;
@@ -99,18 +101,12 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static string ISSUE_STATUS_2 { get; } = "Replenishment";
         public static string[] ISSUE_LABEL_2_INCIDENT { get; } = new string[] { "Incidente" };
 
-        public static string[] LIST_PROJECT_CATEGORIES { get; } = new[] { "Aplicativos", "Decisão", "Descoberta do Usuário", "Fidelização" };
         public static string[] LIST_PROJECT_CATEGORIES_APLICATIVOS { get; } = new[] { "Acquisition", "App Checkout", "App Experience", "Cart", "Choose", "Core Apps", "Search" };
-        public static string[] LIST_PROJECT_CATEGORIES_DECISAO { get; } = new[] { "Add to Cart", "Clube de Prêmios", "Payment to Checkout", "Plataforma Decisão", "Shipping Information", "Televendas" };
-        public static string[] LIST_PROJECT_CATEGORIES_DESCOBERTA_USUARIO { get; } = new[] { "Acessibilidade e SEO", "Busca", "CMS", "DPTO", "Home e Personalização", "Plataforma Descoberta", "Product Detail Page", "Via ADS" };
-        public static string[] LIST_PROJECT_CATEGORIES_FIDELIZACAO { get; } = new[] { "Listas", "Loyalty", "Tagueamento", "VIP", "Web Experience" };
 
         public static string FILENAMA_CFD_CSV_IMPORT { get; } = @"Mocks\Imports\cfd_-_colunas_por_semana.csv";
 
         public static long JIRA_SEARCH_START_AT_DEFAULT { get; } = 0;
-        public static long JIRA_SEARCH_START_AT_5 { get; } = 5;
         public static long JIRA_SEARCH_START_AT_256 { get; } = 256;
-        public static long JIRA_SEARCH_MAX_RESULTS_5 { get; } = 5;
         public static long JIRA_SEARCH_MAX_RESULTS_DEFAULT { get; } = 256;
         public static long JIRA_SEARCH_MAX_RESULTS_512 { get; } = 512;
         public static string[] JIRA_SEARCH_FIELDS_DEFAULT { get; } = Array.Empty<string>();

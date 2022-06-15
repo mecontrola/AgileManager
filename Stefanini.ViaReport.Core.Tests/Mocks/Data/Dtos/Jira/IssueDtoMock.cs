@@ -42,5 +42,15 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
         private static IList<IssueDto> CreateIssueByJson(params string[] key)
             => key.Select(x => ApiUtilMockHelper.LoadIssueJsonMock(x))
                   .ToList();
+
+        public static IssueDto CreateAllFilled()
+            => new()
+            {
+                Id = DataMock.INT_ID_1.ToString(),
+                Key = DataMock.ISSUE_KEY_1,
+                Self = DataMock.ISSUE_SELF_1,
+                Fields = IssueFieldsDtoMock.CreateAllFilled(),
+                Changelog = ChangelogDtoMock.CreateList(),
+            };
     }
 }

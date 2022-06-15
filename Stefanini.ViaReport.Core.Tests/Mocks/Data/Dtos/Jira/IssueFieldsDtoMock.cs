@@ -20,5 +20,15 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = StatusDtoMock.CreateReplanishment(),
                 Labels = DataMock.ISSUE_LABEL_2_INCIDENT
             };
+
+        public static IssueFieldsDto CreateAllFilled()
+            => new()
+            {
+                Summary = DataMock.ISSUE_DESCRIPTION_1,
+                Created = DataMock.DATETIME_QUARTER_2_2000,
+                Status = StatusDtoMock.CreateParaDesenvolvimento(),
+                Issuetype = IssueTypeDtoMock.CreateStory(),
+                Updated = DataMock.DATETIME_FIRST_DAY_YEAR
+            };
     }
 }

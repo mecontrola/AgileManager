@@ -26,5 +26,20 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities
                 CreateIssue1(),
                 CreateIssue2()
             };
+
+        public static Issue CreateAllFilled()
+            => new()
+            {
+                Id = DataMock.INT_ID_1,
+                Key = DataMock.ISSUE_KEY_1,
+                Summary = DataMock.ISSUE_DESCRIPTION_1,
+                Updated = DataMock.DATETIME_FIRST_DAY_YEAR,
+                IssueTypeId = DataMock.INT_ID_6,
+                IssueType = IssueTypeMock.CreateStory(),
+                StatusId = DataMock.INT_ID_5,
+                Status = StatusMock.CreateParaDesenvolvimento(),
+                ProjectId = DataMock.INT_ID_1,
+                Project = ProjectMock.CreateSearch(),
+            };
     }
 }

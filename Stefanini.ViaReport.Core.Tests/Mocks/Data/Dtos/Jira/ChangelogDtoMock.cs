@@ -10,5 +10,15 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
             {
                 Histories = new List<HistoryDto>(),
             };
+
+        public static ChangelogDto CreateList()
+            => new()
+            {
+                Histories = new List<HistoryDto>
+                {
+                    HistoryDtoMock.CreateStatus(),
+                    HistoryDtoMock.CreateImpediment()
+                },
+            };
     }
 }
