@@ -1,5 +1,6 @@
-﻿using Stefanini.Core.Data.Entities;
+﻿using MeControla.Core.Data.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Stefanini.ViaReport.Data.Entities
 {
@@ -7,7 +8,8 @@ namespace Stefanini.ViaReport.Data.Entities
     {
         public long Id { get; set; }
         public Guid Uuid { get; set; }
-        public string Key { get; set; }
+        public long Key { get; set; }
         public string Name { get; set; }
+        public IList<Project> Projects { get; set; }
     }
 }

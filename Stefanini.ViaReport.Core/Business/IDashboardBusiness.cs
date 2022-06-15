@@ -7,7 +7,7 @@ namespace Stefanini.ViaReport.Core.Business
 {
     public interface IDashboardBusiness
     {
-        Task<DashboardDto> GetData(string username, string password, string project, string quarter, CancellationToken cancellationToken);
-        Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(string username, string password, string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken);
+        Task<DashboardDto> GetData(string project, string quarter, CancellationToken cancellationToken);
+        Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken);
     }
 }

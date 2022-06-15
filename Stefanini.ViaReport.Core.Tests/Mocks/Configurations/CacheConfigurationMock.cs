@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Core.Data.Configurations;
+﻿using Stefanini.ViaReport.Data.Configurations;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Configurations
 {

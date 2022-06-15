@@ -1,6 +1,7 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Jira;
+﻿using Stefanini.ViaReport.Core.Builders.Jira;
 using Stefanini.ViaReport.Core.Data.Enums;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,12 +19,10 @@ namespace Stefanini.ViaReport.Core.Services
                                              CancellationToken cancellationToken)
             => await RunCriterias(username, password, CreateJql(project), cancellationToken);
 
-        protected static string[] CreateJql(string project)
-            => new string[]
-            {
-                GetProjectCriteria(project),
-                GetNotInDeletedStatusesCriteria(),
-                GetInIssueTypesCriteria(IssueTypes.Task,IssueTypes.Improvement, IssueTypes.Story)
-            };
+        protected static JqlBuilder CreateJql(string project)
+            => JqlBuilder.GetInstance()
+                         .AddProjectCriteria(project)
+                         .AddNotInDeletedStatusesCriteria()
+                         .AddInIssueTypesCriteria(IssueTypes.Task, IssueTypes.Improvement, IssueTypes.Story);
     }
 }

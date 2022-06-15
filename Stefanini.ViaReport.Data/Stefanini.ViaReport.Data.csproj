@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MeControla.Core" Version="1.0.5" />
     <ProjectReference Include="..\Stefanini.Core\Stefanini.Core.csproj" />
   </ItemGroup>
 

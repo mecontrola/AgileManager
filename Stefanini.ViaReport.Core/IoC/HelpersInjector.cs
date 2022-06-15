@@ -16,6 +16,7 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddSingleton<IBusinessDayHelper, BusinessDayHelper>();
             services.TryAddSingleton<ICalculateGrowthToDoInProgressHelper, CalculateGrowthToDoInProgressHelper>();
             services.TryAddSingleton<ICalculateUpstreamDownstreamRateHelper, CalculateUpstreamDownstreamRateHelper>();
+            services.TryAddSingleton<ICheckChangelogTypeHelper, CheckChangelogTypeHelper>();
             services.TryAddSingleton<IDateTimeFromStringHelper, DateTimeFromStringHelper>();
             services.TryAddSingleton<IGenerateWeeksFromRangeDateHelper, GenerateWeeksFromRangeDateHelper>();
             services.TryAddSingleton<IQuarterFromDateTimeHelper, QuarterFromDateTimeHelper>();

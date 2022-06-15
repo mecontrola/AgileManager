@@ -14,6 +14,12 @@ namespace Stefanini.ViaReport.DataStorage.Configurations
             builder.Property(p => p.Uuid).IsRequired().HasMaxLength(36);
             builder.Property(p => p.Key).IsRequired();
             builder.Property(p => p.Name).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.Selected);
+
+            builder.HasOne(p => p.ProjectCategory)
+                   .WithMany(p => p.Projects)
+                   .HasForeignKey(p => p.ProjectCategoryId)
+                   .IsRequired();
         }
     }
 }

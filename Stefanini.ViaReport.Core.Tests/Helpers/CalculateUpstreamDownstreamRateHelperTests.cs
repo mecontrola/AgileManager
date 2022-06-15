@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Stefanini.ViaReport.Core.Helpers;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Helpers

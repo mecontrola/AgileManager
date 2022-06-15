@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Stefanini.Core.Extensions;
-using Stefanini.ViaReport.Core.Data.Configurations;
 using Stefanini.ViaReport.Core.IoC;
+using Stefanini.ViaReport.Data.Configurations;
 using Stefanini.ViaReport.DataStorage.Extensions;
 using Stefanini.ViaReport.DataStorage.IoC;
 using Stefanini.ViaReport.Helpers;
@@ -44,7 +44,7 @@ namespace Stefanini.ViaReport
             services.AddServices();
             services.AddMappers();
             services.AddIntegrations();
-            services.RegisterRepositories();
+            services.AddRepositories();
         }
 
         private void InjectUpdater(IServiceCollection services)

@@ -1,7 +1,7 @@
 ﻿using Stefanini.ViaReport.Core.Data.Dto;
-using Stefanini.ViaReport.Core.Data.Dto.Jira;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System;
 using System.Collections.Generic;
 using System.Linq;

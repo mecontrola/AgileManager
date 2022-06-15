@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Stefanini.ViaReport.Core.Integrations.Jira.V1.Auth;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
+using Stefanini.ViaReport.Core.Integrations.Jira.V2.IssueTypes;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
+using Stefanini.ViaReport.Core.Integrations.Jira.V2.StatusCategories;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
 using System;
 
@@ -19,7 +21,9 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddScoped<IProjectGetAll, ProjectGetAll>();
             services.TryAddScoped<ISearchPost, SearchPost>();
             services.TryAddScoped<IIssueGet, IssueGet>();
+            services.TryAddScoped<IIssueTypeGetAll, IssueTypeGetAll>();
             services.TryAddScoped<IStatusGetAll, StatusGetAll>();
+            services.TryAddScoped<IStatusCategoryGetAll, StatusCategoryGetAll>();
         }
     }
 }

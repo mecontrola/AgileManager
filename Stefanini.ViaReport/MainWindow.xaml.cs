@@ -2,13 +2,15 @@
 using Stefanini.Core.Extensions;
 using Stefanini.Core.Settings;
 using Stefanini.ViaReport.Core.Business;
-using Stefanini.ViaReport.Core.Data.Configurations;
 using Stefanini.ViaReport.Core.Data.Dto;
-using Stefanini.ViaReport.Core.Data.Dto.Settings;
 using Stefanini.ViaReport.Core.Exceptions;
 using Stefanini.ViaReport.Core.Extensions;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Services;
+using Stefanini.ViaReport.Data.Configurations;
+using Stefanini.ViaReport.Data.Dtos;
+using Stefanini.ViaReport.Data.Dtos.Settings;
+using Stefanini.ViaReport.Extensions;
 using Stefanini.ViaReport.Helpers;
 using Stefanini.ViaReport.Updater.Core.Helpers;
 using System;
@@ -31,11 +33,8 @@ namespace Stefanini.ViaReport
 {
     public partial class MainWindow : Window
     {
-        public const string APP_TITLE = "[Jira] EasyBI AHM";
-
         private const string PATH_IMAGE_CHECK_OK = "Images/sign_check_icon.png";
         private const string PATH_IMAGE_CHECK_FAIL = "Images/sign_error_icon.png";
-        private const string PATH_IMAGE_NEW_RELEASE = "Images/new_release_icon-48.png";
         private const string DEFAULT_COMBOBOX_ITEM_NAME = "Select item";
 
         private const int DEFAULT_COMBOBOX_ITEM_ID = 0;
@@ -48,16 +47,16 @@ namespace Stefanini.ViaReport
         private readonly IApplicationConfiguration applicationConfiguration;
 
         private readonly IDashboardBusiness dashboardBusiness;
-        private readonly IFixVersionBusiness fixVersionBusiness;
         private readonly IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness;
+        private readonly IFixVersionBusiness fixVersionBusiness;
+        private readonly IProjectBusiness projectBusiness;
+        private readonly IQuarterBusiness quarterBusiness;
+        private readonly ISettingsBusiness settingsBusiness;
+        private readonly ISynchronizerBusiness synchronizerBusiness;
         private readonly IUpstreamDownstreamRateBusiness upstreamDownstreamRateBusiness;
-
         private readonly IJiraAuthService jiraAuthService;
-        private readonly IJiraProjectsService jiraProjectsService;
 
-        private readonly ISettingsHelper settingsHelper;
         private readonly IAverageUpstreamDownstreamRateHelper averageUpstreamDownstreamRateHelper;
-        private readonly IQuarterGenerateListHelper quarterGenerateListHelper;
         private readonly IDateTimeFromStringHelper dateTimeFromStringHelper;
         private readonly IRemoteVersionHelper remoteVersionHelper;
 
@@ -70,28 +69,30 @@ namespace Stefanini.ViaReport
 
         public MainWindow(IApplicationConfiguration applicationConfiguration,
                           IDashboardBusiness dashboardBusiness,
-                          IFixVersionBusiness fixVersionBusiness,
                           IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness,
+                          IFixVersionBusiness fixVersionBusiness,
+                          IProjectBusiness projectBusiness,
+                          IQuarterBusiness quarterBusiness,
+                          ISettingsBusiness settingsBusiness,
+                          ISynchronizerBusiness synchronizerBusiness,
                           IUpstreamDownstreamRateBusiness upstreamDownstreamRateBusiness,
                           IJiraAuthService jiraAuthService,
-                          IJiraProjectsService jiraProjectsService,
-                          ISettingsHelper settingsHelper,
                           IAverageUpstreamDownstreamRateHelper averageUpstreamDownstreamRateHelper,
-                          IQuarterGenerateListHelper quarterGenerateListHelper,
                           IDateTimeFromStringHelper dateTimeFromStringHelper,
                           IUpdateToastHelper updateToastHelper,
                           IRemoteVersionHelper remoteVersionHelper)
         {
             this.applicationConfiguration = applicationConfiguration;
             this.dashboardBusiness = dashboardBusiness;
-            this.fixVersionBusiness = fixVersionBusiness;
             this.downstreamJiraIndicatorsBusiness = downstreamJiraIndicatorsBusiness;
+            this.fixVersionBusiness = fixVersionBusiness;
+            this.projectBusiness = projectBusiness;
+            this.quarterBusiness = quarterBusiness;
+            this.settingsBusiness = settingsBusiness;
+            this.synchronizerBusiness = synchronizerBusiness;
             this.upstreamDownstreamRateBusiness = upstreamDownstreamRateBusiness;
             this.jiraAuthService = jiraAuthService;
-            this.jiraProjectsService = jiraProjectsService;
-            this.settingsHelper = settingsHelper;
             this.averageUpstreamDownstreamRateHelper = averageUpstreamDownstreamRateHelper;
-            this.quarterGenerateListHelper = quarterGenerateListHelper;
             this.dateTimeFromStringHelper = dateTimeFromStringHelper;
             this.updateToastHelper = updateToastHelper;
             this.remoteVersionHelper = remoteVersionHelper;
@@ -104,7 +105,7 @@ namespace Stefanini.ViaReport
 
             InitializeComponent();
             InitializeData();
-            
+
             RunCheckUpdate();
         }
 
@@ -114,18 +115,20 @@ namespace Stefanini.ViaReport
 
             MiTools.IsEnabled = applicationConfiguration.ShowTools;
 
-            FillFilter();
+            await FillFilter();
         }
 
         public async Task CheckJiraAuth()
         {
             FormAuthenticateIsEnabled(false);
 
-            if (IsAuthenticationNullOrWhiteSpace())
+            if (await IsAuthenticationNullOrWhiteSpace())
                 return;
 
-            var isOk = await jiraAuthService.IsAuthenticationOk(settingsHelper.Data.Username,
-                                                                settingsHelper.Data.Password,
+            var settings = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
+
+            var isOk = await jiraAuthService.IsAuthenticationOk(settings.Username,
+                                                                settings.Password,
                                                                 cancellationTokenSource.Token);
 
             FormAuthenticateIsEnabled(isOk);
@@ -138,48 +141,66 @@ namespace Stefanini.ViaReport
 
             await LoadCbProjects();
 
-            LoadCbQuarters();
+            await LoadCbQuarters();
         }
 
-        private bool IsAuthenticationNullOrWhiteSpace()
-            => string.IsNullOrWhiteSpace(settingsHelper.Data.Username)
-            || string.IsNullOrWhiteSpace(settingsHelper.Data.Password);
+        private async Task<bool> IsAuthenticationNullOrWhiteSpace()
+            => !await settingsBusiness.IsAuthenticationDataValidAsync(cancellationTokenSource.Token);
 
-        private void FillFilter()
+        private async Task FillFilter()
         {
-            if (!settingsHelper.Data.PersistFilter || settingsHelper.Data.FilterData == null)
+            var settings = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
+
+            if (!settings.PersistFilter || settings.FilterData == null)
                 return;
 
-            CbProjects.SelectedIndex = ProjectIndexOf(settingsHelper.Data.FilterData.Project);
-            CbQuarters.SelectedItem = settingsHelper.Data.FilterData.Quarter;
-            TxtInitDate.SelectedDate = settingsHelper.Data.FilterData.StartDate;
-            TxtEndDate.SelectedDate = settingsHelper.Data.FilterData.EndDate;
+            CbProjects.SelectedIndex = ProjectIndexOf(settings.FilterData.Project);
+            CbQuarters.SelectedIndex = QuarterIndexOf(settings.FilterData.Quarter);
+            TxtInitDate.SelectedDate = settings.FilterData.StartDate;
+            TxtEndDate.SelectedDate = settings.FilterData.EndDate;
         }
 
-        private int ProjectIndexOf(JiraProjectDto project)
+        private int ProjectIndexOf(ProjectDto project)
+            => CbProjects.GetItemIndexOf<ProjectDto>(p => p.Category != null
+                                                       && p.Category.Name.Equals(project.Category.Name)
+                                                       && p.Name.Equals(project.Name));
+
+        private int QuarterIndexOf(QuarterDto quarter)
+            => CbQuarters.GetItemIndexOf<QuarterDto>(p => p.Name.Equals(quarter.Name));
+
+        private async static void RunWithExceptionHandling(Func<Task> runAction, Action runBefore, Action runAfter)
         {
-            var list = ((CbProjects.ItemsSource as ListCollectionView)
-                           .SourceCollection as IList<JiraProjectDto>);
+            try
+            {
+                runBefore();
 
-            if (project == null)
-                return -1;
-
-            return list?.Select((value, index) => new { value, index })
-                        .First(p => p.value.Category != null
-                                 && p.value.Category.Equals(project.Category)
-                                 && p.value.Name.Equals(project.Name))
-                        .index
-                ?? -1;
+                await runAction();
+            }
+            catch (JiraUnknownHostException)
+            {
+                MessageBox.Show("Serviço indisponível, tente novamente mais tarde!", "Jira Error", MessageBoxButton.OK);
+            }
+            catch (JiraException ex)
+            {
+                MessageBox.Show(ex.Message, "Jira Error", MessageBoxButton.OK);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
+            }
+            finally
+            {
+                runAfter();
+            }
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             var filter = FillFilterData();
             if (filter == null)
                 return;
 
-            ChangePbStatusAndBtnExecute(false, true);
-            try
+            RunWithExceptionHandling(async () =>
             {
                 var openFileDialog = new OpenFileDialog();
 
@@ -194,13 +215,9 @@ namespace Stefanini.ViaReport
                 dgDataCollection.AddList(items);
 
                 dgData.ItemsSource = dgDataCollection;
-
-                ChangePbStatusAndBtnExecute(true, true);
-            }
-            catch (JiraException ex)
-            {
-                MessageBox.Show(ex.Message, "Jira Error", MessageBoxButton.OK);
-            }
+            },
+            () => ChangePbStatusAndBtnExecute(false, true),
+            () => ChangePbStatusAndBtnExecute(true, true));
         }
 
         private void ButtonAverage_Click(object sender, RoutedEventArgs e)
@@ -234,27 +251,27 @@ namespace Stefanini.ViaReport
                                : new SolidColorBrush(Colors.LightGray);
         }
 
-        private async Task LoadCbProjects()
+        public async Task LoadCbProjects()
         {
-            if (IsAuthenticationNullOrWhiteSpace())
+            if (await IsAuthenticationNullOrWhiteSpace())
                 return;
 
-            var items = await jiraProjectsService.LoadList(settingsHelper.Data.Username,
-                                                           settingsHelper.Data.Password,
-                                                           cancellationTokenSource.Token);
-            items.Insert(0, new JiraProjectDto { Name = DEFAULT_COMBOBOX_ITEM_NAME });
+            var items = await projectBusiness.ListSelectedWithCategoryAsync(cancellationTokenSource.Token);
+
+            items.Insert(DEFAULT_COMBOBOX_ITEM_ID, new ProjectDto { Name = DEFAULT_COMBOBOX_ITEM_NAME });
 
             var lcv = new ListCollectionView((System.Collections.IList)items);
-            lcv.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+            lcv.GroupDescriptions.Add(new PropertyGroupDescription("Category.Name"));
 
             CbProjects.ItemsSource = lcv;
             CbProjects.IsEnabled = true;
         }
 
-        private void LoadCbQuarters()
+        private async Task LoadCbQuarters()
         {
-            var items = quarterGenerateListHelper.Create(DateTime.Now);
-            items.Insert(DEFAULT_COMBOBOX_ITEM_ID, DEFAULT_COMBOBOX_ITEM_NAME);
+            var items = await quarterBusiness.ListAllAsync(cancellationTokenSource.Token);
+
+            items.Insert(DEFAULT_COMBOBOX_ITEM_ID, new QuarterDto { Name = DEFAULT_COMBOBOX_ITEM_NAME });
 
             var lcv = new ListCollectionView((System.Collections.IList)items);
 
@@ -327,7 +344,7 @@ namespace Stefanini.ViaReport
             => OpenAuthenticationForm();
 
         private void OpenAuthenticationForm()
-            => new AuthenticationWindow(settingsHelper)
+            => new AuthenticationWindow(cancellationTokenSource, settingsBusiness)
             {
                 Owner = GetWindow(this)
             }.ShowDialog();
@@ -336,7 +353,7 @@ namespace Stefanini.ViaReport
             => OpenPreferencesForm();
 
         private void OpenPreferencesForm()
-            => new PreferencesWindow(settingsHelper)
+            => new PreferencesWindow(cancellationTokenSource, settingsBusiness, projectBusiness)
             {
                 Owner = GetWindow(this)
             }.ShowDialog();
@@ -349,6 +366,11 @@ namespace Stefanini.ViaReport
             {
                 Owner = GetWindow(this)
             }.ShowDialog();
+
+        private void BtnSyncronizer_Click(object sender, RoutedEventArgs e)
+            => RunWithExceptionHandling(async () => await synchronizerBusiness.SynchronizeDataAsync(cancellationTokenSource.Token),
+            () => ChangePbStatusAndBtnExecute(false),
+            () => ChangePbStatusAndBtnExecute(true));
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
             => OpenUpdateForm();
@@ -379,37 +401,37 @@ namespace Stefanini.ViaReport
         private void Toast_Activated(ToastNotification sender, object args)
             => Dispatcher.BeginInvoke(DispatcherPriority.Background, OpenUpdateForm);
 
-        private async void BtnDownExecute_Click(object sender, RoutedEventArgs e)
+        private void BtnDownExecute_Click(object sender, RoutedEventArgs e)
         {
-            var filter = FillFilterData();
-            if (filter == null)
-                return;
+            RunWithExceptionHandling(async () =>
+            {
+                var filter = await FillFilterData();
+                if (filter == null)
+                    return;
 
-            ChangePbStatusAndBtnExecute(false);
+                var data = await downstreamJiraIndicatorsBusiness.GetData(filter.Project.Name,
+                                                                          filter.StartDate.Value,
+                                                                          filter.EndDate.Value,
+                                                                          cancellationTokenSource.Token);
 
-            var data = await downstreamJiraIndicatorsBusiness.GetData(settingsHelper.Data.Username,
-                                                                      settingsHelper.Data.Password,
-                                                                      filter.Project.Name,
-                                                                      filter.StartDate.Value,
-                                                                      filter.EndDate.Value,
-                                                                      cancellationTokenSource.Token);
-            TxtCycleBalance.Content = $"{data.CycleBalance}%";
-            TxtBugsCreated.Content = data.BugsCreated.Total;
-            TxtBugsOpened.Content = data.BugsOpened.Total;
-            TxtBugsExisted.Content = data.BugsExisted.Total;
-            TxtBugsResolved.Content = data.BugsResolved.Total;
-            TxtBugsCreatedAndResolved.Content = data.BugsCreatedAndResolved.Total;
-            TxtBugsCancelled.Content = data.BugsCancelled.Total;
-            TxtTechnicalDebitCreated.Content = data.TechnicalDebitCreated.Total;
-            TxtTechnicalDebitOpened.Content = data.TechnicalDebitOpened.Total;
-            TxtTechnicalDebitExisted.Content = data.TechnicalDebitExisted.Total;
-            TxtTechnicalDebitResolved.Content = data.TechnicalDebitResolved.Total;
-            TxtTechnicalDebitCreatedAndResolved.Content = data.TechnicalDebitCreatedAndResolved.Total;
-            TxtTechnicalDebitCancelled.Content = data.TechnicalDebitCancelled.Total;
+                TxtCycleBalance.Content = $"{data.CycleBalance}%";
+                TxtBugsCreated.Content = data.BugsCreated.Total;
+                TxtBugsOpened.Content = data.BugsOpened.Total;
+                TxtBugsExisted.Content = data.BugsExisted.Total;
+                TxtBugsResolved.Content = data.BugsResolved.Total;
+                TxtBugsCreatedAndResolved.Content = data.BugsCreatedAndResolved.Total;
+                TxtBugsCancelled.Content = data.BugsCancelled.Total;
+                TxtTechnicalDebitCreated.Content = data.TechnicalDebitCreated.Total;
+                TxtTechnicalDebitOpened.Content = data.TechnicalDebitOpened.Total;
+                TxtTechnicalDebitExisted.Content = data.TechnicalDebitExisted.Total;
+                TxtTechnicalDebitResolved.Content = data.TechnicalDebitResolved.Total;
+                TxtTechnicalDebitCreatedAndResolved.Content = data.TechnicalDebitCreatedAndResolved.Total;
+                TxtTechnicalDebitCancelled.Content = data.TechnicalDebitCancelled.Total;
 
-            downstreamJiraIndicatorsDto = data;
-
-            ChangePbStatusAndBtnExecute(true);
+                downstreamJiraIndicatorsDto = data;
+            },
+            () => ChangePbStatusAndBtnExecute(false),
+            () => ChangePbStatusAndBtnExecute(true));
         }
 
         private static bool IsValidFilter(UserSettings userSettings, AppFilterDto data)
@@ -426,7 +448,7 @@ namespace Stefanini.ViaReport
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(data.Project.Category))
+            if (data.Project.Category == null)
             {
                 MessageBox.Show("É necessário selecionar um projeto para gerar o relatório.");
                 return false;
@@ -497,39 +519,35 @@ namespace Stefanini.ViaReport
             window.ShowDialog();
         }
 
-        private async void BtnDashboard_Click(object sender, RoutedEventArgs e)
+        private void BtnDashboard_Click(object sender, RoutedEventArgs e)
         {
-            var filter = FillFilterData();
-            if (filter == null)
-                return;
+            RunWithExceptionHandling(async () =>
+            {
+                var filter = await FillFilterData();
+                if (filter == null)
+                    return;
 
-            ChangePbStatusAndBtnExecute(false);
+                var data = await dashboardBusiness.GetData(filter.Project.Name,
+                                                           filter.Quarter.Name,
+                                                           cancellationTokenSource.Token);
 
-            var data = await dashboardBusiness.GetData(settingsHelper.Data.Username,
-                                                       settingsHelper.Data.Password,
-                                                       filter.Project.Name,
-                                                       filter.Quarter,
-                                                       cancellationTokenSource.Token);
-
-            ChangePbStatusAndBtnExecute(true);
-
-            var window = new DashboardWindow();
-            window.SetDataColletion(data);
-            window.ShowDialog();
+                var window = new DashboardWindow();
+                window.SetDataColletion(data);
+                window.ShowDialog();
+            },
+            () => ChangePbStatusAndBtnExecute(false),
+            () => ChangePbStatusAndBtnExecute(true));
         }
 
         private async void BtnNoFixVersion_Click(object sender, RoutedEventArgs e)
         {
-            var filter = FillFilterData();
+            var filter = await FillFilterData();
             if (filter == null)
                 return;
 
             ChangePbStatusAndBtnExecute(false);
 
-            var data = await fixVersionBusiness.GetListIssuesNoFixVersion(settingsHelper.Data.Username,
-                                                                          settingsHelper.Data.Password,
-                                                                          filter.Project.Name,
-                                                                          cancellationTokenSource.Token);
+            var data = await fixVersionBusiness.GetListIssuesNoFixVersion(filter.Project.Name, cancellationTokenSource.Token);
 
             ChangePbStatusAndBtnExecute(true);
 
@@ -539,32 +557,26 @@ namespace Stefanini.ViaReport
             window.ShowDialog();
         }
 
-        private AppFilterDto FillFilterData()
+        private async Task<AppFilterDto> FillFilterData()
         {
-            var data = new AppFilterDto
-            {
-                Project = (JiraProjectDto)CbProjects.SelectedItem,
-                Quarter = (string)CbQuarters.SelectedItem,
-                StartDate = TxtInitDate.SelectedDate,
-                EndDate = TxtEndDate.SelectedDate,
-            };
+            var data = ReceivedFilterData();
 
-            return IsValidFilter(settingsHelper.Data, data)
+            var settings = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
+
+            return IsValidFilter(settings, data)
                  ? data
                  : null;
         }
 
         private async void BtnDeliveryLastCycle_Click(object sender, RoutedEventArgs e)
         {
-            var filter = FillFilterData();
+            var filter = await FillFilterData();
             if (filter == null)
                 return;
 
             ChangePbStatusAndBtnExecute(false);
 
-            var data = await dashboardBusiness.GetDeliveryLastCycleData(settingsHelper.Data.Username,
-                                                                        settingsHelper.Data.Password,
-                                                                        filter.Project.Name,
+            var data = await dashboardBusiness.GetDeliveryLastCycleData(filter.Project.Name,
                                                                         filter.StartDate.Value,
                                                                         filter.EndDate.Value,
                                                                         cancellationTokenSource.Token);
@@ -577,21 +589,25 @@ namespace Stefanini.ViaReport
         }
 
         private bool settingsSaved = false;
-        private void Window_Closing(object sender, CancelEventArgs e)
+        private async void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!settingsHelper.Data.PersistFilter || settingsSaved)
+            var settings = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
+
+            if (!settings.PersistFilter || settingsSaved)
                 return;
 
-            settingsHelper.Data.FilterData = new AppFilterDto
-            {
-                Project = (JiraProjectDto)CbProjects.SelectedItem,
-                Quarter = (string)CbQuarters.SelectedItem,
-                StartDate = TxtInitDate.SelectedDate,
-                EndDate = TxtEndDate.SelectedDate,
-            };
-            settingsHelper.Save();
+            await settingsBusiness.SaveFilterDataAsync(ReceivedFilterData(), cancellationTokenSource.Token);
 
             settingsSaved = true;
         }
+
+        private AppFilterDto ReceivedFilterData()
+            => new()
+            {
+                Project = CbProjects.GetSelectedValue<ProjectDto>(),
+                Quarter = CbQuarters.GetSelectedValue<QuarterDto>(),
+                StartDate = TxtInitDate.SelectedDate,
+                EndDate = TxtEndDate.SelectedDate,
+            };
     }
 }

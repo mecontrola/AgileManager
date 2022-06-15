@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Stefanini.ViaReport.Core.Mappers;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Mappers
@@ -32,7 +32,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mappers
             actual.Should().BeEquivalentTo(expected);
         }
 
-        [Fact(DisplayName = "[IssueDtoToIssueInfoDto.ToMap] Deve converter uma lista de objetos do tipo IssueDto para IssueInfoDto.")]
+        [Fact(DisplayName = "[IssueDtoToIssueInfoDto.ToMapList] Deve converter uma lista de objetos do tipo IssueDto para IssueInfoDto.")]
         public void DeveConverterListaIssueDtoParaIssueInfoDto()
         {
             var actual = mapper.ToMapList(IssueDtoMock.CreateList());

@@ -1,15 +1,14 @@
-﻿using Stefanini.ViaReport.Core.Data.Configurations;
-using Stefanini.ViaReport.Core.Data.Dto.Jira;
+﻿using Stefanini.ViaReport.Data.Configurations;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using route = Stefanini.ViaReport.Core.Integrations.Jira.Routes.ApiRoute.Issue;
 
 namespace Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues
 {
     public class IssueGet : BaseJiraIntegration, IIssueGet
     {
-        private const string API_URL = "/rest/api/2/issue/{issueKey}?expand=changelog";
-
         public IssueGet(IJiraConfiguration jiraConfiguration)
             : base(jiraConfiguration, JsonNamingPolicy.CamelCase)
         {
@@ -18,7 +17,7 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues
 
         public async Task<IssueDto> Execute(string username, string password, string issueKey, CancellationToken cancellationToken)
         {
-            URL = API_URL.Replace("{issueKey}", issueKey);
+            URL = route.GET.Replace("{issueKey}", issueKey);
 
             return await GetAsync<IssueDto>(username, password, cancellationToken);
         }

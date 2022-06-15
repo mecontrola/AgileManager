@@ -1,8 +1,9 @@
 ﻿using Stefanini.ViaReport.Core.Data.Dto;
-using Stefanini.ViaReport.Core.Data.Dto.Jira;
+using Stefanini.ViaReport.Core.Data.Dtos.Jira;
 using Stefanini.ViaReport.Core.Data.Enums;
 using Stefanini.ViaReport.Core.Mappers;
 using Stefanini.ViaReport.Core.Services;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System;
 using System.Linq;
 using System.Threading;
@@ -12,6 +13,7 @@ namespace Stefanini.ViaReport.Core.Business
 {
     public class DownstreamJiraIndicatorsBusiness : IDownstreamJiraIndicatorsBusiness
     {
+        private readonly ISettingsService settingsService;
         private readonly IBugIssuesCancelledInDateRangeService bugIssuesCanceledInDateRangeService;
         private readonly IBugIssuesCreatedInDateRangeService bugIssuesCreatedInDateRangeService;
         private readonly IBugIssuesCreatedAndResolvedInDateRangeService bugIssuesCreatedResolvedInDateRangeService;
@@ -28,7 +30,8 @@ namespace Stefanini.ViaReport.Core.Business
         private readonly ITechnicalDebitIssuesResolvedInDateRangeService technicalDebitIssuesResolvedInDateRangeService;
         private readonly IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper;
 
-        public DownstreamJiraIndicatorsBusiness(IBugIssuesCancelledInDateRangeService bugIssuesCanceledInDateRangeService,
+        public DownstreamJiraIndicatorsBusiness(ISettingsService settingsService,
+                                                IBugIssuesCancelledInDateRangeService bugIssuesCanceledInDateRangeService,
                                                 IBugIssuesCreatedInDateRangeService bugIssuesCreatedInDateRangeService,
                                                 IBugIssuesCreatedAndResolvedInDateRangeService bugIssuesCreatedResolvedInDateRangeService,
                                                 IBugIssuesExistedInDateRangeService bugIssuesExistedInDateRangeService,
@@ -44,6 +47,7 @@ namespace Stefanini.ViaReport.Core.Business
                                                 ITechnicalDebitIssuesResolvedInDateRangeService technicalDebitIssuesResolvedInDateRangeService,
                                                 IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper)
         {
+            this.settingsService = settingsService;
             this.bugIssuesCanceledInDateRangeService = bugIssuesCanceledInDateRangeService;
             this.bugIssuesCreatedInDateRangeService = bugIssuesCreatedInDateRangeService;
             this.bugIssuesCreatedResolvedInDateRangeService = bugIssuesCreatedResolvedInDateRangeService;
@@ -61,23 +65,27 @@ namespace Stefanini.ViaReport.Core.Business
             this.issueDtoToIssueInfoDtoMapper = issueDtoToIssueInfoDtoMapper;
         }
 
-        public async Task<DownstreamJiraIndicatorsDto> GetData(string username, string password, string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
-            => new()
+        public async Task<DownstreamJiraIndicatorsDto> GetData(string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
+        {
+            var settings = await settingsService.LoadDataAsync(cancellationToken);
+
+            return new()
             {
-                CycleBalance = await GetCycleBalance(username, password, project, initDate, endDate, cancellationToken),
-                BugsCancelled = await GetBugsIssuesCancelled(username, password, project, initDate, endDate, cancellationToken),
-                BugsCreated = await GetBugsIssuesCreated(username, password, project, initDate, endDate, cancellationToken),
-                BugsCreatedAndResolved = await GetBugsIssuesCreatedAndResolved(username, password, project, initDate, endDate, cancellationToken),
-                BugsExisted = await GetBugsIssuesExisted(username, password, project, initDate, endDate, cancellationToken),
-                BugsOpened = await GetBugsIssuesOpened(username, password, project, initDate, endDate, cancellationToken),
-                BugsResolved = await GetBugsIssuesResolved(username, password, project, initDate, endDate, cancellationToken),
-                TechnicalDebitCancelled = await GetTechnicalDebitIssuesCancelled(username, password, project, initDate, endDate, cancellationToken),
-                TechnicalDebitCreated = await GetTechnicalDebitIssuesCreated(username, password, project, initDate, endDate, cancellationToken),
-                TechnicalDebitCreatedAndResolved = await GetTechnicalDebitIssuesCreatedAndResolved(username, password, project, initDate, endDate, cancellationToken),
-                TechnicalDebitExisted = await GetTechnicalDebitIssuesExisted(username, password, project, initDate, endDate, cancellationToken),
-                TechnicalDebitOpened = await GetTechnicalDebitIssuesOpened(username, password, project, initDate, endDate, cancellationToken),
-                TechnicalDebitResolved = await GetTechnicalDebitIssuesResolved(username, password, project, initDate, endDate, cancellationToken)
+                CycleBalance = await GetCycleBalance(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                BugsCancelled = await GetBugsIssuesCancelled(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                BugsCreated = await GetBugsIssuesCreated(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                BugsCreatedAndResolved = await GetBugsIssuesCreatedAndResolved(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                BugsExisted = await GetBugsIssuesExisted(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                BugsOpened = await GetBugsIssuesOpened(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                BugsResolved = await GetBugsIssuesResolved(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                TechnicalDebitCancelled = await GetTechnicalDebitIssuesCancelled(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                TechnicalDebitCreated = await GetTechnicalDebitIssuesCreated(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                TechnicalDebitCreatedAndResolved = await GetTechnicalDebitIssuesCreatedAndResolved(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                TechnicalDebitExisted = await GetTechnicalDebitIssuesExisted(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                TechnicalDebitOpened = await GetTechnicalDebitIssuesOpened(settings.Username, settings.Password, project, initDate, endDate, cancellationToken),
+                TechnicalDebitResolved = await GetTechnicalDebitIssuesResolved(settings.Username, settings.Password, project, initDate, endDate, cancellationToken)
             };
+        }
 
         private async Task<decimal> GetCycleBalance(string username, string password, string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
         {

@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <None Remove="Images\information_icon.png" />
-    <None Remove="Images\new_release_icon.png" />
     <None Remove="Images\sign_check_icon.png" />
     <None Remove="Images\sign_error_icon.png" />
     <None Remove="Images\table_icon.png" />
@@ -60,9 +59,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\information_icon.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\new_release_icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\sign_check_icon.png">

@@ -1,5 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Data.Configurations;
-using Stefanini.ViaReport.Core.Integrations.Jira;
+﻿using Stefanini.ViaReport.Core.Integrations.Jira;
+using Stefanini.ViaReport.Data.Configurations;
 using System.Net;
 using System.Text.Json;
 using System.Threading;
