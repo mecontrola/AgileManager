@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MeControla.Core.Mappers;
+using Stefanini.Core.Extensions;
 using Stefanini.ViaReport.Data.Dtos.Jira;
 using Stefanini.ViaReport.Data.Entities;
 using System.Collections.Generic;
@@ -23,7 +24,9 @@ namespace Stefanini.ViaReport.Core.Mappers.DtoToEntity
                   .ForMember(dest => dest.Project, opt => opt.Ignore())
                   .ForMember(dest => dest.StatusId, opt => opt.Ignore())
                   .ForMember(dest => dest.Status, opt => opt.Ignore())
-                  .ForMember(dest => dest.Statuses, opt => opt.Ignore());
+                  .ForMember(dest => dest.Statuses, opt => opt.Ignore())
+                  .ForMember(dest => dest.CustomField14503, opt => opt.MapFrom(source => source.Fields.Customfield_14503.ToDateTime()))
+                  .ForMember(dest => dest.CustomField15703, opt => opt.MapFrom(source => source.Fields.Customfield_15703.ToDecimal()));
 
         private static bool HasLabelIndicent(IList<string> labels)
             => labels.Any(label => LABELS_INCIDENTS.Any(itm => itm.Equals(label)));

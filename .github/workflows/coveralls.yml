@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --nologo --verbosity=minimal --no-restore
       
     - name: Generate Coverage Report
-      run: dotnet test --nologo --verbosity=minimal --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      run: dotnet test --nologo --verbosity=minimal --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:Exclude="[xunit.*]*%2c[Stefanini.*]Stefanini.ViaReport.DataStorage.Migrations.*"
 
     - name: Merge Coverage Report Projects
       run: |
@@ -42,7 +42,7 @@ jobs:
         
         $reportgenerator = ".\tools\reportgenerator.exe"
         
-        & $reportgenerator -reports:**/${{ env.filename-tmp-lcov }} -targetdir:${{ env.path-lcov }} -reporttypes:lcov
+        & $reportgenerator -reports:**/${{ env.filename-tmp-lcov }} -targetdir:${{ env.path-lcov }} -reporttypes:lcov -assemblyfilters:"-xunit*;" -classfilters:"-Stefanini.ViaReport.DataStorage.Migrations.*"
 
     - name: Save Coverage File
       uses: actions/upload-artifact@master

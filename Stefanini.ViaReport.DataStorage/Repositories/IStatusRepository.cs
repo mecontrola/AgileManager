@@ -8,6 +8,5 @@ namespace Stefanini.ViaReport.DataStorage.Repositories
     public interface IStatusRepository : IAsyncRepository<Status>
     {
         Task<bool> ExistsByKeyAsync(long key, CancellationToken cancellationToken);
-        Task<Status> FindByKeyAsync(long key, CancellationToken cancellationToken);
     }
 }

@@ -15,13 +15,19 @@ namespace Stefanini.ViaReport.DataStorage.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.6");
 
             modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.Issue", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CustomField14503")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("CustomField15703")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Incident")
                         .HasColumnType("INTEGER");

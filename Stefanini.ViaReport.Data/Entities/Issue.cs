@@ -20,5 +20,8 @@ namespace Stefanini.ViaReport.Data.Entities
         public long IssueTypeId { get; set; }
         public IssueType IssueType { get; set; }
         public IList<IssueStatusHistory> Statuses { get; set; }
-    }
+
+        public DateTime? CustomField14503 { get; set; }
+        public decimal? CustomField15703 { get; set; }
+}
 }

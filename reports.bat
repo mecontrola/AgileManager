@@ -18,10 +18,12 @@ dotnet test %~dp0Stefanini.sln ^
             /p:CollectCoverage=true ^
             /p:CoverletOutput="%~dp0BuildReports/Coverage/" ^
             /p:CoverletOutputFormat=cobertura ^
-            /p:Exclude="[xunit.*]*
+			/p:Exclude="[xunit.*]*%2c[Stefanini.*]Stefanini.ViaReport.DataStorage.Migrations.*"
 
 reportgenerator -reports:%~dp0BuildReports\UnitTests\**\*.cobertura.xml ^
                 -targetdir:%~dp0BuildReports\Coverage ^
+				-assemblyfilters:"-xunit*;" ^
+				-classfilters:"-Stefanini.ViaReport.DataStorage.Migrations.*" ^
                 -reporttypes:HTML;HTMLSummary
 
 start "report" "%~dp0BuildReports\Coverage\index.html"

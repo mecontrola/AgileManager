@@ -1,6 +1,5 @@
 ﻿using Stefanini.Core.Extensions;
 using Stefanini.ViaReport.Core.Data.Dto;
-using Stefanini.ViaReport.Core.Data.Dtos.Jira;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Mappers;
 using Stefanini.ViaReport.Core.Services;
@@ -101,16 +100,9 @@ namespace Stefanini.ViaReport.Core.Business
                 Items = epics.Issues.Select(x => new DashboardInfoItemDto
                 {
                     Issues = new List<IssueInfoDto> { issueDtoToIssueInfoDtoMapper.ToMap(x) },
-                    Value = ConvertStringToDecimal(x.Fields.Customfield_15703)
+                    Value = x.Fields.Customfield_15703.ToDecimal().GetValueOrDefault()
                 }).ToList()
             };
-
-        private static decimal ConvertStringToDecimal(string value)
-        {
-            value = value.Replace("%", string.Empty);
-            var percent = decimal.Parse(value);
-            return percent / 100;
-        }
 
         public async Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(string project, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
         {

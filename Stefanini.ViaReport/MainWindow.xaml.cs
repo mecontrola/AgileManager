@@ -113,8 +113,6 @@ namespace Stefanini.ViaReport
         {
             await CheckJiraAuth();
 
-            MiTools.IsEnabled = applicationConfiguration.ShowTools;
-
             await FillFilter();
         }
 

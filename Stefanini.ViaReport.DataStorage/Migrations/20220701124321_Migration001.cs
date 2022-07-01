@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Stefanini.ViaReport.DataStorage.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Migration001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -113,7 +113,9 @@ namespace Stefanini.ViaReport.DataStorage.Migrations
                     Resolved = table.Column<DateTime>(type: "TEXT", nullable: true),
                     ProjectId = table.Column<long>(type: "INTEGER", nullable: false),
                     StatusId = table.Column<long>(type: "INTEGER", nullable: false),
-                    IssueTypeId = table.Column<long>(type: "INTEGER", nullable: false)
+                    IssueTypeId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CustomField14503 = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CustomField15703 = table.Column<decimal>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

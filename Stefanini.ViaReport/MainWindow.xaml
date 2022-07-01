@@ -43,7 +43,7 @@
                 <MenuItem Name="BtnAuthentication" Header="Authentication" Click="BtnAuthenticate_Click"/>
                 <MenuItem Name="BtnPreferences" Header="Preferences" Click="BtnPreferences_Click"/>
             </MenuItem>
-            <MenuItem Header="Tools" Name="MiTools" IsEnabled="False">
+            <MenuItem Header="Tools" Name="MiTools">
                 <MenuItem Name="BtnSyncronizer" Header="Syncronize" Click="BtnSyncronizer_Click"/>
                 <MenuItem Name="BtnDashboard" Header="Dashboard" Click="BtnDashboard_Click"/>
                 <MenuItem Name="BtnNoFixVersion" Header="No Fix Version" Click="BtnNoFixVersion_Click"/>
