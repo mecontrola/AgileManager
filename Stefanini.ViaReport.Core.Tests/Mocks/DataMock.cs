@@ -27,6 +27,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static string TEXT_STATUS_CATEGORY_TO_DO { get; } = "To Do";
         public static string TEXT_STATUS_CATEGORY_IN_PROGRESS { get; } = "In Progress";
         public static string TEXT_STATUS_CATEGORY_DONE { get; } = "Done";
+        public static string TEXT_STATUS_CATEGORY_NO_CATEGORY { get; } = "No Category";
         public static string TEXT_STATUS_REFINAMENTO_FUNCIONAL { get; } = "Refinamento Funcional";
         public static string TEXT_STATUS_REFINAMENTO_TECNICO { get; } = "Refinamento Técnico";
         public static string TEXT_STATUS_CANCELLED { get; } = "Cancelled";

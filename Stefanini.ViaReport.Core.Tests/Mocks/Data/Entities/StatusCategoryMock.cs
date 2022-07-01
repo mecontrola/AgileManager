@@ -27,9 +27,17 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities
                 Name = DataMock.TEXT_STATUS_CATEGORY_DONE
             };
 
+        public static StatusCategory CreateNoCategory()
+            => new()
+            {
+                Key = (int)StatusCategories.NoCategory,
+                Name = DataMock.TEXT_STATUS_CATEGORY_NO_CATEGORY
+            };
+
         public static IList<StatusCategory> CreateList()
             => new List<StatusCategory>
             {
+                CreateNoCategory(),
                 CreateToDo(),
                 CreateInProgress(),
                 CreateDone(),

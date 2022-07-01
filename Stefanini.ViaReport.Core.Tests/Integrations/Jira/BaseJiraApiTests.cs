@@ -49,7 +49,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
             {
                 Path = server.Urls[0],
                 EasyBIAccount = DataMock.TEXT_EASYBI_ACCOUNT,
-                Cache = 0
+                Cache = 5
             };
     }
 }

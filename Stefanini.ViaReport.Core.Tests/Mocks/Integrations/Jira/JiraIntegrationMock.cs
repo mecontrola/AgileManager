@@ -20,6 +20,15 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Integrations.Jira
             return await GetAsync<string>(username, password, cancellationToken);
         }
 
+        public async Task<T> Execute<T>(string username, string password, string url, CancellationToken cancellationToken)
+        {
+            IsCached = true;
+
+            URL = url;
+
+            return await GetAsync<T>(username, password, cancellationToken);
+        }
+
         private static string GetRouteBase()
             => DataMock.ISSUE_SELF_1.Replace(DataMock.JIRA_HOST, string.Empty);
     }
