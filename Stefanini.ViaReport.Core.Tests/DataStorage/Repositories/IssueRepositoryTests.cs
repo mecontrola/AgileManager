@@ -37,7 +37,7 @@ namespace Stefanini.ViaReport.Core.Tests.DataStorage.Repositories
         {
             var actual = await repository.GetLastUpdatedAsync(DataMock.ID_PROJECT, GetCancellationToken());
 
-            actual.Should().NotBeNull();
+            actual.HasValue.Should().BeTrue();
             actual.Value.Should().Be(DataMock.UPDATED_ISSUE);
         }
 
