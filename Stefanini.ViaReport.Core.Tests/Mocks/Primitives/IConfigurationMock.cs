@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Stefanini.Core.TestingTools.Helpers;
-using Stefanini.ViaReport.Core.Data.Configurations;
+using Stefanini.ViaReport.Data.Configurations;
 using System.Collections.Generic;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Primitives

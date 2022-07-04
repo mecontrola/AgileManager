@@ -1,6 +1,6 @@
 ﻿using Stefanini.Core.TestingTools.Helpers;
 using Stefanini.ViaReport.Core.Converters;
-using Stefanini.ViaReport.Core.Data.Dto.Jira;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;

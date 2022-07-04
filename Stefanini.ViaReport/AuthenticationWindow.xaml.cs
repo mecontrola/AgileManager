@@ -1,36 +1,36 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Settings;
-using Stefanini.ViaReport.Core.Helpers;
+﻿using Stefanini.ViaReport.Core.Business;
+using System.Threading;
 using System.Windows;
 
 namespace Stefanini.ViaReport
 {
     public partial class AuthenticationWindow : Window
     {
-        private readonly ISettingsHelper settingsHelper;
+        private readonly CancellationTokenSource cancellationTokenSource;
 
-        public AuthenticationWindow(ISettingsHelper settingsHelper)
+        private readonly ISettingsBusiness settingsBusiness;
+
+        public AuthenticationWindow(CancellationTokenSource cancellationTokenSource,
+                                    ISettingsBusiness settingsBusiness)
         {
-            this.settingsHelper = settingsHelper;
+            this.cancellationTokenSource = cancellationTokenSource;
+            this.settingsBusiness = settingsBusiness;
 
             InitializeComponent();
             InitializeData();
         }
 
-        private void InitializeData()
+        private async void InitializeData()
         {
-            txtUsername.Text = settingsHelper.Data.Username;
-            txtPassword.Password = settingsHelper.Data.Password;
+            var settings = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
+
+            txtUsername.Text = settings.Username;
+            txtPassword.Password = settings.Password;
         }
 
         private async void BtnAuthenticate_Click(object sender, RoutedEventArgs e)
         {
-            settingsHelper.Data = new AppSettingsDto
-            {
-                Username = txtUsername.Text,
-                Password = txtPassword.Password,
-                PersistFilter = settingsHelper.Data.PersistFilter
-            };
-            settingsHelper.Save();
+            await settingsBusiness.SaveAuthenticationAsync(txtUsername.Text, txtPassword.Password, cancellationTokenSource.Token);
 
             var parentForm = (MainWindow)GetWindow(Owner);
             await parentForm.CheckJiraAuth();

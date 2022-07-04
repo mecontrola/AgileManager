@@ -1,5 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Jira;
-using Stefanini.ViaReport.Core.Data.Dto.Jira.Inputs;
+﻿using Stefanini.ViaReport.Data.Dtos.Jira;
+using Stefanini.ViaReport.Data.Dtos.Jira.Inputs;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -16,6 +16,11 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddScoped<IDownstreamJiraIndicatorsBusiness, DownstreamJiraIndicatorsBusiness>();
             services.TryAddScoped<IFixVersionBusiness, FixVersionBusiness>();
             services.TryAddScoped<IUpstreamDownstreamRateBusiness, UpstreamDownstreamRateBusiness>();
+
+            services.TryAddScoped<IProjectBusiness, ProjectBusiness>();
+            services.TryAddScoped<IQuarterBusiness, QuarterBusiness>();
+            services.TryAddScoped<ISettingsBusiness, SettingsBusiness>();
+            services.TryAddScoped<ISynchronizerBusiness, SynchronizerBusiness>();
         }
     }
 }

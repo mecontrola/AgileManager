@@ -1,4 +1,5 @@
-﻿using Windows.Data.Xml.Dom;
+﻿using Stefanini.ViaReport.Data;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.UI.Notifications;
 
@@ -20,7 +21,7 @@ namespace Stefanini.ViaReport.Helpers
                                       </toast>";
 
         public void Show(TypedEventHandler<ToastNotification, object> action)
-            => ToastNotificationManager.CreateToastNotifier(MainWindow.APP_TITLE)
+            => ToastNotificationManager.CreateToastNotifier(AppTextsData.APP_TITLE)
                                        .Show(CreateToastNotification(action));
 
         private static ToastNotification CreateToastNotification(TypedEventHandler<ToastNotification, object> action)

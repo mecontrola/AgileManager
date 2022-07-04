@@ -1,5 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Data.Configurations;
-using Stefanini.ViaReport.Core.Integrations.Jira;
+﻿using Stefanini.ViaReport.Core.Integrations.Jira;
+using Stefanini.ViaReport.Data.Configurations;
 using System.Net;
 using System.Text.Json;
 using System.Threading;
@@ -18,6 +18,15 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Integrations.Jira
             URL = $"{GetRouteBase()}?status={(int)httpStatusCode}";
 
             return await GetAsync<string>(username, password, cancellationToken);
+        }
+
+        public async Task<T> Execute<T>(string username, string password, string url, CancellationToken cancellationToken)
+        {
+            IsCached = true;
+
+            URL = url;
+
+            return await GetAsync<T>(username, password, cancellationToken);
         }
 
         private static string GetRouteBase()

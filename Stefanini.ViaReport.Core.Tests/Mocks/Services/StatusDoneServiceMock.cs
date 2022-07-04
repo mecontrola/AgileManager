@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
 using Stefanini.ViaReport.Core.Services;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using System.Threading;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Services
@@ -9,13 +9,13 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Services
     {
         public static IStatusDoneService Create()
         {
-            var service = Substitute.For<IStatusDoneService>();
-            service.GetList(Arg.Is<string>(x => x.Equals(DataMock.VALUE_USERNAME)),
-                            Arg.Is<string>(x => x.Equals(DataMock.VALUE_PASSWORD)),
-                            Arg.Any<CancellationToken>())
-                   .Returns(StatusDtoMock.CreateDictionaryDone());
+            var mock = Substitute.For<IStatusDoneService>();
+            mock.GetList(Arg.Is<string>(x => x.Equals(DataMock.VALUE_USERNAME)),
+                         Arg.Is<string>(x => x.Equals(DataMock.VALUE_PASSWORD)),
+                         Arg.Any<CancellationToken>())
+                .Returns(StatusDtoMock.CreateDictionaryDone());
 
-            return service;
+            return mock;
         }
     }
 }

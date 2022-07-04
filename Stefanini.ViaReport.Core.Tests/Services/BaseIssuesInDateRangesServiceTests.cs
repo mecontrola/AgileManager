@@ -1,21 +1,19 @@
 ﻿using NSubstitute;
+using NSubstitute.Equivalency;
 using Stefanini.Core.TestingTools;
-using Stefanini.ViaReport.Core.Data.Dto.Jira.Inputs;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
 using Stefanini.ViaReport.Core.Services;
+using Stefanini.ViaReport.Core.Tests.Mocks;
+using Stefanini.ViaReport.Updater.Core.Tests.Mocks.Data.Dtos.Jira.Inputs;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Stefanini.ViaReport.Core.Tests.Services
 {
     public abstract class BaseIssuesInDateRangesServiceTests<T> : BaseAsyncMethods
         where T : BaseIssuesInDateRangesService
     {
-        private const string PROJECT = "project";
-
-        private static readonly DateTime DATE_INI = new(2000, 1, 1);
-        private static readonly DateTime DATE_END = new(2000, 12, 31);
-
         private readonly IBaseIssuesInDateRangesService service;
         private readonly ISearchPost api;
 
@@ -28,17 +26,21 @@ namespace Stefanini.ViaReport.Core.Tests.Services
 
         protected abstract string GetJqlExpected();
 
-        protected void RunTest()
+        protected async Task RunTest()
         {
-            service.GetData(string.Empty, string.Empty, PROJECT, DATE_INI, DATE_END, GetCancellationToken());
+            await service.GetData(DataMock.VALUE_USERNAME,
+                                  DataMock.VALUE_PASSWORD,
+                                  DataMock.TEXT_SEARCH_PROJECT,
+                                  DataMock.DATETIME_FIRST_DAY_YEAR,
+                                  DataMock.DATETIME_LAST_DAY_YEAR,
+                                  GetCancellationToken());
 
-            api.Received().Execute(Arg.Any<string>(),
-                                   Arg.Any<string>(),
-                                   Arg.Is<SearchInputDto>(x => CheckEqualJql(x)),
-                                   Arg.Any<CancellationToken>());
+            var expected = SearchInputDtoMock.CreateWithJqlCustom(GetJqlExpected());
+
+            await api.Received().Execute(Arg.Is<string>(x => x.Equals(DataMock.VALUE_USERNAME)),
+                                         Arg.Is<string>(x => x.Equals(DataMock.VALUE_PASSWORD)),
+                                         ArgEx.IsEquivalentTo(expected),
+                                         Arg.Any<CancellationToken>());
         }
-
-        private bool CheckEqualJql(SearchInputDto input)
-            => input.Jql.Equals(GetJqlExpected());
     }
 }

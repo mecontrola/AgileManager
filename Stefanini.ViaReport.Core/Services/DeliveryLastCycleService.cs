@@ -1,7 +1,7 @@
 ﻿using Stefanini.ViaReport.Core.Data.Dto;
-using Stefanini.ViaReport.Core.Data.Dto.Jira;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +64,7 @@ namespace Stefanini.ViaReport.Core.Services
             };
 
         private static int CalculateLeadTimeAverage(IList<DeliveryLastCycleIssueDto> issues)
-            => (int)issues.Sum(x => x.LeadTime) / issues.Count;
+            => (int)Math.Round(issues.Sum(x => x.LeadTime) / issues.Count);
 
         private async Task<IssueDto> GetBacklogData(string username, string password, string issueKey, CancellationToken cancellationToken)
             => await issueGet.Execute(username, password, issueKey, cancellationToken);

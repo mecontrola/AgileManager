@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using Stefanini.ViaReport.Core.Data.Dto.Jira.Inputs;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
 using Stefanini.ViaReport.Core.Tests.Mocks;
+using Stefanini.ViaReport.Data.Dtos.Jira.Inputs;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;

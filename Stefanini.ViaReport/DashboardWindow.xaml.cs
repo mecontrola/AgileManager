@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System;
 
 namespace Stefanini.ViaReport
 {
@@ -24,10 +25,10 @@ namespace Stefanini.ViaReport
 
         public void SetDataColletion(DashboardDto data)
         {
-            FillDataGrid(DgThroughput, dgThroughputDataCollection, data.Throughput.Items);
-            FillDataGrid(DgLeadTime, dgLeadTimeDataCollection, data.LeadTime.Items);
-            FillDataGrid(DgCycleTime, dgCycleTimeDataCollection, data.CycleTime.Items);
-            FillDataGrid(DgQuarterEpics, dgQuarterEpicsDataCollection, data.QuarterEpics.Items);
+            FillDataGrid(DgThroughput, dgThroughputDataCollection, data.Throughput?.Items ?? Array.Empty<DashboardInfoItemDto>());
+            FillDataGrid(DgLeadTime, dgLeadTimeDataCollection, data.LeadTime?.Items ?? Array.Empty<DashboardInfoItemDto>());
+            FillDataGrid(DgCycleTime, dgCycleTimeDataCollection, data.CycleTime?.Items ?? Array.Empty<DashboardInfoItemDto>());
+            FillDataGrid(DgQuarterEpics, dgQuarterEpicsDataCollection, data.QuarterEpics?.Items ?? Array.Empty<DashboardInfoItemDto>());
         }
 
         private static void FillDataGrid(DataGrid grid, ICollection<DashboardInfoItemDto> collection, IList<DashboardInfoItemDto> items)

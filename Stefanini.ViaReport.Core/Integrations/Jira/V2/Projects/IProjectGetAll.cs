@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Jira;
+﻿using Stefanini.ViaReport.Data.Dtos.Jira;
 using System.Threading;
 using System.Threading.Tasks;
 

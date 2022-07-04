@@ -1,6 +1,6 @@
 ﻿using Stefanini.Core.Extensions;
 using Stefanini.Core.Settings;
-using Stefanini.ViaReport.Core.Data.Dto.Settings;
+using Stefanini.ViaReport.Data.Dtos.Settings;
 
 namespace Stefanini.ViaReport.Core.Helpers
 {

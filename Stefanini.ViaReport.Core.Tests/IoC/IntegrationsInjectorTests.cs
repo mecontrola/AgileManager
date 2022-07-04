@@ -2,7 +2,9 @@
 using Stefanini.Core.TestingTools.FluentAssertions.Extensions;
 using Stefanini.ViaReport.Core.Integrations.Jira.V1.Auth;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
+using Stefanini.ViaReport.Core.Integrations.Jira.V2.IssueTypes;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
+using Stefanini.ViaReport.Core.Integrations.Jira.V2.StatusCategories;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
 using Stefanini.ViaReport.Core.IoC;
 using Xunit;
@@ -11,7 +13,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class IntegrationsInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 5;
+        private const int TOTAL_RECORDS = 7;
 
         [Fact(DisplayName = "[IntegrationsInjector.AddMappers] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -27,7 +29,9 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.ShouldAsScoped<IProjectGetAll, ProjectGetAll>();
             serviceCollection.ShouldAsScoped<ISearchPost, SearchPost>();
             serviceCollection.ShouldAsScoped<IIssueGet, IssueGet>();
+            serviceCollection.ShouldAsScoped<IIssueTypeGetAll, IssueTypeGetAll>();
             serviceCollection.ShouldAsScoped<IStatusGetAll, StatusGetAll>();
+            serviceCollection.ShouldAsScoped<IStatusCategoryGetAll, StatusCategoryGetAll>();
         }
     }
 }

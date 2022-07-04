@@ -3,7 +3,7 @@ using Stefanini.Core.TestingTools;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Core.Tests.Mocks;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
 using Xunit;
 
@@ -24,7 +24,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services
                                                    statusDoneService,
                                                    statusInProgressService,
                                                    new BusinessDayHelper(),
-                                                   new RecoverDateTimeFirstStatusMatchBacklogHelper(),
+                                                   new RecoverDateTimeFirstStatusMatchBacklogHelper(new CheckChangelogTypeHelper()),
                                                    issueGet);
         }
 

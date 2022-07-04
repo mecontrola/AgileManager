@@ -5,21 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stefanini.ViaReport"
         mc:Ignorable="d"
-        Title="Preferences" Height="150" Width="300" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
+        Title="Preferences" Height="300" Width="400" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="89*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Filter" Margin="5,5,5,31" Grid.ColumnSpan="2">
+        <GroupBox Header="Filter" Margin="5,5,5,0" Grid.ColumnSpan="2" Height="56" VerticalAlignment="Top">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="89*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Persist Filter" Margin="5,5,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" Grid.Column="0" Height="26"/>
-                <CheckBox Name="cbPersistFilter" Grid.Column="1" Content="Yes" HorizontalAlignment="Left" Margin="5,10,5,0" VerticalAlignment="Top"/>
-
+                <Label Content="Persist Filter" Margin="5,5,5,5" HorizontalContentAlignment="Right" Grid.Column="0"/>
+                <CheckBox Name="cbPersistFilter" Grid.Column="1" Content="Yes" HorizontalAlignment="Left" Margin="5,10,0,5"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Projetos" Margin="5,66,5,31" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="170"/>
+                </Grid.ColumnDefinitions>
+                <ListBox Name="LbProjectsAvaliable" Grid.Column="0" PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown" Drop="ListBox_Drop" AllowDrop="True">
+                    <ListBox.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListBox.GroupStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox Name="LbProjectsSelected" Grid.Column="2" PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"  Drop="ListBox_Drop" AllowDrop="True">
+                    <ListBox.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListBox.GroupStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </GroupBox>
         <Button Name="BtnSave" Content="Save" Margin="0,0,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="22" Grid.Column="1" Width="50" Click="BtnSave_Click"/>

@@ -3,7 +3,7 @@ using Stefanini.ViaReport.Core.Business;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Tests.Integrations.Jira;
 using Stefanini.ViaReport.Core.Tests.Mocks;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using System.Threading.Tasks;
 using Xunit;
 

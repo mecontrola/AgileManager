@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Jira;
+﻿using Stefanini.ViaReport.Data.Dtos.Jira;
 using System;
 using System.Collections.Generic;
 

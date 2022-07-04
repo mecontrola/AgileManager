@@ -4,7 +4,7 @@ using Stefanini.ViaReport.Core.Business;
 using Stefanini.ViaReport.Core.Data.Dto;
 using Stefanini.ViaReport.Core.Mappers;
 using Stefanini.ViaReport.Core.Tests.Mocks;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using Stefanini.ViaReport.Core.Tests.Mocks.Services;
 using Xunit;
 
@@ -16,21 +16,19 @@ namespace Stefanini.ViaReport.Core.Tests.Business
 
         public FixVersionBusinessTests()
         {
+            var settingsService = SettingsServiceMock.Create();
             var issuesNotFixVersionService = IssuesNotFixVersionServiceMock.Create();
             var issueGet = IssueGetMock.Create();
             var issueDtoToIssueInfoDtoMapper = new IssueDtoToIssueInfoDtoMapper();
 
-            business = new FixVersionBusiness(issuesNotFixVersionService, issueDtoToIssueInfoDtoMapper, issueGet);
+            business = new FixVersionBusiness(settingsService, issuesNotFixVersionService, issueDtoToIssueInfoDtoMapper, issueGet);
         }
 
         [Fact(DisplayName = "[FixVersionBusiness.GetListIssuesNoFixVersion]")]
         public async void Deve()
         {
             var expected = IssueInfoDtoMock.CreateDoneList();
-            var actual = await business.GetListIssuesNoFixVersion(DataMock.VALUE_USERNAME,
-                                                                  DataMock.VALUE_PASSWORD,
-                                                                  DataMock.TEXT_SEARCH_PROJECT,
-                                                                  GetCancellationToken());
+            var actual = await business.GetListIssuesNoFixVersion(DataMock.TEXT_SEARCH_PROJECT, GetCancellationToken());
 
             for (int i = 0, l = actual.Count; i < l; i++)
                 AssertIssue(actual[i], expected[i]);

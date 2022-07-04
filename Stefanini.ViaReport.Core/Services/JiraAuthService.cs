@@ -1,6 +1,6 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Jira;
-using Stefanini.ViaReport.Core.Exceptions;
+﻿using Stefanini.ViaReport.Core.Exceptions;
 using Stefanini.ViaReport.Core.Integrations.Jira.V1.Auth;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System.Threading;
 using System.Threading.Tasks;
 

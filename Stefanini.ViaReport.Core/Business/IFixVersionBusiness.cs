@@ -7,6 +7,6 @@ namespace Stefanini.ViaReport.Core.Business
 {
     public interface IFixVersionBusiness
     {
-        Task<IList<IssueInfoDto>> GetListIssuesNoFixVersion(string username, string password, string project, CancellationToken cancellationToken);
+        Task<IList<IssueInfoDto>> GetListIssuesNoFixVersion(string project, CancellationToken cancellationToken);
     }
 }

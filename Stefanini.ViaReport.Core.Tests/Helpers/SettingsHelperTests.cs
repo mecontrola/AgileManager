@@ -2,9 +2,9 @@
 using NSubstitute;
 using Stefanini.Core.Extensions;
 using Stefanini.Core.Settings;
-using Stefanini.ViaReport.Core.Data.Dto.Settings;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Tests.Mocks.Entities.Settings;
+using Stefanini.ViaReport.Data.Dtos.Settings;
 using System.IO;
 using Xunit;
 

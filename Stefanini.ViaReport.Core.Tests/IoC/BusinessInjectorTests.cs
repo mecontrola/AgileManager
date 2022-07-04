@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class BusinessInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 4;
+        private const int TOTAL_RECORDS = 8;
 
         [Fact(DisplayName = "[BusinessInjector.AddBusiness] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -24,6 +24,11 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.ShouldAsScoped<IDownstreamJiraIndicatorsBusiness, DownstreamJiraIndicatorsBusiness>();
             serviceCollection.ShouldAsScoped<IFixVersionBusiness, FixVersionBusiness>();
             serviceCollection.ShouldAsScoped<IUpstreamDownstreamRateBusiness, UpstreamDownstreamRateBusiness>();
+
+            serviceCollection.ShouldAsScoped<IProjectBusiness, ProjectBusiness>();
+            serviceCollection.ShouldAsScoped<IQuarterBusiness, QuarterBusiness>();
+            serviceCollection.ShouldAsScoped<ISettingsBusiness, SettingsBusiness>();
+            serviceCollection.ShouldAsScoped<ISynchronizerBusiness, SynchronizerBusiness>();
         }
     }
 }
