@@ -52,8 +52,8 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData
         {
             foreach (var itm in history.Items)
             {
-                if (checkChangelogTypeHelper.IsFieldStatus(itm) && statuses.ContainsKey(itm.To))
-                    return statuses[itm.To];
+                if (checkChangelogTypeHelper.IsFieldStatus(itm) && statuses.TryGetValue(itm.To, out long statusId))
+                    return statusId;
 
                 continue;
             }

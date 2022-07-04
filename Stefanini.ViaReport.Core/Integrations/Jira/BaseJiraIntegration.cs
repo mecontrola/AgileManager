@@ -89,7 +89,7 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
                 if (ex.InnerException is SocketException)
                     throw new JiraUnknownHostException();
 
-                throw ex;
+                throw;
             }
         }
 
