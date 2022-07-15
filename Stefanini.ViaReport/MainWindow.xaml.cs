@@ -10,6 +10,7 @@ using Stefanini.ViaReport.Core.Services;
 using Stefanini.ViaReport.Data.Configurations;
 using Stefanini.ViaReport.Data.Dtos;
 using Stefanini.ViaReport.Data.Dtos.Settings;
+using Stefanini.ViaReport.Data.Enums;
 using Stefanini.ViaReport.Extensions;
 using Stefanini.ViaReport.Helpers;
 using Stefanini.ViaReport.Updater.Core.Helpers;
@@ -65,7 +66,7 @@ namespace Stefanini.ViaReport
         private readonly ImageSource imageAuthCheck;
         private readonly ImageSource imageAuthError;
 
-        private DownstreamJiraIndicatorsDto downstreamJiraIndicatorsDto = new();
+        private DownstreamIndicatorDto downstreamJiraIndicatorsDto = new();
 
         public MainWindow(IApplicationConfiguration applicationConfiguration,
                           IDashboardBusiness dashboardBusiness,
@@ -159,7 +160,8 @@ namespace Stefanini.ViaReport
         }
 
         private int ProjectIndexOf(ProjectDto project)
-            => CbProjects.GetItemIndexOf<ProjectDto>(p => p.Category != null
+            => CbProjects.GetItemIndexOf<ProjectDto>(p => project != null
+                                                       && p.Category != null
                                                        && p.Category.Name.Equals(project.Category.Name)
                                                        && p.Name.Equals(project.Name));
 
@@ -250,6 +252,9 @@ namespace Stefanini.ViaReport
         }
 
         public async Task LoadCbProjects()
+            => await LoadCbProjects(null);
+
+        public async Task LoadCbProjects(AppFilterDto appFilterDto)
         {
             if (await IsAuthenticationNullOrWhiteSpace())
                 return;
@@ -263,6 +268,9 @@ namespace Stefanini.ViaReport
 
             CbProjects.ItemsSource = lcv;
             CbProjects.IsEnabled = true;
+
+            if (appFilterDto != null)
+                CbProjects.SelectedIndex = ProjectIndexOf(appFilterDto.Project);
         }
 
         private async Task LoadCbQuarters()
@@ -407,24 +415,24 @@ namespace Stefanini.ViaReport
                 if (filter == null)
                     return;
 
-                var data = await downstreamJiraIndicatorsBusiness.GetData(filter.Project.Name,
-                                                                          filter.StartDate.Value,
-                                                                          filter.EndDate.Value,
-                                                                          cancellationTokenSource.Token);
+                var data = await downstreamJiraIndicatorsBusiness.GetLocalIndicatorsAsync(filter.Project.Id,
+                                                                                         filter.StartDate.Value,
+                                                                                         filter.EndDate.Value,
+                                                                                         cancellationTokenSource.Token);
 
                 TxtCycleBalance.Content = $"{data.CycleBalance}%";
-                TxtBugsCreated.Content = data.BugsCreated.Total;
-                TxtBugsOpened.Content = data.BugsOpened.Total;
-                TxtBugsExisted.Content = data.BugsExisted.Total;
-                TxtBugsResolved.Content = data.BugsResolved.Total;
-                TxtBugsCreatedAndResolved.Content = data.BugsCreatedAndResolved.Total;
-                TxtBugsCancelled.Content = data.BugsCancelled.Total;
-                TxtTechnicalDebitCreated.Content = data.TechnicalDebitCreated.Total;
-                TxtTechnicalDebitOpened.Content = data.TechnicalDebitOpened.Total;
-                TxtTechnicalDebitExisted.Content = data.TechnicalDebitExisted.Total;
-                TxtTechnicalDebitResolved.Content = data.TechnicalDebitResolved.Total;
-                TxtTechnicalDebitCreatedAndResolved.Content = data.TechnicalDebitCreatedAndResolved.Total;
-                TxtTechnicalDebitCancelled.Content = data.TechnicalDebitCancelled.Total;
+                TxtBugsCreated.Content = data.Bugs[DownstreamIndicatorTypes.Created].Count;
+                TxtBugsOpened.Content = data.Bugs[DownstreamIndicatorTypes.Opened].Count;
+                TxtBugsExisted.Content = data.Bugs[DownstreamIndicatorTypes.Existed].Count;
+                TxtBugsResolved.Content = data.Bugs[DownstreamIndicatorTypes.Resolved].Count;
+                TxtBugsCreatedAndResolved.Content = data.Bugs[DownstreamIndicatorTypes.CreatedAndResolved].Count;
+                TxtBugsCancelled.Content = data.Bugs[DownstreamIndicatorTypes.Cancelled].Count;
+                TxtTechnicalDebitCreated.Content = data.TechnicalDebit[DownstreamIndicatorTypes.Created].Count;
+                TxtTechnicalDebitOpened.Content = data.TechnicalDebit[DownstreamIndicatorTypes.Opened].Count;
+                TxtTechnicalDebitExisted.Content = data.TechnicalDebit[DownstreamIndicatorTypes.Existed].Count;
+                TxtTechnicalDebitResolved.Content = data.TechnicalDebit[DownstreamIndicatorTypes.Resolved].Count;
+                TxtTechnicalDebitCreatedAndResolved.Content = data.TechnicalDebit[DownstreamIndicatorTypes.CreatedAndResolved].Count;
+                TxtTechnicalDebitCancelled.Content = data.TechnicalDebit[DownstreamIndicatorTypes.Cancelled].Count;
 
                 downstreamJiraIndicatorsDto = data;
             },
@@ -474,42 +482,42 @@ namespace Stefanini.ViaReport
         }
 
         private void BtnBugsCreated_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Bugs - Criados", downstreamJiraIndicatorsDto.BugsCreated.Data);
+            => OpenIssuesDetail("Bugs - Criados", downstreamJiraIndicatorsDto.Bugs[DownstreamIndicatorTypes.Created]);
 
         private void BtnBugsOpened_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Bugs - Em Aberto", downstreamJiraIndicatorsDto.BugsOpened.Data);
+            => OpenIssuesDetail("Bugs - Em Aberto", downstreamJiraIndicatorsDto.Bugs[DownstreamIndicatorTypes.Opened]);
 
         private void BtnBugsExisted_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Bugs - Quarters Anteriores", downstreamJiraIndicatorsDto.BugsExisted.Data);
+            => OpenIssuesDetail("Bugs - Quarters Anteriores", downstreamJiraIndicatorsDto.Bugs[DownstreamIndicatorTypes.Existed]);
 
         private void BtnBugsResolved_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Bugs - Resolvidos", downstreamJiraIndicatorsDto.BugsResolved.Data);
+            => OpenIssuesDetail("Bugs - Resolvidos", downstreamJiraIndicatorsDto.Bugs[DownstreamIndicatorTypes.Resolved]);
 
         private void BtnBugsCreatedAndResolved_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Bugs - Criados e Resolvidos", downstreamJiraIndicatorsDto.BugsCreatedAndResolved.Data);
+            => OpenIssuesDetail("Bugs - Criados e Resolvidos", downstreamJiraIndicatorsDto.Bugs[DownstreamIndicatorTypes.CreatedAndResolved]);
 
         private void BtnBugsCancelled_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Bugs - Cancelados", downstreamJiraIndicatorsDto.BugsCancelled.Data);
+            => OpenIssuesDetail("Bugs - Cancelados", downstreamJiraIndicatorsDto.Bugs[DownstreamIndicatorTypes.Cancelled]);
 
         private void BtnTechnicalDebitCreated_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Débitos Técnicos - Criados", downstreamJiraIndicatorsDto.TechnicalDebitCreated.Data);
+            => OpenIssuesDetail("Débitos Técnicos - Criados", downstreamJiraIndicatorsDto.TechnicalDebit[DownstreamIndicatorTypes.Created]);
 
         private void BtnTechnicalDebitOpened_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Débitos Técnicos - Em Aberto", downstreamJiraIndicatorsDto.TechnicalDebitOpened.Data);
+            => OpenIssuesDetail("Débitos Técnicos - Em Aberto", downstreamJiraIndicatorsDto.TechnicalDebit[DownstreamIndicatorTypes.Opened]);
 
         private void BtnTechnicalDebitExisted_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Débitos Técnicos - Quarters Anteriores", downstreamJiraIndicatorsDto.TechnicalDebitExisted.Data);
+            => OpenIssuesDetail("Débitos Técnicos - Quarters Anteriores", downstreamJiraIndicatorsDto.TechnicalDebit[DownstreamIndicatorTypes.Existed]);
 
         private void BtnTechnicalDebitResolved_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Débitos Técnicos - Resolvidos", downstreamJiraIndicatorsDto.TechnicalDebitResolved.Data);
+            => OpenIssuesDetail("Débitos Técnicos - Resolvidos", downstreamJiraIndicatorsDto.TechnicalDebit[DownstreamIndicatorTypes.Resolved]);
 
         private void BtnTechnicalDebitCreatedAndResolved_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Débitos Técnicos - Criados e Resolvidos", downstreamJiraIndicatorsDto.TechnicalDebitCreatedAndResolved.Data);
+            => OpenIssuesDetail("Débitos Técnicos - Criados e Resolvidos", downstreamJiraIndicatorsDto.TechnicalDebit[DownstreamIndicatorTypes.CreatedAndResolved]);
 
         private void BtnTechnicalDebitCancelled_Click(object sender, RoutedEventArgs e)
-            => OpenIssuesDetail("Débitos Técnicos - Cancelados", downstreamJiraIndicatorsDto.TechnicalDebitCancelled.Data);
+            => OpenIssuesDetail("Débitos Técnicos - Cancelados", downstreamJiraIndicatorsDto.TechnicalDebit[DownstreamIndicatorTypes.Cancelled]);
 
-        private static void OpenIssuesDetail(string title, IList<IssueInfoDto> data)
+        private static void OpenIssuesDetail(string title, IList<IssueDto> data)
         {
             var window = new IssueWindow();
             window.DefineTitle(title);
@@ -574,9 +582,10 @@ namespace Stefanini.ViaReport
 
             ChangePbStatusAndBtnExecute(false);
 
-            var data = await dashboardBusiness.GetDeliveryLastCycleData(filter.Project.Name,
+            var data = await dashboardBusiness.GetDeliveryLastCycleData(filter.Project.Id,
                                                                         filter.StartDate.Value,
                                                                         filter.EndDate.Value,
+                                                                        filter.Quarter.Name,
                                                                         cancellationTokenSource.Token);
 
             ChangePbStatusAndBtnExecute(true);

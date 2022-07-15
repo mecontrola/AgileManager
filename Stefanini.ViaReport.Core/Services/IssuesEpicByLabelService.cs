@@ -1,7 +1,7 @@
 ﻿using Stefanini.ViaReport.Core.Builders.Jira;
-using Stefanini.ViaReport.Core.Data.Enums;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
 using Stefanini.ViaReport.Data.Dtos.Jira;
+using Stefanini.ViaReport.Data.Enums;
 using System.Threading;
 using System.Threading.Tasks;
 

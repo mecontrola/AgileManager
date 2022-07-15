@@ -29,7 +29,9 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers
         private readonly ISearchPost searchPost;
 
         private readonly IIssueDataSynchronizerService issueDataSynchronizerService;
+        private readonly IIssueImpedimentSynchronizerService issueImpedimentSynchronizerService;
         private readonly IIssueStatusHistorySynchronizerService issueStatusHistorySynchronizerService;
+        private readonly IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService;
 
         public IssueSynchronizerService(IIssueRepository issueRepository,
                                         IIssueTypeRepository issueTypeRepository,
@@ -38,7 +40,9 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers
                                         IIssueGet issueGet,
                                         ISearchPost searchPost,
                                         IIssueDataSynchronizerService issueDataSynchronizerService,
-                                        IIssueStatusHistorySynchronizerService issueStatusHistorySynchronizerService)
+                                        IIssueImpedimentSynchronizerService issueImpedimentSynchronizerService,
+                                        IIssueStatusHistorySynchronizerService issueStatusHistorySynchronizerService,
+                                        IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService)
         {
             this.issueRepository = issueRepository;
             this.issueTypeRepository = issueTypeRepository;
@@ -47,23 +51,31 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers
             this.issueGet = issueGet;
             this.searchPost = searchPost;
             this.issueDataSynchronizerService = issueDataSynchronizerService;
+            this.issueImpedimentSynchronizerService = issueImpedimentSynchronizerService;
             this.issueStatusHistorySynchronizerService = issueStatusHistorySynchronizerService;
+            this.issueEpicDataSynchronizerService = issueEpicDataSynchronizerService;
         }
 
         public async Task SynchronizeData(ConfigurationSynchronizerDto configurationSynchronizerDto, CancellationToken cancellationToken)
         {
-            var projects = await RetrieveProjectsData((IssueConfigurationSynchronizerDto)configurationSynchronizerDto, cancellationToken);
+            var issueConfigurationSynchronizerDto = (IssueConfigurationSynchronizerDto)configurationSynchronizerDto;
+            var projects = await RetrieveProjectsData(issueConfigurationSynchronizerDto, cancellationToken);
 
             if (!projects.Any())
                 return;
 
             foreach (var project in projects)
             {
-                var lastUpdated = await RetrieveDateTimeLastUpdatesIssue(project.Id, cancellationToken);
+                var lastUpdated = await RetrieveDateTimeLastUpdate(issueConfigurationSynchronizerDto.SyncAllData, project.Id, cancellationToken);
 
                 await SynchronizeAllIssuesInProject(configurationSynchronizerDto, project, lastUpdated, cancellationToken);
             }
         }
+
+        private async Task<DateTime?> RetrieveDateTimeLastUpdate(bool syncAllData, long projectId, CancellationToken cancellationToken)
+            => syncAllData
+             ? await RetrieveDateTimeLastUpdatesIssue(projectId, cancellationToken)
+             : null;
 
         private async Task<IList<Project>> RetrieveProjectsData(IssueConfigurationSynchronizerDto issueConfigurationSynchronizerDto, CancellationToken cancellationToken)
             => await projectRepository.FindAllInIdListAsync(issueConfigurationSynchronizerDto.Projects, cancellationToken);
@@ -148,8 +160,9 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers
         private async Task SaveIssue(IssueSynchronizerParam parameters, CancellationToken cancellationToken)
         {
             await issueDataSynchronizerService.Save(parameters, cancellationToken);
-
+            await issueImpedimentSynchronizerService.Save(parameters, cancellationToken);
             await issueStatusHistorySynchronizerService.Save(parameters, cancellationToken);
+            await issueEpicDataSynchronizerService.Save(parameters, cancellationToken);
         }
     }
 }

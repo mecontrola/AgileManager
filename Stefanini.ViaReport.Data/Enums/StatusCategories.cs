@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Stefanini.ViaReport.Core.Data.Enums
+namespace Stefanini.ViaReport.Data.Enums
 {
     public enum StatusCategories : uint
     {

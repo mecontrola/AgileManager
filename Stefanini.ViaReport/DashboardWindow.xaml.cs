@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System;
+using Stefanini.ViaReport.Data.Dtos;
 
 namespace Stefanini.ViaReport
 {
@@ -46,7 +47,7 @@ namespace Stefanini.ViaReport
 
             var window = new IssueWindow();
             window.DefineTitle(WINDOW_TITLE);
-            window.SetDataColletion(item.Issues);
+            window.SetDataColletion((IList<Data.Dtos.IssueDto>)item.Issues);
             window.ShowDialog();
         }
     }

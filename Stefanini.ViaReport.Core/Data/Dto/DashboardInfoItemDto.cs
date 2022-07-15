@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stefanini.ViaReport.Data.Dtos;
+using System;
 using System.Collections.Generic;
 
 namespace Stefanini.ViaReport.Core.Data.Dto
@@ -7,7 +8,6 @@ namespace Stefanini.ViaReport.Core.Data.Dto
     {
         public DateTime Date { get; set; }
         public decimal Value { get; set; }
-        public IList<IssueInfoDto> Issues { get; set; }
-
+        public IList<IssueDto> Issues { get; set; }
     }
 }

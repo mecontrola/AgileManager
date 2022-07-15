@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel;
 
-namespace Stefanini.ViaReport.Core.Data.Enums
+namespace Stefanini.ViaReport.Data.Enums
 {
     public enum StatusTypes : uint
     {
         [Description("Cancelled")]
-        Cancelled = 1,
+        Cancelled = 10717,
         [Description("Removed")]
-        Removed,
+        Removed = 11709,
         [Description("Done")]
-        Done
+        Done = 10214
     }
 }

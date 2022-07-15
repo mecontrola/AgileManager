@@ -11,17 +11,20 @@ namespace Stefanini.ViaReport.Data.Entities
         public string Key { get; set; }
         public string Summary { get; set; }
         public bool Incident { get; set; }
+        public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public DateTime? Resolved { get; set; }
+        public string Link { get; set; }
         public long ProjectId { get; set; }
         public Project Project { get; set; }
         public long StatusId { get; set; }
         public Status Status { get; set; }
         public long IssueTypeId { get; set; }
         public IssueType IssueType { get; set; }
+        public IssueEpic IssueEpic { get; set; }
+        public IList<IssueImpediment> Impediments { get; set; }
         public IList<IssueStatusHistory> Statuses { get; set; }
 
         public DateTime? CustomField14503 { get; set; }
-        public decimal? CustomField15703 { get; set; }
-}
+    }
 }

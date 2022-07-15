@@ -1,5 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Data.Enums;
-using Stefanini.ViaReport.Data.Dtos.Jira;
+﻿using Stefanini.ViaReport.Data.Dtos.Jira;
+using Stefanini.ViaReport.Data.Enums;
 using System.Collections.Generic;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira

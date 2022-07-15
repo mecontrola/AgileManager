@@ -17,8 +17,8 @@ namespace Stefanini.ViaReport.Core.Business
         public async Task<AppSettingsDto> LoadDataAsync(CancellationToken cancellationToken)
             => await settingsService.LoadDataAsync(cancellationToken);
 
-        public async Task<bool> SavePreferencesAsync(bool persistFilter, CancellationToken cancellationToken)
-            => await settingsService.SavePreferencesAsync(persistFilter, cancellationToken);
+        public async Task<bool> SavePreferencesAsync(bool persistFilter, bool syncAllData, CancellationToken cancellationToken)
+            => await settingsService.SavePreferencesAsync(persistFilter, syncAllData, cancellationToken);
 
         public async Task<bool> SaveAuthenticationAsync(string username, string password, CancellationToken cancellationToken)
             => await settingsService.SaveAuthenticationAsync(username, password, cancellationToken);

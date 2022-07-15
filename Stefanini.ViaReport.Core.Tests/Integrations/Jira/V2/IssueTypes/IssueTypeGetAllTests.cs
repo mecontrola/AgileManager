@@ -4,7 +4,7 @@ using Stefanini.ViaReport.Core.Tests.Mocks;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using IssueTypesEnum = Stefanini.ViaReport.Core.Data.Enums.IssueTypes;
+using IssueTypesEnum = Stefanini.ViaReport.Data.Enums.IssueTypes;
 
 namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira.V2.IssueTypes
 {

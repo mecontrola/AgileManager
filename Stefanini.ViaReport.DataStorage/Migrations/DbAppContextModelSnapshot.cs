@@ -23,19 +23,25 @@ namespace Stefanini.ViaReport.DataStorage.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("CustomField14503")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal?>("CustomField15703")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("Incident")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
 
                     b.Property<long>("IssueTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -69,6 +75,59 @@ namespace Stefanini.ViaReport.DataStorage.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Issues");
+                });
+
+            modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.IssueEpic", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("IssueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Progress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Quarter")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueId")
+                        .IsUnique();
+
+                    b.ToTable("IssueEpics");
+                });
+
+            modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.IssueImpediment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("End")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("IssueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("IssueImpediments");
                 });
 
             modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.IssueStatusHistory", b =>
@@ -284,6 +343,28 @@ namespace Stefanini.ViaReport.DataStorage.Migrations
                     b.Navigation("Status");
                 });
 
+            modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.IssueEpic", b =>
+                {
+                    b.HasOne("Stefanini.ViaReport.Data.Entities.Issue", "Issue")
+                        .WithOne("IssueEpic")
+                        .HasForeignKey("Stefanini.ViaReport.Data.Entities.IssueEpic", "IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Issue");
+                });
+
+            modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.IssueImpediment", b =>
+                {
+                    b.HasOne("Stefanini.ViaReport.Data.Entities.Issue", "Issue")
+                        .WithMany("Impediments")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Issue");
+                });
+
             modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.IssueStatusHistory", b =>
                 {
                     b.HasOne("Stefanini.ViaReport.Data.Entities.Issue", "Issue")
@@ -327,6 +408,10 @@ namespace Stefanini.ViaReport.DataStorage.Migrations
 
             modelBuilder.Entity("Stefanini.ViaReport.Data.Entities.Issue", b =>
                 {
+                    b.Navigation("Impediments");
+
+                    b.Navigation("IssueEpic");
+
                     b.Navigation("Statuses");
                 });
 

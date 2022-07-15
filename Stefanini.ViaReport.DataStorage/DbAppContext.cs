@@ -7,6 +7,8 @@ namespace Stefanini.ViaReport.DataStorage
     public class DbAppContext : DbContext, IDbAppContext
     {
         public DbSet<Issue> Issues { get; set; }
+        public DbSet<IssueEpic> IssueEpics { get; set; }
+        public DbSet<IssueImpediment> IssueImpediments { get; set; }
         public DbSet<IssueStatusHistory> IssueStatusHistories { get; set; }
         public DbSet<IssueType> IssueTypes { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -17,7 +19,7 @@ namespace Stefanini.ViaReport.DataStorage
         public DbAppContext(DbContextOptions<DbAppContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

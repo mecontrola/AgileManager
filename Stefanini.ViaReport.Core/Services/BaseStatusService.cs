@@ -1,6 +1,6 @@
-﻿using Stefanini.ViaReport.Core.Data.Enums;
-using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
+﻿using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
 using Stefanini.ViaReport.Data.Dtos.Jira;
+using Stefanini.ViaReport.Data.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

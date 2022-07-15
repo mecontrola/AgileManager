@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Stefanini.Core.Extensions;
 using Stefanini.ViaReport.Core.Builders.Jira;
-using Stefanini.ViaReport.Core.Data.Enums;
 using Stefanini.ViaReport.Core.Tests.Mocks;
+using Stefanini.ViaReport.Data.Enums;
 using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Builders.Jira
