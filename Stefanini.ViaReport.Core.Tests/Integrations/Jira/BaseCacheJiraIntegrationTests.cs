@@ -5,8 +5,10 @@ using Xunit;
 
 namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
 {
+    [TestCaseOrderer("Xunit.FactPriorityOrderer", "RunCacheTestsOrder")]
     public class BaseCacheJiraIntegrationTests
     {
+        [FactPriority(1)]
         [Fact(DisplayName = "[BaseCacheJiraIntegration.SaveFile1|LoadFile] Deve salvar o arquivo de cache e carregar em seguida.")]
         public void DeveSalvarCarregarCache()
         {
@@ -20,6 +22,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
             cache.ClearFiles();
         }
 
+        [FactPriority(2)]
         [Fact(DisplayName = "[BaseCacheJiraIntegration.IsLoadCachedFile] Deve retornar false quando o cache estiver desligado.")]
         public void DeveRetornarFalseQuandoCacheInativo()
         {
@@ -35,6 +38,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
             cache.ClearFiles();
         }
 
+        [FactPriority(3)]
         [Fact(DisplayName = "[BaseCacheJiraIntegration.IsLoadCachedFile] Deve retornar true quando o tempo de existência do arquivo é maior que o de cache.")]
         public void DeveRetornarTrueQuandoTempoMaiorQueConfigurado()
         {
@@ -50,6 +54,7 @@ namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira
             cache.ClearFiles();
         }
 
+        [FactPriority(4)]
         [Fact(DisplayName = "[BaseCacheJiraIntegration.IsLoadCachedFile] Deve retornar false quando o tempo de existência do arquivo é menor que o de cache.")]
         public void DeveRetornarFalseQuandoTempoMenorQueConfigurado()
         {

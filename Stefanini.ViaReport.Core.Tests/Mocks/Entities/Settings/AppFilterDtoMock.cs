@@ -1,5 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Settings;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+﻿using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos;
+using Stefanini.ViaReport.Data.Dtos.Settings;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Entities.Settings
 {
@@ -10,8 +10,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Entities.Settings
             {
                 StartDate = DataMock.DATETIME_START_CYCLE,
                 EndDate = DataMock.DATETIME_END_CYCLE,
-                Project = JiraProjectDtoMock.Create(),
-                Quarter = DataMock.TEXT_QUARTER_1_2000
+                Project = ProjectDtoMock.CreateSearch(),
+                Quarter = QuarterDtoMock.CreateQ12000(),
             };
     }
 }

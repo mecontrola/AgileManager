@@ -1,10 +1,11 @@
 ﻿using Stefanini.ViaReport.Core.Converters;
-using Stefanini.ViaReport.Core.Data.Configurations;
 using Stefanini.ViaReport.Core.Exceptions;
+using Stefanini.ViaReport.Data.Configurations;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -66,17 +67,30 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
                 return GetDeserializeResponde<TResponse>(json);
             }
 
-            var client = CreateInstance(username, password);
-            var response = await client.GetAsync(route, cancellationToken);
-            return await GetResponse<TResponse>(response);
+            return await RequestData<TResponse>(username, password, (client) => client.GetAsync(route, cancellationToken));
         }
 
         protected async Task<TResponse> PostAsync<TRequest, TResponse>(string username, string password, TRequest request, CancellationToken cancellationToken)
         {
-            var client = CreateInstance(username, password);
             var content = MountContent(request);
-            var response = await client.PostAsync(GetRoute(), content, cancellationToken);
-            return await GetResponse<TResponse>(response);
+            return await RequestData<TResponse>(username, password, (client) => client.PostAsync(GetRoute(), content, cancellationToken));
+        }
+
+        private async Task<TResponse> RequestData<TResponse>(string username, string password, Func<HttpClient, Task<HttpResponseMessage>> callFunc)
+        {
+            try
+            {
+                var client = CreateInstance(username, password);
+                var response = await callFunc(client);
+                return await GetResponse<TResponse>(response);
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.InnerException is SocketException)
+                    throw new JiraUnknownHostException();
+
+                throw;
+            }
         }
 
         private StringContent MountContent<T>(T data)
@@ -119,7 +133,6 @@ namespace Stefanini.ViaReport.Core.Integrations.Jira
             }
             catch (Exception ex)
             {
-
                 throw new JiraException($"Jira Deserialize Error: {ex.Message}");
             }
         }

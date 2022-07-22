@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using Stefanini.ViaReport.Core.Data.Dto.Jira;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Tests.Mocks;
-using Stefanini.ViaReport.Core.Tests.Mocks.Dto;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
+using Stefanini.ViaReport.Data.Dtos.Jira;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -17,7 +17,7 @@ namespace Stefanini.ViaReport.Core.Tests.Helpers
 
         public RecoverDateTimeFirstStatusMatchBacklogHelperTests()
         {
-            helper = new RecoverDateTimeFirstStatusMatchBacklogHelper();
+            helper = new RecoverDateTimeFirstStatusMatchBacklogHelper(new CheckChangelogTypeHelper());
         }
 
         [Fact(DisplayName = "[RecoverDateTimeFirstStatusMatchBacklogHelper.GetChangelog] Deve retornar a primeira ocorrência de status existente no backlog de uma issue.")]

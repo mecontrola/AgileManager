@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Stefanini.ViaReport.Core.Services;
+using Stefanini.ViaReport.Core.Services.Synchronizers;
+using Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData;
 using System;
 
 namespace Stefanini.ViaReport.Core.IoC
@@ -21,12 +23,17 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddScoped<IBugIssuesResolvedInDateRangeService, BugIssuesResolvedInDateRangeService>();
             services.TryAddScoped<ICFDExportReportIntegrationService, CFDExportReportIntegrationService>();
             services.TryAddScoped<IDeliveryLastCycleService, DeliveryLastCycleService>();
+            services.TryAddScoped<IDownstreamIndicatorsService, DownstreamIndicatorsService>();
+            services.TryAddScoped<IDownstreamJiraIndicatorsService, DownstreamJiraIndicatorsService>();
             services.TryAddScoped<IIssuesCreatedInDateRangeService, IssuesCreatedInDateRangeService>();
             services.TryAddScoped<IIssuesEpicByLabelService, IssuesEpicByLabelService>();
             services.TryAddScoped<IIssuesNotFixVersionService, IssuesNotFixVersionService>();
             services.TryAddScoped<IIssuesResolvedInDateRangeService, IssuesResolvedInDateRangeService>();
             services.TryAddScoped<IJiraAuthService, JiraAuthService>();
-            services.TryAddScoped<IJiraProjectsService, JiraProjectsService>();
+            services.TryAddScoped<IProjectService, ProjectService>();
+            services.TryAddScoped<IQuarterService, QuarterService>();
+            services.TryAddScoped<ISettingsService, SettingsService>();
+            services.TryAddScoped<ISynchronizerService, SynchronizerService>();
             services.TryAddScoped<IStatusDoneService, StatusDoneService>();
             services.TryAddScoped<IStatusInProgressService, StatusInProgressService>();
             services.TryAddScoped<ITechnicalDebitIssuesCancelledInDateRangeService, TechnicalDebitIssuesCancelledInDateRangeService>();
@@ -35,6 +42,24 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddScoped<ITechnicalDebitIssuesExistedInDateRangeService, TechnicalDebitIssuesExistedInDateRangeService>();
             services.TryAddScoped<ITechnicalDebitIssuesOpenedInDateRangeService, TechnicalDebitIssuesOpenedInDateRangeService>();
             services.TryAddScoped<ITechnicalDebitIssuesResolvedInDateRangeService, TechnicalDebitIssuesResolvedInDateRangeService>();
+
+            AddSyncronizerServices(services);
+        }
+
+        private static void AddSyncronizerServices(IServiceCollection services)
+        {
+            services.TryAddScoped<IIssueDataSynchronizerService, IssueDataSynchronizerService>();
+            services.TryAddScoped<IIssueEpicDataSynchronizerService, IssueEpicDataSynchronizerService>();
+            services.TryAddScoped<IIssueImpedimentSynchronizerService, IssueImpedimentSynchronizerService>();
+            services.TryAddScoped<IIssueStatusHistorySynchronizerService, IssueStatusHistorySynchronizerService>();
+
+            services.TryAddScoped<IIssueSynchronizerService, IssueSynchronizerService>();
+            services.TryAddScoped<IIssueTypeSynchronizerService, IssueTypeSynchronizerService>();
+            services.TryAddScoped<IProjectSynchronizerService, ProjectSynchronizerService>();
+            services.TryAddScoped<IStatusCategorySynchronizerService, StatusCategorySynchronizerService>();
+            services.TryAddScoped<IStatusSynchronizerService, StatusSynchronizerService>();
+
+            services.TryAddScoped<ISynchronizerService, SynchronizerService>();
         }
     }
 }

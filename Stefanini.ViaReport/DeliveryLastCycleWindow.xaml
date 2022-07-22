@@ -4,13 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stefanini.ViaReport"
+        xmlns:converters="clr-namespace:Stefanini.ViaReport.Conveters"
         mc:Ignorable="d"
         Title="Delivery Last Cycle" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <converters:LinkIssueConverter x:Key="LinkIssueConverter" />
+    </Window.Resources>
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
             <Button Name="BtnExport" Content="Export" Click="BtnExport_Click"/>
         </ToolBar>
-        <GroupBox Margin="5,5,5,5" DockPanel.Dock="Top" Header="Informations">
+        <GroupBox Margin="5,5,5,2" DockPanel.Dock="Top" Header="Informations">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120"/>
@@ -21,25 +25,91 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="36"/>
-                    <RowDefinition Height="36"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
+                    <RowDefinition Height="26"/>
                 </Grid.RowDefinitions>
-                <Label Content="Start Date" Margin="5,5,5,5" Grid.Row="0" Grid.Column="0"/>
-                <Label Name="TxtStartDate" Margin="5,5,5,5" Grid.Row="0" Grid.Column="1"/>
-                <Label Content="End Date" Margin="5,5,5,5" Grid.Row="1" Grid.Column="0"/>
-                <Label Name="TxtEndtDate" Margin="5,5,5,5" Grid.Row="1" Grid.Column="1"/>
-                <Label Content="Throughtput" Margin="5,5,5,5" Grid.Row="0" Grid.Column="2"/>
-                <Label Name="TxtThroughtput" Margin="5,5,5,5" Grid.Row="0" Grid.Column="3"/>
-                <Label Content="Lead Time Average" Margin="5,5,5,5" Grid.Row="1" Grid.Column="2"/>
-                <Label Name="TxtLeadTimeAverage" Margin="5,5,5,5" Grid.Row="1" Grid.Column="3"/>
+                <Label Content="Start Date" Margin="5,0,5,0" Grid.Row="0" Grid.Column="0"/>
+                <Label Name="TxtStartDate" Margin="5,0,5,0" Grid.Row="0" Grid.Column="1"/>
+                <Label Content="End Date" Margin="5,0,5,0" Grid.Row="1" Grid.Column="0"/>
+                <Label Name="TxtEndtDate" Margin="5,0,5,0" Grid.Row="1" Grid.Column="1"/>
+                <Label Content="Throughtput" Margin="5,0,5,0" Grid.Row="2" Grid.Column="0"/>
+                <Label Name="TxtThroughtput" Margin="5,0,5,0" Grid.Row="2" Grid.Column="1"/>
+                <Label Content="Customer LTA" Margin="5,0,5,0" Grid.Row="0" Grid.Column="2" ToolTip="Customer Lead Time Average"/>
+                <Label Name="TxtCustomerLeadTimeAverage" Margin="5,0,5,0" Grid.Row="0" Grid.Column="3"/>
+                <Label Content="Discovery LTA" Margin="5,0,5,0" Grid.Row="1" Grid.Column="2" ToolTip="Discovery Lead Time Average"/>
+                <Label Name="TxtDiscoveryLeadTimeAverage" Margin="5,0,5,0" Grid.Row="1" Grid.Column="3"/>
+                <Label Content="System LTA" Margin="5,0,5,0" Grid.Row="2" Grid.Column="2" ToolTip="System Lead Time Average"/>
+                <Label Name="TxtSystemLeadTimeAverage" Margin="5,0,5,0" Grid.Row="2" Grid.Column="3"/>
+                <Label Content="Total Feature" Margin="5,0,5,0" Grid.Row="0" Grid.Column="4"/>
+                <Label Name="TxtTotalFeature" Margin="5,0,5,0" Grid.Row="0" Grid.Column="5"/>
+                <Label Content="Total Debits" Margin="5,0,5,0" Grid.Row="1" Grid.Column="4"/>
+                <Label Name="TxtTotalDebits" Margin="5,0,5,0" Grid.Row="1" Grid.Column="5"/>
+                <Label Content="QAP" Margin="5,0,5,0" Grid.Row="2" Grid.Column="4" ToolTip="Quarter Average Percentage"/>
+                <Label Name="TxtQuarterAveragePercentage" Margin="5,0,5,0" Grid.Row="2" Grid.Column="5"/>
             </Grid>
         </GroupBox>
-        <DataGrid Name="DgInformation" AutoGenerateColumns="False" CanUserAddRows="false">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Key}" Header="Key" />
-                <DataGridTextColumn Binding="{Binding Description}" Header="Description" />
-                <DataGridTextColumn Binding="{Binding LeadTime, StringFormat={}{0:0d}}" Header="Lead Time" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Margin="5,0,5,2" Header="Issues" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <DataGrid Name="DgInformation" AutoGenerateColumns="False" CanUserAddRows="false" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Key}" Header="Key" />
+                        <DataGridTextColumn Binding="{Binding IssueType}" Header="Issue Type" />
+                        <DataGridTextColumn Binding="{Binding Description}" Header="Description" />
+                        <DataGridTextColumn Binding="{Binding DiscoveryLeadTime, StringFormat={}{0:0d}}" Header="Discovery Lead Time" />
+                        <DataGridTextColumn Binding="{Binding SystemLeadTime, StringFormat={}{0:0d}}" Header="System Lead Time" />
+                        <DataGridTextColumn Binding="{Binding CustomerLeadTime, StringFormat={}{0:0d}}" Header="Customer Lead Time" />
+                        <DataGridHyperlinkColumn Binding="{Binding Link}" Header="Link" ContentBinding="{Binding Link, Converter={StaticResource LinkIssueConverter}}">
+                            <DataGridHyperlinkColumn.ElementStyle>
+                                <Style>
+                                    <EventSetter Event="Hyperlink.Click" Handler="DgDataColumnLink_Click"/>
+                                </Style>
+                            </DataGridHyperlinkColumn.ElementStyle>
+                        </DataGridHyperlinkColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Margin="5,0,2.5,5" Header="Impediments" Grid.Row="1" Grid.Column="0">
+                <DataGrid Name="DgImpediment" AutoGenerateColumns="False" CanUserAddRows="false" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Key}" Header="Key" />
+                        <DataGridTextColumn Binding="{Binding IssueType}" Header="Issue Type" />
+                        <DataGridTextColumn Binding="{Binding Description}" Header="Description" />
+                        <DataGridTextColumn Binding="{Binding Time, StringFormat={}{0:dd} days {0:hh} hours {0:mm} minutes}" Header="Time" />
+                        <DataGridHyperlinkColumn Binding="{Binding Link}" Header="Link" ContentBinding="{Binding Link, Converter={StaticResource LinkIssueConverter}}">
+                            <DataGridHyperlinkColumn.ElementStyle>
+                                <Style>
+                                    <EventSetter Event="Hyperlink.Click" Handler="DgDataColumnLink_Click"/>
+                                </Style>
+                            </DataGridHyperlinkColumn.ElementStyle>
+                        </DataGridHyperlinkColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Margin="2.5,0,5,5" Header="Epics" Grid.Row="1" Grid.Column="1">
+                <DataGrid Name="DgEpic" AutoGenerateColumns="False" CanUserAddRows="false" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Key}" Header="Key" />
+                        <DataGridTextColumn Binding="{Binding Description}" Header="Description" />
+                        <DataGridTextColumn Binding="{Binding Progress, StringFormat={}{0:0}%}" Header="Percent" />
+                        <DataGridHyperlinkColumn Binding="{Binding Link}" Header="Link" ContentBinding="{Binding Link, Converter={StaticResource LinkIssueConverter}}">
+                            <DataGridHyperlinkColumn.ElementStyle>
+                                <Style>
+                                    <EventSetter Event="Hyperlink.Click" Handler="DgDataColumnLink_Click"/>
+                                </Style>
+                            </DataGridHyperlinkColumn.ElementStyle>
+                        </DataGridHyperlinkColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
     </DockPanel>
 </Window>

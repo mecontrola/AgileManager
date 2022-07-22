@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto;
+﻿using Stefanini.ViaReport.Data.Dtos;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +7,6 @@ namespace Stefanini.ViaReport.Core.Business
 {
     public interface IFixVersionBusiness
     {
-        Task<IList<IssueInfoDto>> GetListIssuesNoFixVersion(string username, string password, string project, CancellationToken cancellationToken);
+        Task<IList<IssueDto>> GetListIssuesNoFixVersion(string project, CancellationToken cancellationToken);
     }
 }

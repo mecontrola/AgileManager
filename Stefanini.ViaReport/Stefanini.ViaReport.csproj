@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <None Remove="Images\information_icon.png" />
-    <None Remove="Images\new_release_icon.png" />
     <None Remove="Images\sign_check_icon.png" />
     <None Remove="Images\sign_error_icon.png" />
     <None Remove="Images\table_icon.png" />
@@ -51,6 +50,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Stefanini.Core\Stefanini.Core.csproj" />
     <ProjectReference Include="..\Stefanini.ViaReport.Core\Stefanini.ViaReport.Core.csproj" />
+    <ProjectReference Include="..\Stefanini.ViaReport.DataStorage\Stefanini.ViaReport.DataStorage.csproj" />
     <ProjectReference Include="..\Stefanini.ViaReport.Updater.Core\Stefanini.ViaReport.Updater.Core.csproj" />
   </ItemGroup>
 
@@ -59,9 +59,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\information_icon.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\new_release_icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\sign_check_icon.png">

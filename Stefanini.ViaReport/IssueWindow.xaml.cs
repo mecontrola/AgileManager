@@ -1,5 +1,6 @@
 ﻿using Stefanini.Core.Extensions;
 using Stefanini.ViaReport.Core.Data.Dto;
+using Stefanini.ViaReport.Data.Dtos;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -12,11 +13,11 @@ namespace Stefanini.ViaReport
     {
         private const string PREFIX_TITLE = "Issues: ";
 
-        private readonly ObservableCollection<IssueInfoDto> dgDataCollection;
+        private readonly ObservableCollection<Data.Dtos.IssueDto> dgDataCollection;
 
         public IssueWindow()
         {
-            dgDataCollection = new ObservableCollection<IssueInfoDto>();
+            dgDataCollection = new ObservableCollection<Data.Dtos.IssueDto>();
 
             InitializeComponent();
         }
@@ -24,7 +25,7 @@ namespace Stefanini.ViaReport
         public string DefineTitle(string title)
             => Title = $"{PREFIX_TITLE}{title}";
 
-        public void SetDataColletion(IList<IssueInfoDto> data)
+        public void SetDataColletion(IList<Data.Dtos.IssueDto> data)
         {
             dgDataCollection.Clear();
             dgDataCollection.AddList(data);

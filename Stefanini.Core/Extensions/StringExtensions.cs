@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -56,6 +57,31 @@ namespace Stefanini.Core.Extensions
                 return Convert.ToDateTime(value);
             }
             catch (Exception)
+            {
+                return null;
+            }
+        }
+
+#if !DEBUG
+        [System.Diagnostics.DebuggerStepThrough]
+#endif
+        public static decimal? ToDecimal(this string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+
+            var str = value.Replace(",", ".");
+            str = Regex.Replace(str, @"[^\d|.]", string.Empty);
+
+            try
+            {
+                return decimal.Parse(str, CultureInfo.InvariantCulture.NumberFormat);
+            }
+            catch (FormatException)
+            {
+                return null;
+            }
+            catch (OverflowException)
             {
                 return null;
             }

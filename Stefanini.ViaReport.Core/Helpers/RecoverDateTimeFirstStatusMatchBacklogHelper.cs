@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto.Jira;
+﻿using Stefanini.ViaReport.Data.Dtos.Jira;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,12 @@ namespace Stefanini.ViaReport.Core.Helpers
 {
     public class RecoverDateTimeFirstStatusMatchBacklogHelper : IRecoverDateTimeFirstStatusMatchBacklogHelper
     {
-        private const string HISTORY_FIELD_STATUS = "status";
-        private const string HISTORY_FIELDTYPE_JIRA = "jira";
+        private readonly ICheckChangelogTypeHelper checkChangelogTypeHelper;
+
+        public RecoverDateTimeFirstStatusMatchBacklogHelper(ICheckChangelogTypeHelper checkChangelogTypeHelper)
+        {
+            this.checkChangelogTypeHelper = checkChangelogTypeHelper;
+        }
 
         public DateTime? GetDateTime(ChangelogDto changelog, IList<string> statuses)
         {
@@ -19,14 +23,10 @@ namespace Stefanini.ViaReport.Core.Helpers
                  : null;
         }
 
-        private static IEnumerable<HistoryDto> GetChangeStatusInChangelog(ChangelogDto changelog, IList<string> statuses)
+        private IEnumerable<HistoryDto> GetChangeStatusInChangelog(ChangelogDto changelog, IList<string> statuses)
             => changelog.Histories
                         .Where(itm => itm.Items
-                                         .Any(x => statuses.Any(statusId => IsJiraStatus(x)
+                                         .Any(x => statuses.Any(statusId => checkChangelogTypeHelper.IsFieldStatus(x)
                                                                          && x.To.Equals(statusId))));
-
-        private static bool IsJiraStatus(HistoryItemDto history)
-            => history.Field.Equals(HISTORY_FIELD_STATUS)
-            && history.Fieldtype.Equals(HISTORY_FIELDTYPE_JIRA);
     }
 }

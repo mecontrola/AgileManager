@@ -1,5 +1,6 @@
-﻿using Stefanini.ViaReport.Core.Data.Enums;
+﻿using Stefanini.ViaReport.Core.Builders.Jira;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
+using Stefanini.ViaReport.Data.Enums;
 using System;
 
 namespace Stefanini.ViaReport.Core.Services
@@ -10,17 +11,13 @@ namespace Stefanini.ViaReport.Core.Services
             : base(searchPost)
         { }
 
-        protected override string[] CreateJql(string project, DateTime initDate, DateTime endDate)
-            => new string[]
-            {
-                GetProjectCriteria(project),
-                GetNotInDeletedStatusesCriteria(),
-                GetBetweenResolvedDateCriteria(initDate, endDate),
-                GetInIssueTypesCriteria(GetIssueTypes())
-            };
-
-        protected override string CreateOrderBy()
-            => OrderByKey();
+        protected override JqlBuilder CreateJql(string project, DateTime initDate, DateTime endDate)
+            => JqlBuilder.GetInstance()
+                         .AddProjectCriteria(project)
+                         .AddNotInDeletedStatusesCriteria()
+                         .AddBetweenResolvedDateCriteria(initDate, endDate)
+                         .AddInIssueTypesCriteria(GetIssueTypes())
+                         .AddKeyOrderBy();
 
         private static IssueTypes[] GetIssueTypes()
             => new[]

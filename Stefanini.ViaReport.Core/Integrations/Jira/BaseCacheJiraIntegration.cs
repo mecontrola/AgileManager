@@ -1,5 +1,5 @@
 ﻿using Stefanini.Core.Extensions;
-using Stefanini.ViaReport.Core.Data.Configurations;
+using Stefanini.ViaReport.Data.Configurations;
 using System;
 using System.IO;
 

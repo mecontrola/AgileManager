@@ -51,9 +51,42 @@ namespace Stefanini.Core.Tests.Extensions
         }
 
         [Fact(DisplayName = "[StringExtensions.ToDateTime] Deve realizar conversão de uma valor string vazia para um DateTime nulo.")]
-        public void DeveRealizarConversaoStringVaziaParaDateTime()
+        public void DeveRealizarConversaoStringVaziaParaDateTimeNull()
         {
             var actual = string.Empty.ToDateTime();
+
+            actual.Should().BeNull();
+        }
+
+        [Fact(DisplayName = "[StringExtensions.ToDateTime] Deve realizar conversão de uma valor decimal em string para um decimal.")]
+        public void DeveRealizarConversaoStringValidaParaDecimal()
+        {
+            var expected = DataMock.DECIMAL_DEFAULT;
+            var actual = DataMock.TEXT_DECIMAL.ToDecimal();
+
+            actual.Should().Be(expected);
+        }
+
+        [Fact(DisplayName = "[StringExtensions.ToDecimal] Deve realizar conversão de uma valor string vazia para um decimal nulo.")]
+        public void DeveRealizarConversaoStringVaziaParaDecimalNull()
+        {
+            var actual = string.Empty.ToDecimal();
+
+            actual.Should().BeNull();
+        }
+
+        [Fact(DisplayName = "[StringExtensions.ToDecimal] Deve realizar conversão de uma valor string somente texto para um decimal nulo.")]
+        public void DeveRealizarConversaoStringSomenteTextoParaDecimalNull()
+        {
+            var actual = DataMock.VALUE_DEFAULT_TEXT.ToDecimal();
+
+            actual.Should().BeNull();
+        }
+
+        [Fact(DisplayName = "[StringExtensions.ToDecimal]  Deve realizar conversão de uma valor maior que valor decimal para um decimal nulo.")]
+        public void DeveRealizarConversaoOverflowParaDecimalNull()
+        {
+            var actual = $"{decimal.MaxValue}4".ToDecimal();
 
             actual.Should().BeNull();
         }

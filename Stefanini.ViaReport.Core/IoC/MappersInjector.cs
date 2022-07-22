@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Stefanini.ViaReport.Core.Mappers;
+using Stefanini.ViaReport.Core.Mappers.DtoToEntity;
+using Stefanini.ViaReport.Core.Mappers.EntityToDto;
 using System;
 
 namespace Stefanini.ViaReport.Core.IoC
@@ -12,7 +14,29 @@ namespace Stefanini.ViaReport.Core.IoC
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            services.TryAddSingleton<IIssueDtoToIssueInfoDtoMapper, IssueDtoToIssueInfoDtoMapper>();
+            services.TryAddSingleton<IJiraIssueDtoToIssueInfoDtoMapper, JiraIssueDtoToIssueDtoMapper>();
+
+            AddDtoToEntityMapperServices(services);
+
+            AddEntityToDtoMapperServices(services);
+        }
+
+        private static void AddDtoToEntityMapperServices(IServiceCollection services)
+        {
+            services.TryAddSingleton<IJiraIssueDtoToEntityMapper, JiraIssueDtoToEntityMapper>();
+            services.TryAddSingleton<IJiraIssueTypeDtoToEntityMapper, JiraIssueTypeDtoToEntityMapper>();
+            services.TryAddSingleton<IJiraProjectDtoToEntityMapper, JiraProjectDtoToEntityMapper>();
+            services.TryAddSingleton<IJiraProjectCategoryDtoToEntityMapper, JiraProjectCategoryDtoToEntityMapper>();
+            services.TryAddSingleton<IJiraStatusDtoToEntityMapper, JiraStatusDtoToEntityMapper>();
+            services.TryAddSingleton<IJiraStatusCategoryDtoToEntityMapper, JiraStatusCategoryDtoToEntityMapper>();
+        }
+
+        private static void AddEntityToDtoMapperServices(IServiceCollection services)
+        {
+            services.TryAddSingleton<IDeliveryLastCycleEpicEntityToDtoMapper, DeliveryLastCycleEpicEntityToDtoMapper>();
+            services.TryAddSingleton<IIssueEntityToDtoMapper, IssueEntityToDtoMapper>();
+            services.TryAddSingleton<IProjectEntityToDtoMapper, ProjectEntityToDtoMapper>();
+            services.TryAddSingleton<IProjectCategoryEntityToDtoMapper, ProjectCategoryEntityToDtoMapper>();
         }
     }
 }

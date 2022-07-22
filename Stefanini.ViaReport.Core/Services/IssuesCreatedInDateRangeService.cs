@@ -1,4 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
+﻿using Stefanini.ViaReport.Core.Builders.Jira;
+using Stefanini.ViaReport.Core.Integrations.Jira.V2.Projects;
 using System;
 
 namespace Stefanini.ViaReport.Core.Services
@@ -9,13 +10,11 @@ namespace Stefanini.ViaReport.Core.Services
             : base(searchPost)
         { }
 
-        protected override string[] CreateJql(string project, DateTime initDate, DateTime endDate)
-            => new string[]
-            {
-                GetProjectCriteria(project),
-                GetNotInDeletedStatusesCriteria(),
-                GetBetweenCreatedDateCriteria(initDate, endDate),
-                GetBasicIssueTypesCriteria()
-            };
+        protected override JqlBuilder CreateJql(string project, DateTime initDate, DateTime endDate)
+            => JqlBuilder.GetInstance()
+                         .AddProjectCriteria(project)
+                         .AddNotInDeletedStatusesCriteria()
+                         .AddBetweenCreatedDateCriteria(initDate, endDate)
+                         .AddBasicIssueTypesCriteria();
     }
 }
