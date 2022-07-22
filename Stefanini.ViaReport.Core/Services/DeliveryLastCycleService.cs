@@ -59,16 +59,9 @@ namespace Stefanini.ViaReport.Core.Services
         public async Task<DeliveryLastCycleDto> GetData(long projectId, DateTime initDate, DateTime endDate, string quarter, CancellationToken cancellationToken)
         {
             var issues = await issueRepository.FindResolvedInDateRangeAsync(projectId, initDate, endDate, cancellationToken);
-            var data = new List<DeliveryLastCycleIssueDto>();
+            var data = await Task.WhenAll(issues.Select(issue => CreateIssueInfo(issue, cancellationToken)));
             var impediments = await CreateImpedimentList(projectId, initDate, endDate, cancellationToken);
             var epics = await CreateEpicList(projectId, quarter, cancellationToken);
-
-            foreach (var issue in issues)
-            {
-                var info = await CreateIssueInfo(issue, cancellationToken);
-
-                data.Add(info);
-            }
 
             return CreateDeliveryLastCycleDto(initDate, endDate, data, impediments, epics);
         }
@@ -167,6 +160,10 @@ namespace Stefanini.ViaReport.Core.Services
         {
             var dateInProgress = await issueStatusHistoryRepository.FindDateTimeFirstHistoryByStatusCategoryAsync(issueId, StatusCategories.InProgress, cancellationToken);
             var dateDone = await issueStatusHistoryRepository.FindDateTimeFirstHistoryByStatusCategoryAsync(issueId, StatusCategories.Done, cancellationToken);
+
+            if (dateInProgress == null || dateDone == null)
+                return 0;
+
             return businessDayHelper.Diff(dateInProgress.Value, dateDone.Value);
         }
 
@@ -174,6 +171,10 @@ namespace Stefanini.ViaReport.Core.Services
         {
             var dateToDo = await issueStatusHistoryRepository.FindDateTimeFirstHistoryByStatusCategoryAsync(issueId, StatusCategories.ToDo, cancellationToken);
             var dateInProgress = await issueStatusHistoryRepository.FindDateTimeFirstHistoryByStatusCategoryAsync(issueId, StatusCategories.InProgress, cancellationToken);
+
+            if (dateToDo == null || dateInProgress == null)
+                return 0;
+
             return businessDayHelper.Diff(dateToDo.Value, dateInProgress.Value);
         }
 
