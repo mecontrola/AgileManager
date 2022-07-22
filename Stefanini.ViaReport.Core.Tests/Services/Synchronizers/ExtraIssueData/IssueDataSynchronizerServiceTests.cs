@@ -1,19 +1,14 @@
-﻿using FluentAssertions;
-using NSubstitute;
+﻿using NSubstitute;
 using Stefanini.Core.TestingTools;
+using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Mappers.DtoToEntity;
 using Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData;
 using Stefanini.ViaReport.Core.Tests.Mocks;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Parameters;
-using Stefanini.ViaReport.Core.Tests.Mocks.Repositories;
 using Stefanini.ViaReport.Data.Entities;
 using Stefanini.ViaReport.DataStorage.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -28,7 +23,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers.ExtraIssueData
 
         public IssueDataSynchronizerServiceTests()
         {
-            var jiraIssueDtoToEntityMapper = new JiraIssueDtoToEntityMapper();
+            var jiraIssueDtoToEntityMapper = new JiraIssueDtoToEntityMapper(new IssueFieldsValidationHelper(), new MountJiraUrlHelper());
 
             issueRepository = Substitute.For<IIssueRepository>();
 
@@ -56,7 +51,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers.ExtraIssueData
             @param.IssueDto.Fields.Updated = updated;
             @param.IssueDto.Fields.Status = StatusDtoMock.CreateEmDesenvolvimento();
 
-            SetIssueFindByKeyAsyncReturns(IssueMock.CreateAllFilled());
+            SetIssueFindByKeyAsyncReturns(IssueMock.CreateAllFilledStory());
 
             await issueDataSynchronizerService.Save(@param, GetCancellationToken());
 
@@ -65,7 +60,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers.ExtraIssueData
                                                                   && value.StatusId.Equals(DataMock.INT_ID_6)),
                                               Arg.Any<CancellationToken>());
         }
-        
+
         private void SetIssueFindByKeyAsyncReturns(Issue issue)
         {
             issueRepository.FindByKeyAsync(Arg.Any<string>(),

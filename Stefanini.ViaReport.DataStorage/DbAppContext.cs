@@ -19,7 +19,10 @@ namespace Stefanini.ViaReport.DataStorage
         public DbAppContext(DbContextOptions<DbAppContext> options)
             : base(options)
         {
-            Database.Migrate();
+            if (Database.IsRelational())
+                Database.Migrate();
+            else
+                Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

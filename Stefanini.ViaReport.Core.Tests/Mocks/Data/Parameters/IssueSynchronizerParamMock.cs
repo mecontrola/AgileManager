@@ -9,7 +9,16 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Parameters
         public static IssueSynchronizerParam Create()
             => new()
             {
-                IssueDto = IssueDtoMock.CreateAllFilled(),
+                IssueDto = IssueDtoMock.CreateAllFilledStory(),
+                ProjectId = DataMock.INT_ID_1,
+                Statuses = StatusMock.CreateDictionary(),
+                IssueTypes = IssueTypeMock.CreateDictionary()
+            };
+
+        public static IssueSynchronizerParam CreateEpic()
+            => new()
+            {
+                IssueDto = IssueDtoMock.CreateAllFilledEpic(),
                 ProjectId = DataMock.INT_ID_1,
                 Statuses = StatusMock.CreateDictionary(),
                 IssueTypes = IssueTypeMock.CreateDictionary()

@@ -58,6 +58,9 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData
 
         private string SatinizeQuarter(IList<string> labels)
         {
+            if (labels == null)
+                return string.Empty;
+
             var tmp = labels.Where(label => issueFieldsValidationHelper.IsLabelQuarter(label));
 
             if (!tmp.Any())

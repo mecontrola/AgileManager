@@ -45,6 +45,8 @@
                 <Label Name="TxtTotalFeature" Margin="5,0,5,0" Grid.Row="0" Grid.Column="5"/>
                 <Label Content="Total Debits" Margin="5,0,5,0" Grid.Row="1" Grid.Column="4"/>
                 <Label Name="TxtTotalDebits" Margin="5,0,5,0" Grid.Row="1" Grid.Column="5"/>
+                <Label Content="QAP" Margin="5,0,5,0" Grid.Row="2" Grid.Column="4" ToolTip="Quarter Average Percentage"/>
+                <Label Name="TxtQuarterAveragePercentage" Margin="5,0,5,0" Grid.Row="2" Grid.Column="5"/>
             </Grid>
         </GroupBox>
         <Grid DockPanel.Dock="Bottom">

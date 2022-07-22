@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Mappers.DtoToEntity;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities;
@@ -12,7 +13,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mappers.DtoToEntity
 
         public JiraIssueDtoToEntityMapperTests()
         {
-            mapper = new JiraIssueDtoToEntityMapper();
+            mapper = new JiraIssueDtoToEntityMapper(new IssueFieldsValidationHelper(), new MountJiraUrlHelper());
         }
 
         [Fact(DisplayName = "[JiraIssueDtoToEntityMapper.ToMap] Deve retornar nulo se for passado um valor nulo.")]

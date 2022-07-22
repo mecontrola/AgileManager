@@ -9,7 +9,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class ServicesInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 33;
+        private const int TOTAL_RECORDS = 37;
 
         [Fact(DisplayName = "[ServicesInjector.AddServices] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -30,6 +30,8 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.ShouldAsScoped<IBugIssuesResolvedInDateRangeService, BugIssuesResolvedInDateRangeService>();
             serviceCollection.ShouldAsScoped<ICFDExportReportIntegrationService, CFDExportReportIntegrationService>();
             serviceCollection.ShouldAsScoped<IDeliveryLastCycleService, DeliveryLastCycleService>();
+            serviceCollection.ShouldAsScoped<IDownstreamIndicatorsService, DownstreamIndicatorsService>();
+            serviceCollection.ShouldAsScoped<IDownstreamJiraIndicatorsService, DownstreamJiraIndicatorsService>();
             serviceCollection.ShouldAsScoped<IIssuesCreatedInDateRangeService, IssuesCreatedInDateRangeService>();
             serviceCollection.ShouldAsScoped<IIssuesEpicByLabelService, IssuesEpicByLabelService>();
             serviceCollection.ShouldAsScoped<IIssuesNotFixVersionService, IssuesNotFixVersionService>();
@@ -48,10 +50,13 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesOpenedInDateRangeService, TechnicalDebitIssuesOpenedInDateRangeService>();
             serviceCollection.ShouldAsScoped<ITechnicalDebitIssuesResolvedInDateRangeService, TechnicalDebitIssuesResolvedInDateRangeService>();
             serviceCollection.ShouldAsScoped<IIssueSynchronizerService, IssueSynchronizerService>();
+
+            serviceCollection.ShouldAsScoped<IIssueSynchronizerService, IssueSynchronizerService>();
             serviceCollection.ShouldAsScoped<IIssueTypeSynchronizerService, IssueTypeSynchronizerService>();
             serviceCollection.ShouldAsScoped<IProjectSynchronizerService, ProjectSynchronizerService>();
             serviceCollection.ShouldAsScoped<IStatusCategorySynchronizerService, StatusCategorySynchronizerService>();
             serviceCollection.ShouldAsScoped<IStatusSynchronizerService, StatusSynchronizerService>();
+
             serviceCollection.ShouldAsScoped<ISynchronizerService, SynchronizerService>();
         }
     }

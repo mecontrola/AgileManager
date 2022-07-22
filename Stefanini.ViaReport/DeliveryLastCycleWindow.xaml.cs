@@ -50,6 +50,7 @@ namespace Stefanini.ViaReport
             TxtSystemLeadTimeAverage.Content = Data.SystemLeadTimeAverage.ToString(DECIMAL_DAYS_FORMAT);
             TxtTotalFeature.Content = $"{Data.FeaturePercent.ToString(DECIMAL_FORMAT)} ({Data.Feature})";
             TxtTotalDebits.Content = $"{Data.DebitsPercent.ToString(DECIMAL_FORMAT)} ({Data.Debits})";
+            TxtQuarterAveragePercentage.Content = $"{Data.QuarterAveragePercentage}%";
 
             FillDataGrid(DgEpic, dgEpicDataCollection, Data.Epics);
             FillDataGrid(DgImpediment, dgImpedimentDataCollection, Data.Impediments);

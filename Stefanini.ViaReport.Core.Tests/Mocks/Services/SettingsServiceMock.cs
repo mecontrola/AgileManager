@@ -17,7 +17,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Services
                                          Arg.Any<string>(),
                                          Arg.Any<CancellationToken>())
                 .Returns(true);
-            mock.SavePreferencesAsync(Arg.Any<bool>(), Arg.Any<CancellationToken>())
+            mock.SavePreferencesAsync(Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<CancellationToken>())
                 .Returns(true);
             mock.SaveFilterDataAsync(Arg.Any<AppFilterDto>(), Arg.Any<CancellationToken>())
                 .Returns(true);

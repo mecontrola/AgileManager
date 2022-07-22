@@ -27,17 +27,23 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers.ExtraIssueData
         {
             var checkChangelogTypeHelper = new CheckChangelogTypeHelper();
 
-            issueRepository = Substitute.For<IIssueRepository>();
-
-            issueRepository.FindByKeyAsync(Arg.Any<string>(),
-                                           Arg.Any<CancellationToken>())
-                           .Returns(Task.FromResult(IssueMock.CreateAllFilled()));
+            issueRepository = CreateIssueRepositoryMock();
 
             issueStatusHistoryRepository = Substitute.For<IIssueStatusHistoryRepository>();
 
             issueDataSynchronizerService = new IssueStatusHistorySynchronizerService(issueRepository,
                                                                                      issueStatusHistoryRepository,
                                                                                      checkChangelogTypeHelper);
+        }
+
+        private static IIssueRepository CreateIssueRepositoryMock()
+        {
+            var repository = Substitute.For<IIssueRepository>();
+            repository.FindByKeyAsync(Arg.Any<string>(),
+                                      Arg.Any<CancellationToken>())
+                      .Returns(Task.FromResult(IssueMock.CreateAllFilledStory()));
+
+            return repository;
         }
 
         [Fact(DisplayName = "[IssueStatusHistorySynchronizerService.Save] Deve adicionar as informações do histórico da issue quando não existirem os dados no banco de dados.")]

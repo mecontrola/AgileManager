@@ -39,7 +39,7 @@ namespace Stefanini.ViaReport.Core.Tests.Business
         [Fact(DisplayName = "[SettingsBusiness.SavePreferencesAsync] Deve executar a chamada do service para salvar as informações de preferência do usuário e retornar um boolean de acordo com o processamento.")]
         public async void DeveExecutarSavePreferencesAsyncRetornarBool()
         {
-            var actual = await settingsBusiness.SavePreferencesAsync(true, GetCancellationToken());
+            var actual = await settingsBusiness.SavePreferencesAsync(DataMock.BOOL_TRUE, DataMock.BOOL_TRUE, GetCancellationToken());
 
             actual.Should().BeTrue();
         }

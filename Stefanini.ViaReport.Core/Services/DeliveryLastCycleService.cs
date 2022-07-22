@@ -113,14 +113,19 @@ namespace Stefanini.ViaReport.Core.Services
                 DebitsPercent = CalculateTotalPercent(issues, x => !x.IsFeature),
                 Issues = issues,
                 Impediments = impediments,
-                Epics = epics
+                Epics = epics,
+                QuarterAveragePercentage = CalculateAverage(epics, x => x.Progress)
             };
 
         private static decimal CalculateAverage<TSource>(IList<TSource> list, Func<TSource, decimal> selector)
-            => (int)Math.Round(list.Sum(selector) / list.Count);
+            => list.Any()
+             ? Math.Round(list.Sum(selector) / list.Count, 2)
+             : 0;
 
         private static decimal CalculateTotalPercent<TSource>(IList<TSource> list, Func<TSource, bool> predicate)
-            => Math.Round((decimal)list.Count(predicate) / list.Count, 4);
+            => list.Any()
+             ? Math.Round((decimal)list.Count(predicate) / list.Count, 4)
+             : 0;
 
         private async Task<DtoJira.IssueDto> GetBacklogData(string username, string password, string issueKey, CancellationToken cancellationToken)
             => await issueGet.Execute(username, password, issueKey, cancellationToken);

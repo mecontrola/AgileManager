@@ -37,8 +37,9 @@ namespace Stefanini.ViaReport.Core.Tests.Services
         [Fact(DisplayName = "[SettingsService.SavePreferencesAsync] Deve salvar as informações de configuração.")]
         public async void DeveSalvarInformacaoPreferences()
         {
-            var expected = true;
-            var actual = await settingsService.SavePreferencesAsync(expected, GetCancellationToken());
+            var expectedPersistFilter = DataMock.BOOL_TRUE;
+            var expectedSyncAllData = DataMock.BOOL_TRUE;
+            var actual = await settingsService.SavePreferencesAsync(expectedPersistFilter, expectedSyncAllData, GetCancellationToken());
 
             var data = await settingsService.LoadDataAsync(GetCancellationToken());
 
@@ -46,7 +47,9 @@ namespace Stefanini.ViaReport.Core.Tests.Services
                           .Save();
 
             actual.Should().BeTrue();
-            data.PersistFilter.Should().Be(expected);
+
+            data.PersistFilter.Should().Be(expectedPersistFilter);
+            data.SyncAllData.Should().Be(expectedSyncAllData);
         }
 
         [Fact(DisplayName = "[SettingsService.SaveAuthenticationAsync] Deve salvar as informações de autenticação.")]

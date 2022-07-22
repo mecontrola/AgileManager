@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto;
+﻿using Stefanini.ViaReport.Data.Dtos;
 using System.Collections.Generic;
 
 namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
@@ -11,11 +11,17 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 StartDate = DataMock.DATETIME_START_CYCLE,
                 EndDate = DataMock.DATETIME_END_CYCLE,
                 Throughtput = 20,
-                SystemLeadTimeAverage = 6,
-                Issues = CreateLeadTimeList()
+                Debits = 20,
+                DebitsPercent = 1,
+                Feature = 0,
+                FeaturePercent = 0,
+                SystemLeadTimeAverage = 6.5M,
+                Issues = CreateLeadTimeIssueList(),
+                Impediments = CreateLeadTimeImpedimentList(),
+                Epics = CreateLeadTimeEpicList(),
             };
 
-        private static IList<DeliveryLastCycleIssueDto> CreateLeadTimeList()
+        private static IList<DeliveryLastCycleIssueDto> CreateLeadTimeIssueList()
             => new List<DeliveryLastCycleIssueDto>()
             {
                 new DeliveryLastCycleIssueDto { Key = "SEA-219", Description = "IOS - implementar excluir histórico total e registro unitário", SystemLeadTime = 23 },
@@ -39,5 +45,11 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 new DeliveryLastCycleIssueDto { Key = "SEA-267", Description = "BFF - Colocar PRODUTOS INDISPONÍVEIS no final da lista sempre", SystemLeadTime = 3 },
                 new DeliveryLastCycleIssueDto { Key = "SEA-273", Description = "BFF- ajuste de moveis atalhos da HOME", SystemLeadTime = 0 },
             };
+
+        private static IList<DeliveryLastCycleImpedimentDto> CreateLeadTimeImpedimentList()
+            => new List<DeliveryLastCycleImpedimentDto>();
+
+        private static IList<DeliveryLastCycleEpicDto> CreateLeadTimeEpicList()
+            => new List<DeliveryLastCycleEpicDto>();
     }
 }

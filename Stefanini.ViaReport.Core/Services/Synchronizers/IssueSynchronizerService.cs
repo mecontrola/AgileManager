@@ -74,8 +74,8 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers
 
         private async Task<DateTime?> RetrieveDateTimeLastUpdate(bool syncAllData, long projectId, CancellationToken cancellationToken)
             => syncAllData
-             ? await RetrieveDateTimeLastUpdatesIssue(projectId, cancellationToken)
-             : null;
+             ? null
+             : await RetrieveDateTimeLastUpdatesIssue(projectId, cancellationToken);
 
         private async Task<IList<Project>> RetrieveProjectsData(IssueConfigurationSynchronizerDto issueConfigurationSynchronizerDto, CancellationToken cancellationToken)
             => await projectRepository.FindAllInIdListAsync(issueConfigurationSynchronizerDto.Projects, cancellationToken);

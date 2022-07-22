@@ -45,8 +45,6 @@ namespace Stefanini.ViaReport
         private readonly ObservableCollection<AHMInfoDto> dgDataCollection;
         private readonly PeriodicTimer timer = new(TimeSpan.FromMinutes(TIME_CHECK_UPDATE_30_MINUTES));
 
-        private readonly IApplicationConfiguration applicationConfiguration;
-
         private readonly IDashboardBusiness dashboardBusiness;
         private readonly IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness;
         private readonly IFixVersionBusiness fixVersionBusiness;
@@ -68,8 +66,7 @@ namespace Stefanini.ViaReport
 
         private DownstreamIndicatorDto downstreamJiraIndicatorsDto = new();
 
-        public MainWindow(IApplicationConfiguration applicationConfiguration,
-                          IDashboardBusiness dashboardBusiness,
+        public MainWindow(IDashboardBusiness dashboardBusiness,
                           IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness,
                           IFixVersionBusiness fixVersionBusiness,
                           IProjectBusiness projectBusiness,
@@ -83,7 +80,6 @@ namespace Stefanini.ViaReport
                           IUpdateToastHelper updateToastHelper,
                           IRemoteVersionHelper remoteVersionHelper)
         {
-            this.applicationConfiguration = applicationConfiguration;
             this.dashboardBusiness = dashboardBusiness;
             this.downstreamJiraIndicatorsBusiness = downstreamJiraIndicatorsBusiness;
             this.fixVersionBusiness = fixVersionBusiness;
@@ -523,26 +519,6 @@ namespace Stefanini.ViaReport
             window.DefineTitle(title);
             window.SetDataColletion(data);
             window.ShowDialog();
-        }
-
-        private void BtnDashboard_Click(object sender, RoutedEventArgs e)
-        {
-            RunWithExceptionHandling(async () =>
-            {
-                var filter = await FillFilterData();
-                if (filter == null)
-                    return;
-
-                var data = await dashboardBusiness.GetData(filter.Project.Name,
-                                                           filter.Quarter.Name,
-                                                           cancellationTokenSource.Token);
-
-                var window = new DashboardWindow();
-                window.SetDataColletion(data);
-                window.ShowDialog();
-            },
-            () => ChangePbStatusAndBtnExecute(false),
-            () => ChangePbStatusAndBtnExecute(true));
         }
 
         private async void BtnNoFixVersion_Click(object sender, RoutedEventArgs e)

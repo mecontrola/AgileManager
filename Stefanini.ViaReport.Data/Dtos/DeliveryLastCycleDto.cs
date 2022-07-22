@@ -16,6 +16,7 @@ namespace Stefanini.ViaReport.Data.Dtos
         public decimal FeaturePercent { get; set; }
         public int Debits { get; set; }
         public decimal DebitsPercent { get; set; }
+        public decimal QuarterAveragePercentage { get; set; }
         public IDictionary<IssueType, int> ThroughtputType { get; set; }
         public IList<DeliveryLastCycleIssueDto> Issues { get; set; }
         public IList<DeliveryLastCycleImpedimentDto> Impediments { get; set; }

@@ -43,13 +43,23 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
             => key.Select(x => ApiUtilMockHelper.LoadIssueJsonMock(x))
                   .ToList();
 
-        public static IssueDto CreateAllFilled()
+        public static IssueDto CreateAllFilledStory()
             => new()
             {
                 Id = DataMock.INT_ID_1.ToString(),
                 Key = DataMock.ISSUE_KEY_1,
                 Self = DataMock.ISSUE_SELF_1,
-                Fields = IssueFieldsDtoMock.CreateAllFilled(),
+                Fields = IssueFieldsDtoMock.CreateAllFilledStory(),
+                Changelog = ChangelogDtoMock.CreateList(),
+            };
+
+        public static IssueDto CreateAllFilledEpic()
+            => new()
+            {
+                Id = DataMock.INT_ID_1.ToString(),
+                Key = DataMock.ISSUE_KEY_2,
+                Self = DataMock.ISSUE_SELF_2,
+                Fields = IssueFieldsDtoMock.CreateAllFilledEpic(),
                 Changelog = ChangelogDtoMock.CreateList(),
             };
     }

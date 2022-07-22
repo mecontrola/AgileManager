@@ -30,5 +30,17 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                     HistoryItemDtoMock.CreateImpediment()
                 }
             };
+
+        public static HistoryDto CreateImpedimentClose()
+            => new()
+            {
+                Id = DataMock.HISTORYITEM_ID,
+                Author = UserDtoMock.Create(),
+                Created = DateTime.Parse("2022-05-14T15:15:42.144-0300"),
+                Items = new List<HistoryItemDto>
+                {
+                    HistoryItemDtoMock.CreateImpedimentClose()
+                }
+            };
     }
 }

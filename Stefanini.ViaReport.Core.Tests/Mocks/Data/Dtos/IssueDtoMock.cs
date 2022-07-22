@@ -1,39 +1,40 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto;
+﻿using Stefanini.ViaReport.Data.Dtos;
+using System;
 using System.Collections.Generic;
 
-namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
+namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos
 {
-    public class IssueInfoDtoMock
+    public class IssueDtoMock
     {
-        public static IssueInfoDto CreateIssue1()
+        public static IssueDto CreateIssue1()
             => new()
             {
                 Key = DataMock.ISSUE_KEY_1,
-                Description = DataMock.ISSUE_DESCRIPTION_1,
+                Description = DataMock.ISSUE_SUMMARY_1,
                 Created = DataMock.DATETIME_QUARTER_2_2000,
                 Link = DataMock.ISSUE_LINK_1,
                 Status = DataMock.ISSUE_STATUS_1,
             };
 
-        public static IssueInfoDto CreateIssue2()
+        public static IssueDto CreateIssue2()
             => new()
             {
                 Key = DataMock.ISSUE_KEY_2,
-                Description = DataMock.ISSUE_DESCRIPTION_2,
+                Description = DataMock.ISSUE_SUMMARY_2,
                 Created = DataMock.DATETIME_QUARTER_2_2000,
                 Link = DataMock.ISSUE_LINK_2,
                 Status = DataMock.ISSUE_STATUS_2,
             };
 
-        public static IList<IssueInfoDto> CreateList()
-            => new List<IssueInfoDto>
+        public static IList<IssueDto> CreateList()
+            => new List<IssueDto>
             {
                 CreateIssue1(),
                 CreateIssue2()
             };
 
-        public static IList<IssueInfoDto> CreateDoneList()
-            => new List<IssueInfoDto>
+        public static IList<IssueDto> CreateDoneList()
+            => new List<IssueDto>
             {
                  CreateDoneIssueSea219(),
                  CreateDoneIssueSea230(),
@@ -57,7 +58,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                  CreateDoneIssueSea273(),
             };
 
-        private static IssueInfoDto CreateDoneIssueSea219()
+        private static IssueDto CreateDoneIssueSea219()
             => new()
             {
                 Created = new(2022, 1, 20, 9, 33, 58, 590),
@@ -68,7 +69,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea230()
+        private static IssueDto CreateDoneIssueSea230()
             => new()
             {
                 Created = new(2022, 2, 2, 9, 47, 0, 173),
@@ -79,7 +80,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea232()
+        private static IssueDto CreateDoneIssueSea232()
             => new()
             {
                 Created = new(2022, 2, 2, 10, 22, 16, 390),
@@ -90,7 +91,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea233()
+        private static IssueDto CreateDoneIssueSea233()
             => new()
             {
                 Created = new(2022, 2, 2, 10, 22, 52, 397),
@@ -101,7 +102,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea234()
+        private static IssueDto CreateDoneIssueSea234()
             => new()
             {
                 Created = new(2022, 2, 4, 10, 52, 48, 547),
@@ -112,7 +113,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea235()
+        private static IssueDto CreateDoneIssueSea235()
             => new()
             {
                 Created = new(2022, 2, 4, 11, 15, 37, 633),
@@ -123,7 +124,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea236()
+        private static IssueDto CreateDoneIssueSea236()
             => new()
             {
                 Created = new(2022, 2, 4, 12, 18, 32, 127),
@@ -134,7 +135,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea237()
+        private static IssueDto CreateDoneIssueSea237()
             => new()
             {
                 Created = new(2022, 2, 4, 12, 18, 56, 507),
@@ -145,7 +146,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea245()
+        private static IssueDto CreateDoneIssueSea245()
             => new()
             {
                 Created = new(2022, 2, 10, 11, 32, 45, 783),
@@ -156,7 +157,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea246()
+        private static IssueDto CreateDoneIssueSea246()
             => new()
             {
                 Created = new(2022, 2, 11, 9, 3, 19, 843),
@@ -167,7 +168,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea248()
+        private static IssueDto CreateDoneIssueSea248()
             => new()
             {
                 Created = new(2022, 2, 11, 12, 13, 10, 417),
@@ -178,7 +179,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea254()
+        private static IssueDto CreateDoneIssueSea254()
             => new()
             {
                 Created = new(2022, 2, 14, 9, 48, 44, 487),
@@ -189,7 +190,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea255()
+        private static IssueDto CreateDoneIssueSea255()
             => new()
             {
                 Created = new(2022, 2, 14, 10, 54, 7, 283),
@@ -200,7 +201,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea257()
+        private static IssueDto CreateDoneIssueSea257()
             => new()
             {
                 Created = new(2022, 2, 14, 15, 21, 43, 240),
@@ -211,7 +212,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea259()
+        private static IssueDto CreateDoneIssueSea259()
             => new()
             {
                 Created = new(2022, 2, 18, 9, 39, 18, 210),
@@ -222,7 +223,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea262()
+        private static IssueDto CreateDoneIssueSea262()
             => new()
             {
                 Created = new(2022, 2, 23, 10, 34, 29, 27),
@@ -233,7 +234,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea264()
+        private static IssueDto CreateDoneIssueSea264()
             => new()
             {
                 Created = new(2022, 2, 24, 9, 16, 10, 917),
@@ -244,7 +245,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea266()
+        private static IssueDto CreateDoneIssueSea266()
             => new()
             {
                 Created = new(2022, 2, 25, 9, 4, 25, 593),
@@ -255,7 +256,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea267()
+        private static IssueDto CreateDoneIssueSea267()
             => new()
             {
                 Created = new(2022, 2, 25, 9, 6, 15, 383),
@@ -266,7 +267,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Status = "Done"
             };
 
-        private static IssueInfoDto CreateDoneIssueSea273()
+        private static IssueDto CreateDoneIssueSea273()
             => new()
             {
                 Created = new(2022, 3, 4, 9, 39, 44, 827),
@@ -275,6 +276,42 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 Link = "https://jira.viavarejo.com.br/browse/SEA-273",
                 Resolved = new(2022, 3, 4, 4, 13, 0),
                 Status = "Done"
+            };
+
+        public static IssueDto CreateAllFilledStory()
+            => new()
+            {
+                Key = DataMock.ISSUE_KEY_1,
+                Description = DataMock.ISSUE_SUMMARY_1,
+                Status = DataMock.TEXT_STATUS_PARA_DESENVOLVIMENTO,
+                Created = DataMock.DATETIME_FIRST_DAY_YEAR,
+            };
+
+        public static IssueDto CreateAllFilledBug()
+            => new()
+            {
+                Key = DataMock.ISSUE_KEY_2,
+                Description = DataMock.ISSUE_SUMMARY_2,
+                Status = DataMock.TEXT_STATUS_CATEGORY_DONE,
+                Created = DateTime.Parse("2021-07-20 15:23:52.745"),
+                Resolved = DateTime.Parse("2021-09-29 15:23:52.745"),
+                Link = DataMock.ISSUE_LINK_2,
+            };
+
+        public static IssueDto CreateAllFilledEpic()
+            => new()
+            {
+                Key = DataMock.ISSUE_KEY_3,
+                Description = DataMock.ISSUE_SUMMARY_3,
+                Status = DataMock.TEXT_STATUS_EM_DESENVOLVIMENTO,
+                Created = DataMock.DATETIME_FIRST_DAY_YEAR,
+            };
+
+        public static IList<IssueDto> CreateListAllFilled()
+            => new List<IssueDto>
+            {
+                CreateAllFilledStory(),
+                CreateAllFilledEpic()
             };
     }
 }
