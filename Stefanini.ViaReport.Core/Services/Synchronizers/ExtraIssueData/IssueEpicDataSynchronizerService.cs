@@ -16,15 +16,18 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData
     {
         private readonly IIssueRepository issueRepository;
         private readonly IIssueEpicRepository issueEpicRepository;
+        private readonly IQuarterRepository quarterRepository;
 
         private readonly IIssueFieldsValidationHelper issueFieldsValidationHelper;
 
         public IssueEpicDataSynchronizerService(IIssueRepository issueRepository,
                                                 IIssueEpicRepository issueEpicRepository,
+                                                IQuarterRepository quarterRepository,
                                                 IIssueFieldsValidationHelper issueFieldsValidationHelper)
         {
             this.issueRepository = issueRepository;
             this.issueEpicRepository = issueEpicRepository;
+            this.quarterRepository = quarterRepository;
             this.issueFieldsValidationHelper = issueFieldsValidationHelper;
         }
 
@@ -46,7 +49,7 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData
                 entity = CreateEntityIssueEpic(issueId);
 
             entity.Progress = issueDto.Fields.Customfield_15703.ToDecimal() ?? 0;
-            entity.Quarter = SatinizeQuarter(issueDto.Fields.Labels);
+            entity.QuarterId = await GetQuarterId(issueDto.Fields.Labels, cancellationToken);
 
             await SaveIssueEpicChanges(entity, cancellationToken);
         }
@@ -77,6 +80,30 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData
                 await issueEpicRepository.CreateAsync(entity, cancellationToken);
             else
                 await issueEpicRepository.UpdateAsync(entity, cancellationToken);
+        }
+
+        private async Task<long?> GetQuarterId(IList<string> labels, CancellationToken cancellationToken)
+        {
+            var labelQuarter = SatinizeQuarter(labels);
+
+            if (string.IsNullOrWhiteSpace(labelQuarter))
+                return null;
+
+            var quarter = await quarterRepository.RetrieveByNameAsync(labelQuarter, cancellationToken);
+
+            if (quarter == null)
+                quarter = await CreateQuarterAsync(labelQuarter, cancellationToken);
+
+            return quarter.Id;
+        }
+
+        private async Task<Quarter> CreateQuarterAsync(string name, CancellationToken cancellationToken)
+        {
+            var entity = QuarterBuilder.GetInstance()
+                                       .SetName(name)
+                                       .ToBuild();
+
+            return await quarterRepository.CreateAsync(entity, cancellationToken);
         }
     }
 }

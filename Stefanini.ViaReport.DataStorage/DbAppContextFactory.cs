@@ -16,7 +16,6 @@ namespace Stefanini.ViaReport.DataStorage
             optionsBuilder.UseSqlite(CONNECTION_STRING);
 
             context = new DbAppContext(optionsBuilder.Options);
-            //context.Database.Migrate();
             return context;
         }
 

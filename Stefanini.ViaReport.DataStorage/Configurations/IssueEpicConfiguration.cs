@@ -13,11 +13,14 @@ namespace Stefanini.ViaReport.DataStorage.Configurations
             builder.Property(p => p.Id).ValueGeneratedOnAdd();
             builder.Property(p => p.Uuid).IsRequired().HasMaxLength(36);
             builder.Property(p => p.Progress).IsRequired();
-            builder.Property(p => p.Quarter);
 
             builder.HasOne(p => p.Issue)
                    .WithOne(p => p.IssueEpic)
                    .HasForeignKey<IssueEpic>(e => e.IssueId);
+
+            builder.HasOne(p => p.Quarter)
+                   .WithMany(p => p.Epics)
+                   .HasForeignKey(p => p.QuarterId);
 
             builder.HasIndex(p => p.IssueId)
                    .IsUnique();

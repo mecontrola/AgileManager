@@ -13,6 +13,7 @@ namespace Stefanini.ViaReport.DataStorage
         DbSet<IssueType> IssueTypes { get; }
         DbSet<Project> Projects { get; }
         DbSet<ProjectCategory> ProjectCategories { get; }
+        DbSet<Quarter> Quarters { get; }
         DbSet<Status> Statuses { get; }
         DbSet<StatusCategory> StatusCategories { get; }
     }

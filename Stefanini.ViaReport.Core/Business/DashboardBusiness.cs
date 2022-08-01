@@ -25,7 +25,7 @@ namespace Stefanini.ViaReport.Core.Business
             return await deliveryLastCycleService.GetData(settings.Username, settings.Password, project, initDate, endDate, cancellationToken);
         }
 
-        public async Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(long projectId, DateTime initDate, DateTime endDate, string quarter, CancellationToken cancellationToken)
-            => await deliveryLastCycleService.GetData(projectId, initDate, endDate, quarter, cancellationToken);
+        public async Task<DeliveryLastCycleDto> GetDeliveryLastCycleData(long projectId, long quarterId, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
+            => await deliveryLastCycleService.GetData(projectId, quarterId, initDate, endDate, cancellationToken);
     }
 }

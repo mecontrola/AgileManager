@@ -1,4 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Helpers;
+﻿using Stefanini.Core.Extensions;
+using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
 using Stefanini.ViaReport.Core.Mappers.EntityToDto;
 using Stefanini.ViaReport.Data.Dtos;
@@ -56,12 +57,12 @@ namespace Stefanini.ViaReport.Core.Services
             this.issueGet = issueGet;
         }
 
-        public async Task<DeliveryLastCycleDto> GetData(long projectId, DateTime initDate, DateTime endDate, string quarter, CancellationToken cancellationToken)
+        public async Task<DeliveryLastCycleDto> GetData(long projectId, long quarterId, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)
         {
             var issues = await issueRepository.FindResolvedInDateRangeAsync(projectId, initDate, endDate, cancellationToken);
             var data = await Task.WhenAll(issues.Select(issue => CreateIssueInfo(issue, cancellationToken)));
             var impediments = await CreateImpedimentList(projectId, initDate, endDate, cancellationToken);
-            var epics = await CreateEpicList(projectId, quarter, cancellationToken);
+            var epics = await CreateEpicList(projectId, quarterId, cancellationToken);
 
             return CreateDeliveryLastCycleDto(initDate, endDate, data, impediments, epics);
         }
@@ -180,11 +181,19 @@ namespace Stefanini.ViaReport.Core.Services
 
         private static bool IsFeatureIssue(Issue issue)
             => issue.IssueType != null
-            && issue.IssueType.Key == (long)IssueTypes.Story;
+            && GetFeaturesIssueTypes().Any(issueType => issue.IssueType.Key == (long)issueType);
 
-        private async Task<IList<DeliveryLastCycleEpicDto>> CreateEpicList(long projectId, string quarter, CancellationToken cancellationToken)
+        private static IssueTypes[] GetFeaturesIssueTypes()
+            => new IssueTypes[]
+            {
+                IssueTypes.Story,
+                IssueTypes.Task,
+                IssueTypes.SubTask
+            };
+
+        private async Task<IList<DeliveryLastCycleEpicDto>> CreateEpicList(long projectId, long quarterId, CancellationToken cancellationToken)
         {
-            var list = await issueEpicRepository.RetrieveByQuarterAsync(projectId, quarter, cancellationToken);
+            var list = await issueEpicRepository.RetrieveByQuarterAsync(projectId, quarterId, cancellationToken);
 
             return deliveryLastCycleEpicEntityToDtoMapper.ToMapList(list)
                 ?? Array.Empty<DeliveryLastCycleEpicDto>();
@@ -195,9 +204,13 @@ namespace Stefanini.ViaReport.Core.Services
             var increaseEndDate = endDate.AddDays(1);
             var list = await issueImpedimentRepository.RetrieveByDateRangeAsync(projectId, initDate, endDate, cancellationToken);
 
-            return list.Select(entity => CreateImpedimentInfoSwap(entity.Issue, (entity.End ?? increaseEndDate) - entity.Start))
+            return list.GroupBy(entity => entity.Issue.Key)
+                       .Select(group => CreateImpedimentInfoSwap(group.First().Issue, SumDiffTimes(group, increaseEndDate)))
                        .ToList();
         }
+
+        private static TimeSpan SumDiffTimes(IGrouping<string, IssueImpediment> group, DateTime increaseEndDate)
+            => group.Sum(entity => (entity.End ?? increaseEndDate) - entity.Start);
 
         private static DeliveryLastCycleImpedimentDto CreateImpedimentInfoSwap(Issue issue, TimeSpan impediment)
             => new()

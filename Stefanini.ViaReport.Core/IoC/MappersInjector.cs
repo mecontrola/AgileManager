@@ -37,6 +37,7 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddSingleton<IIssueEntityToDtoMapper, IssueEntityToDtoMapper>();
             services.TryAddSingleton<IProjectEntityToDtoMapper, ProjectEntityToDtoMapper>();
             services.TryAddSingleton<IProjectCategoryEntityToDtoMapper, ProjectCategoryEntityToDtoMapper>();
+            services.TryAddSingleton<IQuarterEntityToDtoMapper, QuarterEntityToDtoMapper>();
         }
     }
 }

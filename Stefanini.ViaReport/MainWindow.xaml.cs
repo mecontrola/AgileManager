@@ -7,7 +7,6 @@ using Stefanini.ViaReport.Core.Exceptions;
 using Stefanini.ViaReport.Core.Extensions;
 using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Services;
-using Stefanini.ViaReport.Data.Configurations;
 using Stefanini.ViaReport.Data.Dtos;
 using Stefanini.ViaReport.Data.Dtos.Settings;
 using Stefanini.ViaReport.Data.Enums;
@@ -121,18 +120,20 @@ namespace Stefanini.ViaReport
                 return;
 
             var settings = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
+            var isOk = false;
 
-            var isOk = await jiraAuthService.IsAuthenticationOk(settings.Username,
+            try
+            {
+                isOk = await jiraAuthService.IsAuthenticationOk(settings.Username,
                                                                 settings.Password,
                                                                 cancellationTokenSource.Token);
+            }
+            catch (JiraUnknownHostException)
+            {
+                MessageBox.Show("Não foi possível se autenticar com o Jira.\nÉ necessário informar o login para autenticação.");
+            }
 
             FormAuthenticateIsEnabled(isOk);
-
-            if (!isOk)
-            {
-                MessageBox.Show("Não foi possível se autenticar com o Jira.É necessário informar o login para autenticação.");
-                return;
-            }
 
             await LoadCbProjects();
 
@@ -559,9 +560,9 @@ namespace Stefanini.ViaReport
             ChangePbStatusAndBtnExecute(false);
 
             var data = await dashboardBusiness.GetDeliveryLastCycleData(filter.Project.Id,
+                                                                        filter.Quarter.Id,
                                                                         filter.StartDate.Value,
                                                                         filter.EndDate.Value,
-                                                                        filter.Quarter.Name,
                                                                         cancellationTokenSource.Token);
 
             ChangePbStatusAndBtnExecute(true);
