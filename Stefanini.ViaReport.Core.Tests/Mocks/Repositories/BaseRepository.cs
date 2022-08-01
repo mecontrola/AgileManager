@@ -44,10 +44,12 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Repositories
 
             var quarters = new Quarter[]
             {
-                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("9B4858AB-0F94-476D-BE7F-BC0A01456753"), Name = DataMock.TEXT_QUARTER_1_2000 },
-                new() { Id = DataMock.INT_ID_2, Uuid = Guid.Parse("AFE641A1-5447-45CF-9B21-09402E301037"), Name = DataMock.TEXT_QUARTER_2_2000 },
-                new() { Id = DataMock.INT_ID_3, Uuid = Guid.Parse("C9AC28DB-1B89-4D7C-BEAB-12A39C3304A3"), Name = DataMock.TEXT_QUARTER_3_2000 },
-                new() { Id = DataMock.INT_ID_4, Uuid = Guid.Parse("C6E9B8F7-3137-4B6A-8DDE-A431D5B3A3EE"), Name = DataMock.TEXT_QUARTER_4_2000 },
+                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("9B4858AB-0F94-476D-BE7F-BC0A01456753"), Name = DataMock.TEXT_QUARTER_3_1999 },
+                new() { Id = DataMock.INT_ID_2, Uuid = Guid.Parse("AFE641A1-5447-45CF-9B21-09402E301037"), Name = DataMock.TEXT_QUARTER_4_1999 },
+                new() { Id = DataMock.INT_ID_3, Uuid = Guid.Parse("C9AC28DB-1B89-4D7C-BEAB-12A39C3304A3"), Name = DataMock.TEXT_QUARTER_1_2000 },
+                new() { Id = DataMock.INT_ID_4, Uuid = Guid.Parse("C6E9B8F7-3137-4B6A-8DDE-A431D5B3A3EE"), Name = DataMock.TEXT_QUARTER_2_2000 },
+                new() { Id = DataMock.INT_ID_5, Uuid = Guid.Parse("CB71694D-B23D-4A95-B9A1-89BA454E2820"), Name = DataMock.TEXT_QUARTER_3_2000 },
+                new() { Id = DataMock.INT_ID_6, Uuid = Guid.Parse("C48AD8A0-3F4E-4292-96C1-A7920E8A9821"), Name = DataMock.TEXT_QUARTER_4_2000 },
             };
 
             var statusCategories = new StatusCategory[]
@@ -96,7 +98,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Repositories
 
             var issueEpics = new IssueEpic[]
             {
-                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("A535A8E6-0587-4BDA-BAB7-8F243A73AD26"), QuarterId = DataMock.INT_ID_1, Progress = DataMock.VALUE_DEFAULT_50, IssueId = DataMock.INT_ID_3 }
+                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("A535A8E6-0587-4BDA-BAB7-8F243A73AD26"), QuarterId = DataMock.INT_ID_3, Progress = DataMock.VALUE_DEFAULT_50, IssueId = DataMock.INT_ID_3 }
             };
 
             context.IssueTypes.AddRange(issueTypes);

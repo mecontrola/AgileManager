@@ -17,7 +17,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Entities
             => new()
             {
                 Progress = DataMock.VALUE_DEFAULT_50,
-                QuarterId = DataMock.INT_ID_1,
+                QuarterId = DataMock.INT_ID_3,
                 IssueId = DataMock.INT_ID_3,
                 Issue = IssueMock.CreateAllFilledEpic()
             };

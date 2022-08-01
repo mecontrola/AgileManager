@@ -23,6 +23,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static string JSON_CLASS_TEST { get; } = @"{""field_in_class1"":5,""field_in_class2"":9}";
         public static string JSON_CLASS_TEST_DATE { get; } = @"{""FieldInClass1"":5,""FieldInClass2"":9,""FieldDateTime"":""05/05/2000 00:00:00""}";
         public static string TEXT_DATETIME_WITH_WEEK { get; } = "W18, May 05 2000";
+        public static string TEXT_QUARTER_3_1999 { get; } = "Q31999";
+        public static string TEXT_QUARTER_4_1999 { get; } = "Q41999";
         public static string TEXT_QUARTER_1_2000 { get; } = "Q12000";
         public static string TEXT_QUARTER_2_2000 { get; } = "Q22000";
         public static string TEXT_QUARTER_3_2000 { get; } = "Q32000";
