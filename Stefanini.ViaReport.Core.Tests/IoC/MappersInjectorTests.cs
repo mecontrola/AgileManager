@@ -10,7 +10,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class MappersInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 11;
+        private const int TOTAL_RECORDS = 12;
 
         [Fact(DisplayName = "[MappersInjector.AddMappers] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -34,6 +34,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.ShouldAsSingleton<IIssueEntityToDtoMapper, IssueEntityToDtoMapper>();
             serviceCollection.ShouldAsSingleton<IProjectEntityToDtoMapper, ProjectEntityToDtoMapper>();
             serviceCollection.ShouldAsSingleton<IProjectCategoryEntityToDtoMapper, ProjectCategoryEntityToDtoMapper>();
+            serviceCollection.ShouldAsSingleton<IQuarterEntityToDtoMapper, QuarterEntityToDtoMapper>();
         }
     }
 }

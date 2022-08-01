@@ -18,6 +18,7 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers.ExtraIssueData
     {
         private readonly IIssueRepository issueRepository;
         private readonly IIssueEpicRepository issueEpicRepository;
+        private readonly IQuarterRepository quarterRepository;
 
         private readonly IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService;
 
@@ -27,10 +28,13 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers.ExtraIssueData
 
             issueRepository = CreateIssueRepositoryMock();
 
+            quarterRepository = CreateQuarterRepositoryMock();
+
             issueEpicRepository = Substitute.For<IIssueEpicRepository>();
 
             issueEpicDataSynchronizerService = new IssueEpicDataSynchronizerService(issueRepository,
                                                                                     issueEpicRepository,
+                                                                                    quarterRepository,
                                                                                     issueFieldsValidationHelper);
         }
 
@@ -59,6 +63,17 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers.ExtraIssueData
             repository.FindByKeyAsync(Arg.Any<string>(),
                                       Arg.Any<CancellationToken>())
                       .Returns(Task.FromResult(IssueMock.CreateAllFilledEpic()));
+
+            return repository;
+        }
+
+        private static IQuarterRepository CreateQuarterRepositoryMock()
+        {
+            var repository = Substitute.For<IQuarterRepository>();
+
+            repository.RetrieveByNameAsync(Arg.Any<string>(),
+                                           Arg.Any<CancellationToken>())
+                      .Returns(Task.FromResult(QuarterMock.CreateQ12000()));
 
             return repository;
         }
