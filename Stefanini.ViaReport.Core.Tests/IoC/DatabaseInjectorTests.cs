@@ -8,7 +8,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
 {
     public class DatabaseInjectorTests : BaseInjectorTests
     {
-        private const int TOTAL_RECORDS = 9;
+        private const int TOTAL_RECORDS = 10;
 
         [Fact(DisplayName = "[DatabaseInjector.AddBusiness] Deve gerar exceção quando o serviceCollection for nulo.")]
         public void DeveGerarExcecaoQuandoServiceCollectionNulo()
@@ -27,6 +27,7 @@ namespace Stefanini.ViaReport.Core.Tests.IoC
             serviceCollection.ShouldAsTransient<IIssueStatusHistoryRepository, IssueStatusHistoryRepository>();
             serviceCollection.ShouldAsTransient<IProjectRepository, ProjectRepository>();
             serviceCollection.ShouldAsTransient<IProjectCategoryRepository, ProjectCategoryRepository>();
+            serviceCollection.ShouldAsTransient<IQuarterRepository, QuarterRepository>();
             serviceCollection.ShouldAsTransient<IStatusRepository, StatusRepository>();
             serviceCollection.ShouldAsTransient<IStatusCategoryRepository, StatusCategoryRepository>();
         }

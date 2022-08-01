@@ -32,7 +32,7 @@ namespace Stefanini.ViaReport.Core.Tests.DataStorage.Repositories
         public async void DeveRetornarListaEpicosIssueDoProjetoEQuanterInformado()
         {
             var expected = IssueEpicMock.CreateByDataBase();
-            var actual = await repository.RetrieveByQuarterAsync(expected.Issue.ProjectId, expected.Quarter, GetCancellationToken());
+            var actual = await repository.RetrieveByQuarterAsync(expected.Issue.ProjectId, expected.QuarterId.Value, GetCancellationToken());
 
             actual.Should().HaveCount(1);
             actual[0].Should().NotBeNull();

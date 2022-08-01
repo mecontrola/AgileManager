@@ -15,8 +15,8 @@ namespace Stefanini.ViaReport.Core.Builders
         public IssueEpicBuilder SetProgress(decimal value)
             => Set(obj => obj.Progress = value);
 
-        public IssueEpicBuilder SetQuarter(string value)
-            => Set(obj => obj.Quarter = value);
+        public IssueEpicBuilder SetQuarterId(long value)
+            => Set(obj => obj.QuarterId = value);
 
         public IssueEpicBuilder SetIssueId(long value)
             => Set(obj => obj.IssueId = value);

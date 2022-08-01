@@ -19,6 +19,7 @@ namespace Stefanini.ViaReport.DataStorage.IoC
             services.TryAddTransient<IIssueStatusHistoryRepository, IssueStatusHistoryRepository>();
             services.TryAddTransient<IProjectRepository, ProjectRepository>();
             services.TryAddTransient<IProjectCategoryRepository, ProjectCategoryRepository>();
+            services.TryAddTransient<IQuarterRepository, QuarterRepository>();
             services.TryAddTransient<IStatusRepository, StatusRepository>();
             services.TryAddTransient<IStatusCategoryRepository, StatusCategoryRepository>();
         }

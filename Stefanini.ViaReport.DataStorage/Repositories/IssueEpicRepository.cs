@@ -20,11 +20,11 @@ namespace Stefanini.ViaReport.DataStorage.Repositories
         public async Task<IssueEpic> FindByIssueIdAsync(long issueId, CancellationToken cancellationToken)
             => await FindAsync(entity => entity.IssueId == issueId, cancellationToken);
 
-        public async Task<IList<IssueEpic>> RetrieveByQuarterAsync(long projectId, string quarter, CancellationToken cancellationToken)
+        public async Task<IList<IssueEpic>> RetrieveByQuarterAsync(long projectId, long quarterId, CancellationToken cancellationToken)
             => await dbSet.AsNoTracking()
                           .Include(entity => entity.Issue)
                           .Where(entity => entity.Issue.ProjectId == projectId
-                                        && entity.Quarter.Contains(quarter)
+                                        && entity.Quarter.Id == quarterId
                                         && context.Set<Status>()
                                                   .Where(status => status.Key != STATUS_KEY_CANCELLED
                                                                 && status.Key != STATUS_KEY_REMOVED)
