@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main, develop ]
 env:
-  path-lcov: './Coverage'
+  path-tests: './BuildReports/UnitTests'
+  path-lcov: './BuildReports/Coverage'
   filename-lcov: 'lcov.info'
-  filename-tmp-lcov: 'coverage.info'
-  coveralls-service-name: 'Git Hub Action'
+  filename-tmp-xml: 'cobertura.xml'
 
 jobs:
-  build-test:
+  cover-publish:
     runs-on: windows-latest
     strategy:
       matrix:
@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --nologo --verbosity=minimal --no-restore
       
     - name: Generate Coverage Report
-      run: dotnet test --nologo --verbosity=minimal --no-restore --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:Exclude="[xunit.*]*%2c[Stefanini.*]Stefanini.ViaReport.DataStorage.Migrations.*"
+      run: dotnet test --results-directory "${{ env.path-tests }}" --collect:"XPlat Code Coverage" --nologo --no-restore --no-build --verbosity=minimal /p:CollectCoverage=true /p:CoverletOutput="${{ env.path-lcov }}" /p:CoverletOutputFormat=cobertura /p:Exclude="[xunit.*]*%2c[Stefanini.*]Stefanini.ViaReport.DataStorage.Migrations.*"
 
     - name: Merge Coverage Report Projects
       run: |
@@ -42,40 +42,17 @@ jobs:
         
         $reportgenerator = ".\tools\reportgenerator.exe"
         
-        & $reportgenerator -reports:**/${{ env.filename-tmp-lcov }} -targetdir:${{ env.path-lcov }} -reporttypes:lcov -assemblyfilters:"-xunit*;" -classfilters:"-Stefanini.ViaReport.DataStorage.Migrations.*"
+        & $reportgenerator -reports:${{ env.path-tests }}/**/*.${{ env.filename-tmp-xml }} -targetdir:${{ env.path-lcov }} -assemblyfilters:"-xunit*;" -classfilters:"-Stefanini.ViaReport.DataStorage.Migrations.*" -reporttypes:lcov
 
-    - name: Save Coverage File
-      uses: actions/upload-artifact@master
+    - name: Check Lcov File Existence
+      id: check_files
+      uses: andstor/file-existence-action@v1
       with:
-        name: coverage-file
-        path: ${{ env.path-lcov }}
-
-  publish:
-    needs: build-test
-    runs-on: windows-2019
-    steps:
-    - name: Checkout Branch
-      uses: actions/checkout@master
-    
-    - name: Load Coverage File
-      uses: actions/download-artifact@master
-      with:
-        name: coverage-file
-        path: ${{ env.path-lcov }}
-        
-    - name: Extract Branch Name
-      shell: bash
-      run: |
-        echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        echo "::set-output name=sha_short::$(git rev-parse HEAD)"
-      id: extract_branch
+        files: "${{ env.path-lcov }}/${{ env.filename-lcov }}"
     
     - name: Publish coverage report to coveralls.io
-      run: |
-        dotnet new tool-manifest
-        dotnet tool install coveralls.net --tool-path tools
-        dotnet tool restore
-        
-        $coveralls = ".\tools\csmacnz.coveralls.exe"
-        
-        & $coveralls --repoToken ${{ secrets.COVERALLS_REPO_TOKEN }} --commitId ${{ steps.extract_branch.outputs.sha_short }} --commitBranch "${{ steps.extract_branch.outputs.branch }}" --serviceName "${{ env.coveralls-service-name }} In ${{ steps.extract_branch.outputs.branch }}" --lcov -i ${{ env.path-lcov }}/${{ env.filename-lcov }} --useRelativePaths
+      if: steps.check_files.outputs.files_exists == 'true'
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ${{ env.path-lcov }}/${{ env.filename-lcov }}
