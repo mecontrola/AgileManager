@@ -2,6 +2,6 @@
 {
     public sealed class AppTextsData
     {
-        public static string APP_TITLE { get; } = "[Jira] EasyBI AHM";
+        public static string APP_TITLE { get; } = "Squad Manager";
     }
 }

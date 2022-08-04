@@ -11,7 +11,7 @@
             <ColumnDefinition Width="181"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Source="Images/ahm-logo.png" Margin="10,10,10,10"/>
+        <Image Source="Images/sm-logo.png" Margin="10,10,10,10"/>
         <Label Name="LbTitle" Grid.Column="1" Content="Label" Margin="10,10,10,0" VerticalAlignment="Top"/>
         <Label Name="LbProductName" Grid.Column="1" Content="Label" Margin="10,41,10,0" VerticalAlignment="Top"/>
         <Label Name="LbVersion" Grid.Column="1" Content="Label" Margin="10,72,10,0" VerticalAlignment="Top"/>
