@@ -1,4 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Mappers.DtoToEntity;
+﻿using Stefanini.Core.Extensions;
+using Stefanini.ViaReport.Core.Mappers.DtoToEntity;
 using Stefanini.ViaReport.Data.Dtos.Jira;
 using Stefanini.ViaReport.Data.Entities;
 using Stefanini.ViaReport.Data.Parameters;
@@ -28,6 +29,8 @@ namespace Stefanini.ViaReport.Core.Services.Synchronizers.ExtraIssueData
             var entity = await RetrieveIssue(parameters.IssueDto, parameters.ProjectId, parameters.IssueTypes, cancellationToken);
             entity.StatusId = GetStatusIdFromIssueDto(parameters);
             entity.Updated = parameters.IssueDto.Fields.Updated;
+            entity.Resolved = parameters.IssueDto.Fields.Resolutiondate;
+            entity.CustomField14503 = parameters.IssueDto.Fields.Customfield_14503.ToDateTime();
 
             await SaveIssueChanges(entity, cancellationToken);
         }

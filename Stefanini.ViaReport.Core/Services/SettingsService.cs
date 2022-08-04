@@ -23,16 +23,18 @@ namespace Stefanini.ViaReport.Core.Services
                 Username = username,
                 Password = password,
                 FilterData = settingsHelper.Data.FilterData,
-                PersistFilter = settingsHelper.Data.PersistFilter
+                PersistFilter = settingsHelper.Data.PersistFilter,
+                SyncAllData = settingsHelper.Data.SyncAllData,
             }, cancellationToken);
 
-        public async Task<bool> SavePreferencesAsync(bool persistFilter, CancellationToken cancellationToken)
+        public async Task<bool> SavePreferencesAsync(bool persistFilter, bool syncAllData, CancellationToken cancellationToken)
             => await SaveDataAsync(new AppSettingsDto
             {
                 Username = settingsHelper.Data.Username,
                 Password = settingsHelper.Data.Password,
                 FilterData = settingsHelper.Data.FilterData,
-                PersistFilter = persistFilter
+                PersistFilter = persistFilter,
+                SyncAllData = syncAllData,
             }, cancellationToken);
 
         public async Task<bool> SaveFilterDataAsync(AppFilterDto filterData, CancellationToken cancellationToken)
@@ -41,7 +43,8 @@ namespace Stefanini.ViaReport.Core.Services
                 Username = settingsHelper.Data.Username,
                 Password = settingsHelper.Data.Password,
                 FilterData = filterData,
-                PersistFilter = settingsHelper.Data.PersistFilter
+                PersistFilter = settingsHelper.Data.PersistFilter,
+                SyncAllData = settingsHelper.Data.SyncAllData,
             }, cancellationToken);
 
         private async Task<bool> SaveDataAsync(AppSettingsDto appSettingsDto, CancellationToken cancellationToken)

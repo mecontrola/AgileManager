@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
+using Stefanini.ViaReport.Core.Helpers;
 using Stefanini.ViaReport.Core.Mappers;
+using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos;
 using Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira;
 using Xunit;
 
@@ -7,11 +9,11 @@ namespace Stefanini.ViaReport.Core.Tests.Mappers
 {
     public class IssueDtoToIssueInfoDtoMapperTests
     {
-        private readonly IIssueDtoToIssueInfoDtoMapper mapper;
+        private readonly IJiraIssueDtoToIssueInfoDtoMapper mapper;
 
         public IssueDtoToIssueInfoDtoMapperTests()
         {
-            mapper = new IssueDtoToIssueInfoDtoMapper();
+            mapper = new JiraIssueDtoToIssueDtoMapper(new MountJiraUrlHelper());
         }
 
         [Fact(DisplayName = "[IssueDtoToIssueInfoDto.ToMap] Deve retornar nulo se for passado um valor nulo.")]
@@ -25,8 +27,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mappers
         [Fact(DisplayName = "[IssueDtoToIssueInfoDto.ToMap] Deve converter um objeto IssueDto para IssueInfoDto.")]
         public void DeveConverterIssueDtoParaIssueInfoDto()
         {
-            var actual = mapper.ToMap(IssueDtoMock.CreateIssue1());
-            var expected = IssueInfoDtoMock.CreateIssue1();
+            var actual = mapper.ToMap(Mocks.Data.Dtos.Jira.IssueDtoMock.CreateIssue1());
+            var expected = Mocks.Data.Dtos.IssueDtoMock.CreateIssue1();
 
             actual.Should().NotBeNull();
             actual.Should().BeEquivalentTo(expected);
@@ -35,8 +37,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mappers
         [Fact(DisplayName = "[IssueDtoToIssueInfoDto.ToMapList] Deve converter uma lista de objetos do tipo IssueDto para IssueInfoDto.")]
         public void DeveConverterListaIssueDtoParaIssueInfoDto()
         {
-            var actual = mapper.ToMapList(IssueDtoMock.CreateList());
-            var expected = IssueInfoDtoMock.CreateList();
+            var actual = mapper.ToMapList(Mocks.Data.Dtos.Jira.IssueDtoMock.CreateList());
+            var expected = Mocks.Data.Dtos.IssueDtoMock.CreateList();
 
             actual.Should().NotBeNull();
             actual.Should().BeEquivalentTo(expected);

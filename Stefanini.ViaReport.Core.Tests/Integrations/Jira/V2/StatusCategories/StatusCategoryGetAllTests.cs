@@ -4,7 +4,7 @@ using Stefanini.ViaReport.Core.Tests.Mocks;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using StatusCategoriesEnum = Stefanini.ViaReport.Core.Data.Enums.StatusCategories;
+using StatusCategoriesEnum = Stefanini.ViaReport.Data.Enums.StatusCategories;
 
 namespace Stefanini.ViaReport.Core.Tests.Integrations.Jira.V2.StatusCategories
 {

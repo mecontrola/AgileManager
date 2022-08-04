@@ -1,11 +1,11 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto;
-using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
+﻿using Stefanini.ViaReport.Core.Integrations.Jira.V2.Issues;
 using Stefanini.ViaReport.Core.Mappers;
 using Stefanini.ViaReport.Core.Services;
-using Stefanini.ViaReport.Data.Dtos.Jira;
+using Stefanini.ViaReport.Data.Dtos;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using DtoJira = Stefanini.ViaReport.Data.Dtos.Jira;
 
 namespace Stefanini.ViaReport.Core.Business
 {
@@ -13,32 +13,32 @@ namespace Stefanini.ViaReport.Core.Business
     {
         private readonly ISettingsService settingsService;
         private readonly IIssuesNotFixVersionService issuesNotFixVersionService;
-        private readonly IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper;
+        private readonly IJiraIssueDtoToIssueInfoDtoMapper jiraIssueDtoToIssueInfoDtoMapper;
         private readonly IIssueGet issueGet;
 
         public FixVersionBusiness(ISettingsService settingsService,
                                   IIssuesNotFixVersionService issuesNotFixVersionService,
-                                  IIssueDtoToIssueInfoDtoMapper issueDtoToIssueInfoDtoMapper,
+                                  IJiraIssueDtoToIssueInfoDtoMapper jiraIssueDtoToIssueInfoDtoMapper,
                                   IIssueGet issueGet)
         {
             this.settingsService = settingsService;
             this.issuesNotFixVersionService = issuesNotFixVersionService;
-            this.issueDtoToIssueInfoDtoMapper = issueDtoToIssueInfoDtoMapper;
+            this.jiraIssueDtoToIssueInfoDtoMapper = jiraIssueDtoToIssueInfoDtoMapper;
             this.issueGet = issueGet;
         }
 
-        public async Task<IList<IssueInfoDto>> GetListIssuesNoFixVersion(string project, CancellationToken cancellationToken)
+        public async Task<IList<IssueDto>> GetListIssuesNoFixVersion(string project, CancellationToken cancellationToken)
         {
             var settings = await settingsService.LoadDataAsync(cancellationToken);
             var list = await issuesNotFixVersionService.GetData(settings.Username, settings.Password, project, cancellationToken);
             list = await LoadIssueFields(settings.Username, settings.Password, list, cancellationToken);
 
-            return issueDtoToIssueInfoDtoMapper.ToMapList(list.Issues);
+            return jiraIssueDtoToIssueInfoDtoMapper.ToMapList(list.Issues);
         }
 
-        private async Task<SearchDto> LoadIssueFields(string username, string password, SearchDto search, CancellationToken cancellationToken)
+        private async Task<DtoJira.SearchDto> LoadIssueFields(string username, string password, DtoJira.SearchDto search, CancellationToken cancellationToken)
         {
-            var issues = new List<IssueDto>();
+            var issues = new List<DtoJira.IssueDto>();
 
             foreach (var issue in search.Issues)
             {
@@ -47,7 +47,7 @@ namespace Stefanini.ViaReport.Core.Business
                 issues.Add(data);
             }
 
-            return new SearchDto
+            return new DtoJira.SearchDto
             {
                 MaxResults = search.MaxResults,
                 StartAt = search.StartAt,

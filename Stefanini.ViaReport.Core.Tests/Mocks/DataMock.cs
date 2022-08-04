@@ -4,6 +4,9 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
 {
     public class DataMock
     {
+        public static bool BOOL_TRUE { get; } = true;
+        public static bool BOOL_FALSE { get; } = true;
+
         public static string TEXT_COREAPPS_PROJECT_KEY { get; } = "Core Apps";
         public static string TEXT_CHOOSE_PROJECT_KEY { get; } = "Choose";
         public static string TEXT_LOYALTY_PROJECT { get; } = "Loyalty";
@@ -20,6 +23,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static string JSON_CLASS_TEST { get; } = @"{""field_in_class1"":5,""field_in_class2"":9}";
         public static string JSON_CLASS_TEST_DATE { get; } = @"{""FieldInClass1"":5,""FieldInClass2"":9,""FieldDateTime"":""05/05/2000 00:00:00""}";
         public static string TEXT_DATETIME_WITH_WEEK { get; } = "W18, May 05 2000";
+        public static string TEXT_QUARTER_3_1999 { get; } = "Q31999";
+        public static string TEXT_QUARTER_4_1999 { get; } = "Q41999";
         public static string TEXT_QUARTER_1_2000 { get; } = "Q12000";
         public static string TEXT_QUARTER_2_2000 { get; } = "Q22000";
         public static string TEXT_QUARTER_3_2000 { get; } = "Q32000";
@@ -50,6 +55,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static int INT_ID_4 { get; } = 4;
         public static int INT_ID_5 { get; } = 5;
         public static int INT_ID_6 { get; } = 6;
+        public static int INT_ID_7 { get; } = 7;
         public static int INT_COREAPPS_PROJECT_KEY { get; } = 16313;
         public static int INT_CHOOSE_PROJECT_KEY { get; } = 20209;
         public static int INT_LOYALTY_PROJECT_KEY { get; } = 21021;
@@ -60,6 +66,7 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static int INT_FIDELIZACAO_PROJECT_CATEGORY_KEY { get; } = 12905;
         public static int VALUE_DEFAULT_5 { get; } = 5;
         public static int VALUE_DEFAULT_9 { get; } = 9;
+        public static int VALUE_DEFAULT_50 { get; } = 50;
         public static int INT_STATUS_REFINAMENTO_FUNCIONAL { get; } = 16110;
         public static int INT_STATUS_REFINAMENTO_TECNICO { get; } = 13421;
         public static int INT_STATUS_DONE { get; } = 10214;
@@ -88,14 +95,20 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static DateTime DATETIME_END_CYCLE { get; } = new(2022, 3, 6);
         public static DateTime DATETIME_FIRST_DAY_YEAR { get; } = new(2000, 1, 1);
         public static DateTime DATETIME_LAST_DAY_YEAR { get; } = new(2000, 12, 31);
+        public static DateTime DATETIME_FIRST_HISTORY_FINDED { get; } = DateTime.Parse("2021-08-25 11:18:57.876");
+        public static DateTime DATETIME_LAST_CYCLE_INIT { get; } = new(2021, 1, 1);
+        public static DateTime DATETIME_LAST_CYCLE_END { get; } = new(2021, 12, 31);
 
         public static string JIRA_HOST { get; } = "https://jira.hostname.com";
         public static string ISSUE_KEY_1 { get; } = "TST-1";
         public static string ISSUE_KEY_2 { get; } = "TST-2";
-        public static string ISSUE_DESCRIPTION_1 { get; } = "TST-1 issue description";
-        public static string ISSUE_DESCRIPTION_2 { get; } = "TST-2 issue description";
+        public static string ISSUE_KEY_3 { get; } = "TST-3";
+        public static string ISSUE_SUMMARY_1 { get; } = "TST-1 issue description";
+        public static string ISSUE_SUMMARY_2 { get; } = "TST-2 issue description";
+        public static string ISSUE_SUMMARY_3 { get; } = "TST-3 issue description";
         public static string ISSUE_LINK_1 { get; } = JIRA_HOST + "/browse/TST-1";
         public static string ISSUE_LINK_2 { get; } = JIRA_HOST + "/browse/TST-2";
+        public static string ISSUE_LINK_3 { get; } = JIRA_HOST + "/browse/TST-3";
         public static string ISSUE_SELF_1 { get; } = JIRA_HOST + "/rest/api/2/issue/1";
         public static string ISSUE_SELF_2 { get; } = JIRA_HOST + "/rest/api/2/issue/2";
         public static string ISSUE_STATUS_1 { get; } = "Backlog";
@@ -117,9 +130,8 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static long[] PROJECTS { get; } = new long[] { INT_SEARCH_PROJECT_KEY, INT_LOYALTY_PROJECT_KEY };
 
         public static long ID_NOT_FOUND { get; } = 0;
-        public static long ID_PROJECT { get; } = 2;
+        public static long ID_PROJECT { get; } = 1;
         public static long ID_ISSUE { get; } = 7623;
-        public static string KEY_ISSUE { get; } = "SEA-1";
         public static long KEY_NOT_FOUND { get; } = 0;
         public static long KEY_ISSUE_TYPE { get; } = 1;
         public static long KEY_PROJECT_CATEGORY { get; } = 12904;
@@ -129,7 +141,6 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks
         public static string NAME_ISSUE_TYPE { get; } = "Bug";
         public static string NAME_PROJECT_CATEGORY { get; } = "Aplicativos";
         public static string NAME_STATUS_CATEGORY { get; } = "No Category";
-        public static string SUMMARY_ISSUE_TYPE { get; } = "Teste de permissão";
         public static DateTime UPDATED_ISSUE { get; } = DateTime.Parse("2021-08-26 16:28:28.367");
 
         public static string USER_SELF { get; } = "https://jira.viavarejo.com.br/rest/api/2/user?username=1234567890";

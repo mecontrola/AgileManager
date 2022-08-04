@@ -14,7 +14,7 @@ namespace Stefanini.ViaReport.Core.IoC
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            services.TryAddSingleton<IIssueDtoToIssueInfoDtoMapper, IssueDtoToIssueInfoDtoMapper>();
+            services.TryAddSingleton<IJiraIssueDtoToIssueInfoDtoMapper, JiraIssueDtoToIssueDtoMapper>();
 
             AddDtoToEntityMapperServices(services);
 
@@ -33,8 +33,11 @@ namespace Stefanini.ViaReport.Core.IoC
 
         private static void AddEntityToDtoMapperServices(IServiceCollection services)
         {
+            services.TryAddSingleton<IDeliveryLastCycleEpicEntityToDtoMapper, DeliveryLastCycleEpicEntityToDtoMapper>();
+            services.TryAddSingleton<IIssueEntityToDtoMapper, IssueEntityToDtoMapper>();
             services.TryAddSingleton<IProjectEntityToDtoMapper, ProjectEntityToDtoMapper>();
             services.TryAddSingleton<IProjectCategoryEntityToDtoMapper, ProjectCategoryEntityToDtoMapper>();
+            services.TryAddSingleton<IQuarterEntityToDtoMapper, QuarterEntityToDtoMapper>();
         }
     }
 }

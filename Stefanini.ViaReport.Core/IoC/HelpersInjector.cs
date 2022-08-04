@@ -19,6 +19,8 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddSingleton<ICheckChangelogTypeHelper, CheckChangelogTypeHelper>();
             services.TryAddSingleton<IDateTimeFromStringHelper, DateTimeFromStringHelper>();
             services.TryAddSingleton<IGenerateWeeksFromRangeDateHelper, GenerateWeeksFromRangeDateHelper>();
+            services.TryAddSingleton<IIssueFieldsValidationHelper, IssueFieldsValidationHelper>();
+            services.TryAddSingleton<IMountJiraUrlHelper, MountJiraUrlHelper>();
             services.TryAddSingleton<IQuarterFromDateTimeHelper, QuarterFromDateTimeHelper>();
             services.TryAddSingleton<IQuarterGenerateListHelper, QuarterGenerateListHelper>();
             services.TryAddSingleton<IReadCFDFileExportHelper, ReadCFDFileExportHelper>();

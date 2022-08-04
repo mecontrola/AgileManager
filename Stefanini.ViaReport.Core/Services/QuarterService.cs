@@ -1,8 +1,7 @@
-﻿using Stefanini.ViaReport.Core.Helpers;
+﻿using Stefanini.ViaReport.Core.Mappers.EntityToDto;
 using Stefanini.ViaReport.Data.Dtos;
-using System;
+using Stefanini.ViaReport.DataStorage.Repositories;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,23 +9,22 @@ namespace Stefanini.ViaReport.Core.Services
 {
     public class QuarterService : IQuarterService
     {
-        private readonly IQuarterGenerateListHelper quarterGenerateListHelper;
+        private readonly IQuarterRepository quarterRepository;
 
-        public QuarterService(IQuarterGenerateListHelper quarterGenerateListHelper)
+        private readonly IQuarterEntityToDtoMapper quarterEntityToDtoMapper;
+
+        public QuarterService(IQuarterRepository quarterRepository,
+                              IQuarterEntityToDtoMapper quarterEntityToDtoMapper)
         {
-            this.quarterGenerateListHelper = quarterGenerateListHelper;
+            this.quarterRepository = quarterRepository;
+            this.quarterEntityToDtoMapper = quarterEntityToDtoMapper;
         }
 
         public async Task<IList<QuarterDto>> LoadAllAsync(CancellationToken cancellationToken)
-            => await Task.FromResult(GenerateList());
+        {
+            var list = await quarterRepository.Get5LastListAsync(cancellationToken);
 
-        private IList<QuarterDto> GenerateList()
-            => quarterGenerateListHelper.Create(DateTime.Now)
-                                        .Select((value, index) => new QuarterDto
-                                        {
-                                            Id = index + 1,
-                                            Name = value
-                                        })
-                                        .ToList();
+            return quarterEntityToDtoMapper.ToMapList(list);
+        }
     }
 }

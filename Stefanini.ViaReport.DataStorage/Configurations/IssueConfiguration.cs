@@ -14,7 +14,12 @@ namespace Stefanini.ViaReport.DataStorage.Configurations
             builder.Property(p => p.Uuid).IsRequired().HasMaxLength(36);
             builder.Property(p => p.Key).IsRequired();
             builder.Property(p => p.Summary).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.Incident).HasDefaultValue(false);
+            builder.Property(p => p.Created).IsRequired();
             builder.Property(p => p.Updated).IsRequired();
+            builder.Property(p => p.Resolved);
+            builder.Property(p => p.Link).IsRequired();
+            builder.Property(p => p.CustomField14503);
 
             builder.HasOne(p => p.Project)
                    .WithMany(p => p.Issues)
@@ -31,9 +36,9 @@ namespace Stefanini.ViaReport.DataStorage.Configurations
                    .HasForeignKey(p => p.IssueTypeId)
                    .IsRequired();
 
-            builder.HasMany(p => p.Statuses)
+            builder.HasOne(p => p.IssueEpic)
                    .WithOne(p => p.Issue)
-                   .HasForeignKey(p => p.IssueId);
+                   .HasForeignKey<IssueEpic>(p => p.IssueId);
         }
     }
 }

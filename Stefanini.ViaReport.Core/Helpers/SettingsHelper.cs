@@ -23,6 +23,7 @@ namespace Stefanini.ViaReport.Core.Helpers
                 Username = settingsManager.Data.Username,
                 Password = settingsManager.Data.Password.Base64Decode(),
                 PersistFilter = settingsManager.Data.PersistFilter,
+                SyncAllData = settingsManager.Data.SyncAllData,
                 FilterData = settingsManager.Data.FilterData,
             };
         }
@@ -34,6 +35,7 @@ namespace Stefanini.ViaReport.Core.Helpers
             settingsManager.Data.Username = Data.Username;
             settingsManager.Data.Password = Data.Password.Base64Encode();
             settingsManager.Data.PersistFilter = Data.PersistFilter;
+            settingsManager.Data.SyncAllData = Data.SyncAllData;
             settingsManager.Data.FilterData = settingsManager.Data.PersistFilter
                                             ? Data.FilterData
                                             : null;

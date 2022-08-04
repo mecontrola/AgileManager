@@ -51,6 +51,7 @@ namespace Stefanini.ViaReport
             var settings = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
 
             cbPersistFilter.IsChecked = settings.PersistFilter;
+            cbSyncAllData.IsChecked = settings.SyncAllData;
         }
 
         private async Task LoadProjectsData()
@@ -78,10 +79,13 @@ namespace Stefanini.ViaReport
         }
 
         private async Task SaveSettingsChange()
-            => await settingsBusiness.SavePreferencesAsync(GetPersistFilterValue(), cancellationTokenSource.Token);
+            => await settingsBusiness.SavePreferencesAsync(GetPersistFilterValue(), GetSyncAllDataValue(), cancellationTokenSource.Token);
 
         private bool GetPersistFilterValue()
             => cbPersistFilter.IsChecked ?? false;
+
+        private bool GetSyncAllDataValue()
+            => cbSyncAllData.IsChecked ?? false;
 
         private async Task SaveProjectsChange()
         {
@@ -119,8 +123,10 @@ namespace Stefanini.ViaReport
 
         private async Task ReloadProjectList()
         {
+            var data = await settingsBusiness.LoadDataAsync(cancellationTokenSource.Token);
+
             var parentForm = (MainWindow)GetWindow(Owner);
-            await parentForm.LoadCbProjects();
+            await parentForm.LoadCbProjects(data.FilterData);
         }
     }
 }

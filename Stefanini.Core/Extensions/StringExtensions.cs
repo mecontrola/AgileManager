@@ -77,7 +77,11 @@ namespace Stefanini.Core.Extensions
             {
                 return decimal.Parse(str, CultureInfo.InvariantCulture.NumberFormat);
             }
-            catch (Exception)
+            catch (FormatException)
+            {
+                return null;
+            }
+            catch (OverflowException)
             {
                 return null;
             }

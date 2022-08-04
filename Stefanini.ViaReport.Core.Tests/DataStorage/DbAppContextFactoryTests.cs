@@ -13,6 +13,9 @@ namespace Stefanini.ViaReport.Core.Tests.DataStorage
         [Fact(DisplayName = "[DbAppContextFactory.CreateDbContext] Deve criar o banco de dados SQLite.")]
         public async void DeveCriarBancoSQLite()
         {
+            if (File.Exists(DATABASE_FILENAME))
+                File.Delete(DATABASE_FILENAME);
+
             using (var dbContextFactory = new DbAppContextFactory())
             {
                 var dbContext = dbContextFactory.CreateDbContext(Array.Empty<string>());
@@ -22,7 +25,6 @@ namespace Stefanini.ViaReport.Core.Tests.DataStorage
             }
 
             File.Exists(DATABASE_FILENAME).Should().BeTrue();
-            //File.Delete(DATABASE_FILENAME);
         }
     }
 }

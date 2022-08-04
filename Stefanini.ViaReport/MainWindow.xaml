@@ -1,9 +1,8 @@
 ﻿<Window x:Class="Stefanini.ViaReport.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Stefanini.ViaReport"
         xmlns:localData="clr-namespace:Stefanini.ViaReport.Data"
         mc:Ignorable="d"
         Title="{x:Static localData:AppTextsData.APP_TITLE}" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
@@ -45,7 +44,6 @@
             </MenuItem>
             <MenuItem Header="Tools" Name="MiTools">
                 <MenuItem Name="BtnSyncronizer" Header="Syncronize" Click="BtnSyncronizer_Click"/>
-                <MenuItem Name="BtnDashboard" Header="Dashboard" Click="BtnDashboard_Click"/>
                 <MenuItem Name="BtnNoFixVersion" Header="No Fix Version" Click="BtnNoFixVersion_Click"/>
                 <MenuItem Name="BtnDeliveryLastCycle" Header="Delivery Last Cycle" Click="BtnDeliveryLastCycle_Click"/>
             </MenuItem>
@@ -223,7 +221,7 @@
                             <Label Content="{StaticResource LbTechnicalDebitResolvedIconInfo}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2,0,0,0" Padding="0,0,0,0" Grid.Column="6" Grid.Row="4" ToolTip="Débitos técnicos resolvidos durante o período (Adicionados e Quarters Anteriores)" />
                             <Label Content="{StaticResource LbTechnicalDebitCreatedAndResolvedIconInfo}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2,0,0,0" Padding="0,0,0,0" Grid.Column="6" Grid.Row="5" ToolTip="Débitos técnicos adicionados e resolvidos no período" />
                             <Label Content="{StaticResource LbTechnicalDebitCancelledIconInfo}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2,0,0,0" Padding="0,0,0,0" Grid.Column="6" Grid.Row="6" ToolTip="Débitos técnicos cancelados durante o período" />
-                            
+
                             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Name="TxtCycleBalance"/>
                             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Grid.Column="3" Grid.Row="1" Name="TxtBugsCreated"/>
                             <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Grid.Column="3" Grid.Row="2" Name="TxtBugsOpened"/>

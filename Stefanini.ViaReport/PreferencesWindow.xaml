@@ -5,23 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stefanini.ViaReport"
         mc:Ignorable="d"
-        Title="Preferences" Height="300" Width="400" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
+        Title="Preferences" Height="366" Width="400" WindowStyle="ToolWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="89*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="70"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Filter" Margin="5,5,5,0" Grid.ColumnSpan="2" Height="56" VerticalAlignment="Top">
+        <GroupBox Header="Filter" Margin="5,5,5,0" Grid.ColumnSpan="3" Height="56" VerticalAlignment="Top">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="89*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36"/>
+                </Grid.RowDefinitions>
                 <Label Content="Persist Filter" Margin="5,5,5,5" HorizontalContentAlignment="Right" Grid.Column="0"/>
                 <CheckBox Name="cbPersistFilter" Grid.Column="1" Content="Yes" HorizontalAlignment="Left" Margin="5,10,0,5"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Projetos" Margin="5,66,5,31" Grid.ColumnSpan="2">
+        <GroupBox Header="Syncronize" Margin="5,66,5,0" Grid.ColumnSpan="3" Height="56" VerticalAlignment="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="89*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36"/>
+                </Grid.RowDefinitions>
+                <Label Content="Sync All Data" Margin="5,5,5,5" HorizontalContentAlignment="Right" Grid.Column="0"/>
+                <CheckBox Name="cbSyncAllData" Grid.Column="1" Content="Yes" HorizontalAlignment="Left" Margin="5,10,0,5"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Projects" Margin="5,132,5,31" Grid.ColumnSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="170"/>
@@ -62,6 +78,6 @@
                 </ListBox>
             </Grid>
         </GroupBox>
-        <Button Name="BtnSave" Content="Save" Margin="0,0,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="22" Grid.Column="1" Width="50" Click="BtnSave_Click"/>
+        <Button Name="BtnSave" Content="Save" Margin="0,0,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="22" Grid.Column="2" Width="50" Click="BtnSave_Click"/>
     </Grid>
 </Window>

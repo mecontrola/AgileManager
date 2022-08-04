@@ -34,5 +34,14 @@ namespace Stefanini.ViaReport.Core.Tests.Mocks.Data.Dtos.Jira
                 To = "[10000]",
                 ToString = "Impediment"
             };
+
+        public static HistoryItemDto CreateImpedimentClose()
+            => new()
+            {
+                Field = DataMock.HISTORYITEM_FIELD_FLAGGED,
+                Fieldtype = DataMock.HISTORYITEM_FIELDTYPE_CUSTOM,
+                From = "[10000]",
+                FromString = "Impediment"
+            };
     }
 }

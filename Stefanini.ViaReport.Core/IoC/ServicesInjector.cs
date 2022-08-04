@@ -23,6 +23,8 @@ namespace Stefanini.ViaReport.Core.IoC
             services.TryAddScoped<IBugIssuesResolvedInDateRangeService, BugIssuesResolvedInDateRangeService>();
             services.TryAddScoped<ICFDExportReportIntegrationService, CFDExportReportIntegrationService>();
             services.TryAddScoped<IDeliveryLastCycleService, DeliveryLastCycleService>();
+            services.TryAddScoped<IDownstreamIndicatorsService, DownstreamIndicatorsService>();
+            services.TryAddScoped<IDownstreamJiraIndicatorsService, DownstreamJiraIndicatorsService>();
             services.TryAddScoped<IIssuesCreatedInDateRangeService, IssuesCreatedInDateRangeService>();
             services.TryAddScoped<IIssuesEpicByLabelService, IssuesEpicByLabelService>();
             services.TryAddScoped<IIssuesNotFixVersionService, IssuesNotFixVersionService>();
@@ -47,6 +49,8 @@ namespace Stefanini.ViaReport.Core.IoC
         private static void AddSyncronizerServices(IServiceCollection services)
         {
             services.TryAddScoped<IIssueDataSynchronizerService, IssueDataSynchronizerService>();
+            services.TryAddScoped<IIssueEpicDataSynchronizerService, IssueEpicDataSynchronizerService>();
+            services.TryAddScoped<IIssueImpedimentSynchronizerService, IssueImpedimentSynchronizerService>();
             services.TryAddScoped<IIssueStatusHistorySynchronizerService, IssueStatusHistorySynchronizerService>();
 
             services.TryAddScoped<IIssueSynchronizerService, IssueSynchronizerService>();

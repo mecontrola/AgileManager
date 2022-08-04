@@ -1,4 +1,4 @@
-﻿using Stefanini.ViaReport.Core.Data.Dto;
+﻿using Stefanini.ViaReport.Data.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,6 +16,6 @@ namespace Stefanini.ViaReport.Conveters
              : LABEL_COLUMN_VALUE;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            => (List<IssueInfoDto>)value;
+            => (List<IssueDto>)value;
     }
 }

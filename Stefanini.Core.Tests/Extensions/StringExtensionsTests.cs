@@ -82,5 +82,13 @@ namespace Stefanini.Core.Tests.Extensions
 
             actual.Should().BeNull();
         }
+
+        [Fact(DisplayName = "[StringExtensions.ToDecimal]  Deve realizar conversão de uma valor maior que valor decimal para um decimal nulo.")]
+        public void DeveRealizarConversaoOverflowParaDecimalNull()
+        {
+            var actual = $"{decimal.MaxValue}4".ToDecimal();
+
+            actual.Should().BeNull();
+        }
     }
 }

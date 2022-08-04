@@ -1,5 +1,5 @@
-﻿using Stefanini.ViaReport.Core.Data.Enums;
-using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
+﻿using Stefanini.ViaReport.Core.Integrations.Jira.V2.Statuses;
+using Stefanini.ViaReport.Data.Enums;
 
 namespace Stefanini.ViaReport.Core.Services
 {

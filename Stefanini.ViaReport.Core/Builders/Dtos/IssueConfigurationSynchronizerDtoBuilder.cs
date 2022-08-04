@@ -18,6 +18,7 @@ namespace Stefanini.ViaReport.Core.Builders.Dtos
             {
                 x.Username = settings.Username;
                 x.Password = settings.Password;
+                x.SyncAllData = settings.SyncAllData;
             });
 
         public IssueConfigurationSynchronizerDtoBuilder AddProjects(IList<long> projects)

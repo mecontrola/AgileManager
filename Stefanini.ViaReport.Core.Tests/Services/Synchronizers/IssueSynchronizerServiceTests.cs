@@ -35,7 +35,9 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers
         private readonly ISearchPost api;
 
         private readonly IIssueDataSynchronizerService issueDataSynchronizerService;
+        private readonly IIssueImpedimentSynchronizerService issueImpedimentSynchronizerService;
         private readonly IIssueStatusHistorySynchronizerService issueStatusHistorySynchronizerService;
+        private readonly IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService;
 
         private readonly IIssueSynchronizerService service;
 
@@ -52,6 +54,9 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers
             issueDataSynchronizerService = Substitute.For<IIssueDataSynchronizerService>();
             issueStatusHistorySynchronizerService = Substitute.For<IIssueStatusHistorySynchronizerService>();
 
+            issueImpedimentSynchronizerService = Substitute.For<IIssueImpedimentSynchronizerService>();
+            issueEpicDataSynchronizerService = Substitute.For<IIssueEpicDataSynchronizerService>();
+
             service = new IssueSynchronizerService(repository,
                                                    issueTypeRepository,
                                                    projectRepository,
@@ -59,7 +64,9 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers
                                                    issueGet,
                                                    api,
                                                    issueDataSynchronizerService,
-                                                   issueStatusHistorySynchronizerService);
+                                                   issueImpedimentSynchronizerService,
+                                                   issueStatusHistorySynchronizerService,
+                                                   issueEpicDataSynchronizerService);
         }
 
         private static IIssueRepository CreateRepository()
@@ -108,16 +115,23 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers
             SetIssueLastUpdatedAsyncReturns(null);
             SetSearchPostExecuteReturns();
 
-            await service.SynchronizeData(IssueConfigurationSynchronizerDtoMock.Create(), GetCancellationToken());
-
+            await service.SynchronizeData(IssueConfigurationSynchronizerDtoMock.CreateWithSyncAllData(), GetCancellationToken());
 
             await issueDataSynchronizerService.Received(CALLS_SAVE_ISSUE_IN_REPOSITORY_10)
                                               .Save(Arg.Any<IssueSynchronizerParam>(),
                                                     Arg.Any<CancellationToken>());
 
+            await issueImpedimentSynchronizerService.Received(CALLS_SAVE_ISSUE_IN_REPOSITORY_10)
+                                                    .Save(Arg.Any<IssueSynchronizerParam>(),
+                                                          Arg.Any<CancellationToken>());
+
             await issueStatusHistorySynchronizerService.Received(CALLS_SAVE_ISSUE_IN_REPOSITORY_10)
                                                        .Save(Arg.Any<IssueSynchronizerParam>(),
                                                              Arg.Any<CancellationToken>());
+
+            await issueEpicDataSynchronizerService.Received(CALLS_SAVE_ISSUE_IN_REPOSITORY_10)
+                                                  .Save(Arg.Any<IssueSynchronizerParam>(),
+                                                        Arg.Any<CancellationToken>());
         }
 
         [Fact(DisplayName = "[IssueSynchronizerService.SynchronizeData] Deve executar sincronização das Issues quando encontrar Project informado na base de dados e não atualizar issues quando não retornar listagem do Jira.")]
@@ -134,9 +148,17 @@ namespace Stefanini.ViaReport.Core.Tests.Services.Synchronizers
                                               .Save(Arg.Any<IssueSynchronizerParam>(),
                                                     Arg.Any<CancellationToken>());
 
+            await issueImpedimentSynchronizerService.Received(CALLS_SAVE_ISSUE_IN_REPOSITORY_0)
+                                                    .Save(Arg.Any<IssueSynchronizerParam>(),
+                                                          Arg.Any<CancellationToken>());
+
             await issueStatusHistorySynchronizerService.Received(CALLS_SAVE_ISSUE_IN_REPOSITORY_0)
                                                        .Save(Arg.Any<IssueSynchronizerParam>(),
                                                              Arg.Any<CancellationToken>());
+
+            await issueEpicDataSynchronizerService.Received(CALLS_SAVE_ISSUE_IN_REPOSITORY_0)
+                                                  .Save(Arg.Any<IssueSynchronizerParam>(),
+                                                        Arg.Any<CancellationToken>());
         }
 
         private void SetProjectFindAsyncReturns()

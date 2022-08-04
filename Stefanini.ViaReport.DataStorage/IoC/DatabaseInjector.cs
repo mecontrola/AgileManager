@@ -12,11 +12,14 @@ namespace Stefanini.ViaReport.DataStorage.IoC
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
+            services.TryAddTransient<IIssueEpicRepository, IssueEpicRepository>();
             services.TryAddTransient<IIssueRepository, IssueRepository>();
+            services.TryAddTransient<IIssueImpedimentRepository, IssueImpedimentRepository>();
             services.TryAddTransient<IIssueTypeRepository, IssueTypeRepository>();
             services.TryAddTransient<IIssueStatusHistoryRepository, IssueStatusHistoryRepository>();
             services.TryAddTransient<IProjectRepository, ProjectRepository>();
             services.TryAddTransient<IProjectCategoryRepository, ProjectCategoryRepository>();
+            services.TryAddTransient<IQuarterRepository, QuarterRepository>();
             services.TryAddTransient<IStatusRepository, StatusRepository>();
             services.TryAddTransient<IStatusCategoryRepository, StatusCategoryRepository>();
         }
