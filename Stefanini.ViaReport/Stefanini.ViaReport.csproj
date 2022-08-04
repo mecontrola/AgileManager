@@ -5,14 +5,14 @@
     <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <SignAssembly>False</SignAssembly>
-    <AssemblyName>AHM Report</AssemblyName>
+    <AssemblyName>Squad Manager</AssemblyName>
     <StartupObject>Stefanini.ViaReport.App</StartupObject>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <ApplicationIcon>Images\ahm-logo-32.ico</ApplicationIcon>
-    <PackageReleaseNotes>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</PackageReleaseNotes>
-    <Description>Aplicativo para gerar as informações necessárias para montar o Agile Health Monitor (AHM)</Description>
-    <PackageIcon>Images\ahm-logo.png</PackageIcon>
+    <ApplicationIcon>Images\sm-logo-32.ico</ApplicationIcon>
+    <PackageReleaseNotes>Aplicativo utilizado para extrair indicadores do Jira Software</PackageReleaseNotes>
+    <Description>Aplicativo utilizado para extrair indicadores do Jira Software</Description>
+    <PackageIcon>Images\sm-logo.png</PackageIcon>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\ahm-logo-32.ico" />
+    <Content Include="Images\sm-logo-32.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\ahm-logo.png">
+    <Resource Include="Images\sm-logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\information_icon.png">

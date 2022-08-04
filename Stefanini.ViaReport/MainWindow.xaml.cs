@@ -150,10 +150,14 @@ namespace Stefanini.ViaReport
             if (!settings.PersistFilter || settings.FilterData == null)
                 return;
 
-            CbProjects.SelectedIndex = ProjectIndexOf(settings.FilterData.Project);
-            CbQuarters.SelectedIndex = QuarterIndexOf(settings.FilterData.Quarter);
             TxtInitDate.SelectedDate = settings.FilterData.StartDate;
             TxtEndDate.SelectedDate = settings.FilterData.EndDate;
+
+            if (settings.FilterData.Project != null)
+                CbProjects.SelectedIndex = ProjectIndexOf(settings.FilterData.Project);
+
+            if (settings.FilterData.Quarter != null)
+                CbQuarters.SelectedIndex = QuarterIndexOf(settings.FilterData.Quarter);
         }
 
         private int ProjectIndexOf(ProjectDto project)
@@ -163,7 +167,9 @@ namespace Stefanini.ViaReport
                                                        && p.Name.Equals(project.Name));
 
         private int QuarterIndexOf(QuarterDto quarter)
-            => CbQuarters.GetItemIndexOf<QuarterDto>(p => p.Name.Equals(quarter.Name));
+            => quarter == null
+             ? 0
+             : CbQuarters.GetItemIndexOf<QuarterDto>(p => p.Name.Equals(quarter.Name));
 
         private async static void RunWithExceptionHandling(Func<Task> runAction, Action runBefore, Action runAfter)
         {
@@ -448,6 +454,12 @@ namespace Stefanini.ViaReport
             if (string.IsNullOrWhiteSpace(userSettings.Password))
             {
                 MessageBox.Show("É necessário informar a senha para autenticação.");
+                return false;
+            }
+
+            if (data.Project == null)
+            {
+                MessageBox.Show("É necessário selecionar um projeto para gerar o relatório.");
                 return false;
             }
 

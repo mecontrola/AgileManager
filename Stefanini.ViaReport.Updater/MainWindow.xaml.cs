@@ -1,5 +1,4 @@
-﻿using Stefanini.ViaReport.Updater.Core.Data;
-using Stefanini.ViaReport.Updater.Core.Data.Configurations;
+﻿using Stefanini.ViaReport.Updater.Core.Data.Configurations;
 using Stefanini.ViaReport.Updater.Core.Services;
 using Stefanini.ViaReport.Updater.Extensions;
 using System;
