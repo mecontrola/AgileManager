@@ -6,18 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Stefanini.Core.TestingTools\FluentAssertions\Extensions\AssertionExtensions.cs" Link="TestUtils\FluentAssertions\Extensions\AssertionExtensions.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\FluentAssertions\Extensions\ServiceCollectionAssertionsExtensions.cs" Link="TestUtils\FluentAssertions\Extensions\ServiceCollectionAssertionsExtensions.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\FluentAssertions\ServiceAssertions.cs" Link="TestUtils\FluentAssertions\ServiceAssertions.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\FluentAssertions\ServiceCollectionAssertions.cs" Link="TestUtils\FluentAssertions\ServiceCollectionAssertions.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\Helpers\BaseApiUtilMockHelper.cs" Link="TestUtils\Helpers\BaseApiUtilMockHelper.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\Helpers\BaseConfigurationMockHelper.cs" Link="TestUtils\Helpers\BaseConfigurationMockHelper.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\NSubstitute\ThrowExceptionExtensions.cs" Link="TestUtils\NSubstitute\ThrowExceptionExtensions.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\BaseAsyncMethods.cs" Link="TestUtils\BaseAsyncMethods.cs" />
-    <Compile Include="..\Stefanini.Core.TestingTools\BaseTestApi.cs" Link="TestUtils\BaseTestApi.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="3.1.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -26,8 +14,8 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Include="NSubstitute" Version="4.4.0" />
     <PackageReference Include="ReportGenerator" Version="5.1.9" />
-    <PackageReference Include="WireMock.Net" Version="1.5.1" />
-    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="WireMock.Net" Version="1.5.3" />
+    <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -40,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Stefanini.Core.TestingTools\Stefanini.Core.TestingTools.csproj" />
     <ProjectReference Include="..\Stefanini.ViaReport.Updater.Core\Stefanini.ViaReport.Updater.Core.csproj" />
   </ItemGroup>
 
