@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyName>Agile Manager</AssemblyName>
+    <StartupObject>MeControla.AgileManager.App</StartupObject>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <ApplicationIcon>Images\am-logo-32.ico</ApplicationIcon>
+    <PackageReleaseNotes>Aplicativo utilizado para extrair indicadores do Jira Software</PackageReleaseNotes>
+    <Description>Aplicativo utilizado para extrair indicadores do Jira Software</Description>
+    <PackageIcon>Images\am-logo.png</PackageIcon>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PlatformTarget>$(Platform)</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimization>true</Optimization>
+    <Obfuscate>true</Obfuscate>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\information_icon.png" />
+    <None Remove="Images\sign_check_icon.png" />
+    <None Remove="Images\sign_error_icon.png" />
+    <None Remove="Images\table_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\am-logo-32.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MeControla.Kernel\MeControla.Kernel.csproj" />
+    <ProjectReference Include="..\MeControla.AgileManager.Core\MeControla.AgileManager.Core.csproj" />
+    <ProjectReference Include="..\MeControla.AgileManager.DataStorage\MeControla.AgileManager.DataStorage.csproj" />
+    <ProjectReference Include="..\MeControla.AgileManager.Updater.Core\MeControla.AgileManager.Updater.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\am-logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\information_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\sign_check_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\sign_error_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\table_icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>appsettings.json</DependentUpon>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

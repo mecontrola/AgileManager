@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimization>true</Optimization>
+    <Obfuscate>true</Obfuscate>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MeControla.Core" Version="1.0.5" />
+    <ProjectReference Include="..\MeControla.Kernel\MeControla.Kernel.csproj" />
+  </ItemGroup>
+
+</Project>

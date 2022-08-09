@@ -1,9 +1,10 @@
+using MeControla.Core.Extensions;
+using MeControla.Kernel.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Stefanini.Core.Extensions;
 using Stefanini.GitHub.Core.Business;
 using Stefanini.GitHub.Core.Data.Configurations;
 using Stefanini.GitHub.Core.Integrations.GitHub.V3;

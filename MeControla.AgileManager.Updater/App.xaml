@@ -1,0 +1,8 @@
+﻿<Application x:Class="MeControla.AgileManager.Updater.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MeControla.AgileManager.Updater"
+             Startup="OnStartup">
+    <Application.Resources>
+    </Application.Resources>
+</Application>

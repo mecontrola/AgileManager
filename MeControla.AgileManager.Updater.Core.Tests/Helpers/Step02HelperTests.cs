@@ -1,0 +1,57 @@
+﻿using NSubstitute;
+using MeControla.AgileManager.Updater.Core.Data.Configurations;
+using MeControla.AgileManager.Updater.Core.Helpers;
+using MeControla.AgileManager.Updater.Core.Tests.Mocks;
+using MeControla.AgileManager.Updater.Core.Tests.Mocks.Configurations;
+using System.Diagnostics;
+using Xunit;
+
+namespace MeControla.AgileManager.Updater.Core.Tests.Helpers
+{
+    public class Step02HelperTests
+    {
+        private readonly IUpdaterConfiguration updaterConfiguration;
+        private readonly IToolsHelper toolsHelper;
+
+        private readonly IWinProcess process;
+
+        private readonly IStep02Helper helper;
+
+        public Step02HelperTests()
+        {
+            process = Substitute.For<IWinProcess>();
+            process.HasProcess().Returns(true);
+
+            updaterConfiguration = UpdaterConfigurationMock.Create();
+            toolsHelper = Substitute.For<IToolsHelper>();
+            toolsHelper.FindProcessRunning(Arg.Any<string>()).Returns(process);
+
+            helper = new Step02Helper(updaterConfiguration,
+                                      toolsHelper);
+        }
+
+        [Fact(DisplayName = "[Step02Helper.Run] Deve finalizar a rotina quando o processo não for encontrado.")]
+        public void DeveFinalizarQuandoProcessoNaoEncontrado()
+        {
+            process.HasProcess().Returns(false);
+
+            helper.Run();
+
+            toolsHelper.Received(1).FindProcessRunning(Arg.Is<string>(x => x.Equals(DataMock.STRING_APPLICATION_NAME)));
+            process.Received(0).Kill();
+            process.Received(0).WaitForExit();
+            process.Received(0).Dispose();
+        }
+
+        [Fact(DisplayName = "[Step02Helper.Run] Deve finalizar o processo encontrado e prosseguir com a atualização.")]
+        public void DeveFinalizarProcessoEncontrado()
+        {
+            helper.Run();
+
+            toolsHelper.Received(1).FindProcessRunning(Arg.Is<string>(x => x.Equals(DataMock.STRING_APPLICATION_NAME)));
+            process.Received(1).Kill();
+            process.Received(1).WaitForExit();
+            process.Received(1).Dispose();
+        }
+    }
+}
