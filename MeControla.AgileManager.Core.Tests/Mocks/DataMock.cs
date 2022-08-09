@@ -132,7 +132,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks
         public static long ID_NOT_FOUND { get; } = 0;
         public static long ID_PROJECT { get; } = 1;
         public static long ID_ISSUE { get; } = 7623;
-        public static long KEY_NOT_FOUND { get; } = 0;
+        public static long KEY_NOT_FOUND { get; } = -1;
         public static long KEY_ISSUE_TYPE { get; } = 1;
         public static long KEY_PROJECT_CATEGORY { get; } = 12904;
         public static long KEY_PROJECT { get; } = 21021;

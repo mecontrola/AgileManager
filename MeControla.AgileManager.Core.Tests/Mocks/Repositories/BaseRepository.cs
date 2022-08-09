@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MeControla.AgileManager.Data.Entities;
+﻿using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Enums;
 using MeControla.AgileManager.DataStorage;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace MeControla.AgileManager.Core.Tests.Mocks.Repositories
@@ -36,10 +36,10 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Repositories
 
             var projects = new Project[]
             {
-                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("FC4298AB-47B8-43F0-BE9D-4F0E4E3EEC71"), Key = 21018, Name = "Search", ProjectCategoryId = DataMock.INT_ID_1, Selected = true, },
-                new() { Id = DataMock.INT_ID_2, Uuid = Guid.Parse("380C1025-881A-49BF-813A-025C71E7D11D"), Key = 21021, Name = "Loyalty", ProjectCategoryId = DataMock.INT_ID_4, Selected = true },
-                new() { Id = DataMock.INT_ID_3, Uuid = Guid.Parse("4FA18144-78F8-40D2-8DDE-BA8129DE31FE"), Key = 16313, Name = "Core Apps", ProjectCategoryId = DataMock.INT_ID_1, Selected = false },
-                new() { Id = DataMock.INT_ID_4, Uuid = Guid.Parse("CCE656A3-BFE7-4C1D-8C6F-3478BFCD73FB"), Key = 20209, Name = "Choose", ProjectCategoryId = DataMock.INT_ID_1, Selected = false },
+                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("FC4298AB-47B8-43F0-BE9D-4F0E4E3EEC71"), Key = 21018, Name = "Search", ProjectCategoryId = DataMock.INT_ID_2, Selected = true, },
+                new() { Id = DataMock.INT_ID_2, Uuid = Guid.Parse("380C1025-881A-49BF-813A-025C71E7D11D"), Key = 21021, Name = "Loyalty", ProjectCategoryId = DataMock.INT_ID_5, Selected = true },
+                new() { Id = DataMock.INT_ID_3, Uuid = Guid.Parse("4FA18144-78F8-40D2-8DDE-BA8129DE31FE"), Key = 16313, Name = "Core Apps", ProjectCategoryId = DataMock.INT_ID_2, Selected = false },
+                new() { Id = DataMock.INT_ID_4, Uuid = Guid.Parse("CCE656A3-BFE7-4C1D-8C6F-3478BFCD73FB"), Key = 20209, Name = "Choose", ProjectCategoryId = DataMock.INT_ID_2, Selected = false },
             };
 
             var quarters = new Quarter[]

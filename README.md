@@ -1,5 +1,5 @@
 # Agile Manager
-Ferramenta de apoio aos Agile Masters levantarem as informações de indicadores nos projetos existentes na Via (Via Varejo)
+Ferramenta de apoio aos Agile Masters e Scrum Masters para o levantamento de incadores dos projetos gerenciados no Jira.
 
 ## Status
 

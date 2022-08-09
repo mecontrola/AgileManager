@@ -8,7 +8,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
         public static ProjectCategory CreateAplicativos()
         {
             var entity = CreateAplicativosFromJira();
-            entity.Id = DataMock.INT_ID_1;
+            entity.Id = DataMock.INT_ID_2;
             return entity;
         }
 
@@ -22,7 +22,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
         public static ProjectCategory CreateDecisao()
         {
             var entity = CreateDecisaoFromJira();
-            entity.Id = DataMock.INT_ID_2;
+            entity.Id = DataMock.INT_ID_3;
             return entity;
         }
 
@@ -36,7 +36,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
         public static ProjectCategory CreateDescoberta()
         {
             var entity = CreateDescobertaFromJira();
-            entity.Id = DataMock.INT_ID_3;
+            entity.Id = DataMock.INT_ID_4;
             return entity;
         }
 
@@ -50,7 +50,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
         public static ProjectCategory CreateFidelizacao()
         {
             var entity = CreateFidelizacaoFromJira();
-            entity.Id = DataMock.INT_ID_4;
+            entity.Id = DataMock.INT_ID_5;
             return entity;
         }
 

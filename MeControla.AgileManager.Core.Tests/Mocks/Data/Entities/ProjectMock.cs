@@ -9,7 +9,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
         {
             var entity = CreateSearchFromJira();
             entity.Id = DataMock.INT_ID_1;
-            entity.ProjectCategoryId = DataMock.INT_ID_1;
+            entity.ProjectCategoryId = DataMock.INT_ID_2;
             entity.ProjectCategory = ProjectCategoryMock.CreateAplicativos();
             return entity;
         }
@@ -32,7 +32,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
         {
             var entity = CreateLoyaltyFromJira();
             entity.Id = DataMock.INT_ID_2;
-            entity.ProjectCategoryId = DataMock.INT_ID_4;
+            entity.ProjectCategoryId = DataMock.INT_ID_5;
             entity.ProjectCategory = ProjectCategoryMock.CreateFidelizacao();
             return entity;
         }
@@ -58,7 +58,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
                 Key = DataMock.INT_COREAPPS_PROJECT_KEY,
                 Name = DataMock.TEXT_COREAPPS_PROJECT_KEY,
                 Selected = false,
-                ProjectCategoryId = DataMock.INT_ID_1,
+                ProjectCategoryId = DataMock.INT_ID_2,
                 ProjectCategory = ProjectCategoryMock.CreateAplicativos()
             };
 
@@ -69,7 +69,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
                 Key = DataMock.INT_CHOOSE_PROJECT_KEY,
                 Name = DataMock.TEXT_CHOOSE_PROJECT_KEY,
                 Selected = false,
-                ProjectCategoryId = DataMock.INT_ID_1,
+                ProjectCategoryId = DataMock.INT_ID_2,
                 ProjectCategory = ProjectCategoryMock.CreateAplicativos()
             };
 

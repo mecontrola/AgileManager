@@ -8,28 +8,28 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos
         public static ProjectCategoryDto CreateAplicativos()
             => new()
             {
-                Id = DataMock.INT_ID_1,
+                Id = DataMock.INT_ID_2,
                 Name = DataMock.TEXT_APLICATIVOS_PROJECT_CATEGORY
             };
 
         public static ProjectCategoryDto CreateDecisao()
             => new()
             {
-                Id = DataMock.INT_ID_2,
+                Id = DataMock.INT_ID_3,
                 Name = DataMock.TEXT_DECISAO_PROJECT_CATEGORY
             };
 
         public static ProjectCategoryDto CreateDescoberta()
             => new()
             {
-                Id = DataMock.INT_ID_3,
+                Id = DataMock.INT_ID_4,
                 Name = DataMock.TEXT_DESCOBERTA_PROJECT_CATEGORY
             };
 
         public static ProjectCategoryDto CreateFidelizacao()
             => new()
             {
-                Id = DataMock.INT_ID_4,
+                Id = DataMock.INT_ID_5,
                 Name = DataMock.TEXT_FIDELIZACAO_PROJECT_CATEGORY
             };
 
