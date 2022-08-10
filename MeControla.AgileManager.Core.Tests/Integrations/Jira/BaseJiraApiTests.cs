@@ -48,7 +48,7 @@ namespace MeControla.AgileManager.Core.Tests.Integrations.Jira
 
         protected ISettingsService GetSettings()
         {
-            var service = Substitute.For<ISettingsService>();
+            var service = Mocks.Services.SettingsServiceMock.Create();
             service.GetJiraConfiguration()
                    .Returns(GetConfiguration());
             return service;
@@ -60,7 +60,7 @@ namespace MeControla.AgileManager.Core.Tests.Integrations.Jira
                 Url = server.Urls[0],
                 Username = DataMock.VALUE_USERNAME,
                 Password = DataMock.VALUE_PASSWORD,
-                Cache = 5
+                Cache = DataMock.INT_CACHE_MINUTES
             };
     }
 }
