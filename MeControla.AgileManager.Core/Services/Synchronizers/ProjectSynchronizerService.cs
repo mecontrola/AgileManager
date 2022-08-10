@@ -2,11 +2,9 @@
 using MeControla.AgileManager.Core.Mappers.DtoToEntity;
 using MeControla.AgileManager.Data.Dtos.Jira;
 using MeControla.AgileManager.Data.Dtos.Synchronizers;
-using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.DataStorage.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,10 +32,7 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
 
         public async Task SynchronizeData(ConfigurationSynchronizerDto configurationSynchronizerDto, CancellationToken cancellationToken)
         {
-            var projectsByJira = await LoadListFromJira(cancellationToken);
-            var categoriesByLocal = await LoadProjectCategoriesFromDataBase(cancellationToken);
-            var categoriesIdInJira = GetCategoryIdToArray(categoriesByLocal);
-            var projects = SatinizeProjectByCategory(projectsByJira, categoriesIdInJira);
+            var projects = await LoadListFromJira(cancellationToken);
 
             foreach (var project in projects)
                 await SaveProject(project, cancellationToken);
@@ -46,23 +41,13 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
         private async Task<IList<ProjectDto>> LoadListFromJira(CancellationToken cancellationToken)
             => await projectGetAll.Execute(cancellationToken);
 
-        private async Task<IList<ProjectCategory>> LoadProjectCategoriesFromDataBase(CancellationToken cancellationToken)
-            => await projectCategoryRepository.FindAllAsync(cancellationToken);
-
-        private static long[] GetCategoryIdToArray(IList<ProjectCategory> categoriesByLocal)
-            => categoriesByLocal.Select(x => x.Key)
-                                .ToArray();
-
-        private static IEnumerable<ProjectDto> SatinizeProjectByCategory(IList<ProjectDto> projectsByJira, long[] categoriesIdInJira)
-            => projectsByJira.Where(itm => itm.ProjectCategory != null
-                                        && categoriesIdInJira.Any(id => long.Parse(itm.ProjectCategory.Id).Equals(id)));
-
         private async Task SaveProject(ProjectDto project, CancellationToken cancellationToken)
         {
             if (await projectRepository.ExistsByKeyAsync(long.Parse(project.Id), cancellationToken))
                 return;
 
-            var category = await projectCategoryRepository.FindByKeyAsync(long.Parse(project.ProjectCategory.Id), cancellationToken);
+            var projectCategoryKey = GetProjectCategoryKey(project);
+            var category = await projectCategoryRepository.FindByKeyAsync(projectCategoryKey, cancellationToken);
 
             var entity = jiraProjectDtoToEntityMapper.ToMap(project);
             entity.Uuid = Guid.NewGuid();
@@ -70,5 +55,10 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
 
             await projectRepository.CreateAsync(entity, cancellationToken);
         }
+
+        private static long GetProjectCategoryKey(ProjectDto project)
+            => project.ProjectCategory != null
+             ? long.Parse(project?.ProjectCategory.Id)
+             : 0;
     }
 }
