@@ -46,7 +46,7 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
             if (await projectRepository.ExistsByKeyAsync(long.Parse(project.Id), cancellationToken))
                 return;
 
-            var projectCategoryKey = GetProjectCategoryKey(project);
+            var projectCategoryKey = GetProjectCategoryKey(project.ProjectCategory);
             var category = await projectCategoryRepository.FindByKeyAsync(projectCategoryKey, cancellationToken);
 
             var entity = jiraProjectDtoToEntityMapper.ToMap(project);
@@ -56,9 +56,9 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
             await projectRepository.CreateAsync(entity, cancellationToken);
         }
 
-        private static long GetProjectCategoryKey(ProjectDto project)
-            => project.ProjectCategory != null
-             ? long.Parse(project?.ProjectCategory.Id)
+        private static long GetProjectCategoryKey(ProjectCategoryDto projectCategory)
+            => projectCategory != null
+             ? long.Parse(projectCategory.Id)
              : 0;
     }
 }

@@ -24,8 +24,4 @@
     <ProjectReference Include="..\MeControla.AgileManager.Data\MeControla.AgileManager.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Integrations\Jira\V2\Fields\" />
-  </ItemGroup>
-
 </Project>
