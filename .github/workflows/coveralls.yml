@@ -32,7 +32,7 @@ jobs:
       run: dotnet build --nologo --verbosity=minimal --no-restore
       
     - name: Generate Coverage Report
-      run: dotnet test --results-directory "${{ env.path-tests }}" --collect:"XPlat Code Coverage" --nologo --no-restore --no-build --verbosity=minimal /p:CollectCoverage=true /p:CoverletOutput="${{ env.path-lcov }}" /p:CoverletOutputFormat=cobertura /p:Exclude="[xunit.*]*%2c[Stefanini.*]Stefanini.ViaReport.DataStorage.Migrations.*"
+      run: dotnet test --results-directory "${{ env.path-tests }}" --collect:"XPlat Code Coverage" --nologo --no-restore --no-build --verbosity=minimal /p:CollectCoverage=true /p:CoverletOutput="${{ env.path-lcov }}" /p:CoverletOutputFormat=cobertura /p:Exclude="[xunit.*]*%2c[MeControla.*]MeControla.AgileManager.DataStorage.Migrations.*%2c[MeControla.AgileManager.TestingTools]*"
 
     - name: Merge Coverage Report Projects
       run: |
@@ -42,7 +42,7 @@ jobs:
         
         $reportgenerator = ".\tools\reportgenerator.exe"
         
-        & $reportgenerator -reports:${{ env.path-tests }}/**/*.${{ env.filename-tmp-xml }} -targetdir:${{ env.path-lcov }} -assemblyfilters:"-xunit*;" -classfilters:"-Stefanini.ViaReport.DataStorage.Migrations.*" -reporttypes:lcov
+        & $reportgenerator -reports:${{ env.path-tests }}/**/*.${{ env.filename-tmp-xml }} -targetdir:${{ env.path-lcov }} -assemblyfilters:"-xunit*;-MeControla.AgileManager.TestingTools;" -classfilters:"-MeControla.AgileManager.DataStorage.Migrations.*" -reporttypes:lcov
 
     - name: Check Lcov File Existence
       id: check_files

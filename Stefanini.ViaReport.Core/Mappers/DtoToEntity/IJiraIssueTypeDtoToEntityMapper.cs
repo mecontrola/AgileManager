@@ -1,9 +1,0 @@
-﻿using MeControla.Core.Mappers;
-using Stefanini.ViaReport.Data.Dtos.Jira;
-using Stefanini.ViaReport.Data.Entities;
-
-namespace Stefanini.ViaReport.Core.Mappers.DtoToEntity
-{
-    public interface IJiraIssueTypeDtoToEntityMapper : IMapper<IssueTypeDto, IssueType>
-    { }
-}
