@@ -1,4 +1,5 @@
 ﻿using MeControla.AgileManager.Core.Services;
+using MeControla.AgileManager.Core.Tests.Mocks.Configurations;
 using MeControla.AgileManager.Core.Tests.Mocks.Entities.Settings;
 using MeControla.AgileManager.Data.Dtos.Settings;
 using NSubstitute;
@@ -27,6 +28,8 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Services
                 .Returns(true);
             mock.IsAuthenticationDataValidAsync(Arg.Any<CancellationToken>())
                 .Returns(true);
+            mock.GetJiraConfiguration()
+                .Returns(JiraConfigurationMock.Create());
 
             return mock;
         }

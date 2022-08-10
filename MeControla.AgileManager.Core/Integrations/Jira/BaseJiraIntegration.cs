@@ -1,7 +1,6 @@
 ﻿using MeControla.AgileManager.Core.Converters;
 using MeControla.AgileManager.Core.Exceptions;
 using MeControla.AgileManager.Core.Services;
-using MeControla.AgileManager.Data.Configurations;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -20,13 +19,10 @@ namespace MeControla.AgileManager.Core.Integrations.Jira
         private const string MEDIA_TYPE_JSON = "application/json";
 
         private readonly JsonSerializerOptions jsonOptions;
-        private readonly IJiraConfiguration jiraConfiguration;
 
         public BaseJiraIntegration(ISettingsService settings, JsonNamingPolicy propertyNamingPolicy)
-            : base(settings.GetJiraConfiguration())
+            : base(settings)
         {
-            jiraConfiguration = settings.GetJiraConfiguration();
-
             jsonOptions = new()
             {
                 PropertyNamingPolicy = propertyNamingPolicy,
@@ -37,15 +33,15 @@ namespace MeControla.AgileManager.Core.Integrations.Jira
 
         protected string URL { get; set; }
 
-        protected string GetRoute()
-            => $"{jiraConfiguration.Url}{URL}";
+        private string GetRoute()
+            => $"{JiraConfiguration.Url}{URL}";
 
         protected HttpClient CreateInstance()
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(CreateMediaApllicationJson());
-            client.DefaultRequestHeaders.Authorization = CreateAuthenticationHeader(jiraConfiguration.Username, jiraConfiguration.Password);
+            client.DefaultRequestHeaders.Authorization = CreateAuthenticationHeader(JiraConfiguration.Username, JiraConfiguration.Password);
             return client;
         }
 
@@ -58,8 +54,12 @@ namespace MeControla.AgileManager.Core.Integrations.Jira
         private static string GetAuhenticationBase64(string username, string password)
             => Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
 
+
+
         protected async Task<TResponse> GetAsync<TResponse>(CancellationToken cancellationToken)
         {
+            LoadJiraConfiguration();
+
             var route = GetRoute();
 
             if (IsLoadCachedFile(route))
@@ -73,6 +73,8 @@ namespace MeControla.AgileManager.Core.Integrations.Jira
 
         protected async Task<TResponse> PostAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
         {
+            LoadJiraConfiguration();
+
             var content = MountContent(request);
             return await RequestData<TResponse>((client) => client.PostAsync(GetRoute(), content, cancellationToken));
         }

@@ -6,7 +6,7 @@ namespace MeControla.AgileManager.Data.Dtos.Settings
     {
         public bool PersistFilter { get; set; }
         public bool SyncAllData { get; set; }
-        public int Cache { get; set; }
+        public int Cache { get; set; } = 15;
         public AppFilterDto FilterData { get; set; }
     }
 }

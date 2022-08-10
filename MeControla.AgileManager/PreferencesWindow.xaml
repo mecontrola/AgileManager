@@ -36,8 +36,8 @@
                 </Grid.RowDefinitions>
                 <Label Content="Sync All Data" Margin="5,5,5,5" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
                 <CheckBox Name="cbSyncAllData" Margin="5,10,0,5" Content="Yes" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="0"/>
-                <Label Content="Cache" Margin="5,5,5,5" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
-                <TextBox Name="txtCache" Margin="5,5,5,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Height="18" PreviewTextInput="TxtCache_PreviewTextInput" Width="36"/>
+                <Label Content="(Minutes) Cache" Margin="5,5,5,5" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                <TextBox Name="txtCache" Margin="5,5,5,0" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Height="18" MaxLength="2" PreviewTextInput="TxtCache_PreviewTextInput" Width="36"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Projects" Margin="5,163,5,31" Grid.ColumnSpan="3">

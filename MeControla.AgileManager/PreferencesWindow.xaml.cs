@@ -138,6 +138,6 @@ namespace MeControla.AgileManager
             => e.Handled = IsNumericAllowed(e.Text);
 
         private static bool IsNumericAllowed(string text)
-            => Regex.IsMatch(text, "[^0-9.-]+");
+            => Regex.IsMatch(text, "[^0-9]+");
     }
 }
