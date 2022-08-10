@@ -1,20 +1,17 @@
-﻿using MeControla.AgileManager.Data.Configurations;
+﻿using MeControla.AgileManager.Core.Services;
 using MeControla.Kernel.Extensions;
 using System;
 using System.IO;
 
 namespace MeControla.AgileManager.Core.Integrations.Jira
 {
-    public abstract class BaseCacheJiraIntegration
+    public abstract class BaseCacheJiraIntegration : BaseConfigurationJiraIntegration
     {
         private const string FOLDER_CACHE = "caches";
 
-        private readonly ICacheConfiguration cacheConfiguration;
-
-        protected BaseCacheJiraIntegration(ICacheConfiguration cacheConfiguration)
-        {
-            this.cacheConfiguration = cacheConfiguration;
-        }
+        protected BaseCacheJiraIntegration(ISettingsService settings)
+            : base(settings)
+        { }
 
         protected bool IsCached { get; set; } = false;
 
@@ -41,16 +38,18 @@ namespace MeControla.AgileManager.Core.Integrations.Jira
         }
 
         protected bool IsCachedResponse()
-            => IsCached && cacheConfiguration.Cache > 0;
+            => IsCached && JiraConfiguration.Cache > 0;
 
         protected bool IsLoadCachedFile(string route)
         {
+            LoadJiraConfiguration();
+
             if (!IsCachedResponse() || !ExistCacheFile(route))
                 return false;
 
             var lastAccessTime = File.GetLastAccessTime(GenerateFileName(route));
 
-            return lastAccessTime.AddMinutes(cacheConfiguration.Cache) > DateTime.Now;
+            return lastAccessTime.AddMinutes(JiraConfiguration.Cache) > DateTime.Now;
         }
     }
 }

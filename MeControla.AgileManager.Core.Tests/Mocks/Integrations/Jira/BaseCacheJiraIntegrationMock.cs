@@ -1,5 +1,5 @@
 ﻿using MeControla.AgileManager.Core.Integrations.Jira;
-using MeControla.AgileManager.Core.Tests.Mocks.Configurations;
+using MeControla.AgileManager.Core.Tests.Mocks.Services;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
@@ -8,7 +8,7 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Integrations.Jira
     public class BaseCacheJiraIntegrationMock : BaseCacheJiraIntegration
     {
         protected BaseCacheJiraIntegrationMock()
-            : base(CacheConfigurationMock.Create())
+            : base(SettingsServiceMock.Create())
         { }
 
         public static BaseCacheJiraIntegrationMock Create()
