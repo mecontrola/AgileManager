@@ -1,8 +1,6 @@
 ﻿<Application x:Class="MeControla.AgileManager.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MeControla.AgileManager"
-             Startup="OnStartup">
-    <Application.Resources>
-    </Application.Resources>
+             xmlns:local="clr-namespace:MeControla.AgileManager">
+    <Application.Resources/>
 </Application>

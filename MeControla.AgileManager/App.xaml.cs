@@ -1,46 +1,46 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
-using System.IO;
 using System.Windows;
 
 namespace MeControla.AgileManager
 {
     sealed partial class App : Application
     {
-        private static readonly string CONFIGURATION_FILENAME = "appsettings.json";
-        private static readonly string CONFIGURATION_FILENAME_DEVELOPMENT = "appsettings.Development.json";
-
-        private readonly IServiceProvider serviceProvider;
+        private readonly IHost host;
 
         public App()
+            => host = CreateHostBuilder().Build();
+
+        public static IHostBuilder CreateHostBuilder()
+            => Host.CreateDefaultBuilder()
+                   .ConfigureServices(ConfigureServices())
+                   .UseSerilog(ConfigureSerilog(), writeToProviders: true);
+
+        private static Action<HostBuilderContext, LoggerConfiguration> ConfigureSerilog()
+            => (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration);
+
+        private static Action<HostBuilderContext, IServiceCollection> ConfigureServices()
+            => (context, services) => new Startup(context.Configuration).ConfigureServices(services);
+
+        protected override void OnStartup(StartupEventArgs e)
         {
-            serviceProvider = BuildServiceColletion().BuildServiceProvider();
-        }
+            host.Start();
 
-        private static IServiceCollection BuildServiceColletion()
-        {
-            var configuration = BuildConfiguration();
-            var services = new ServiceCollection();
-            services.AddSingleton(configuration);
-
-            var startup = new Startup(configuration);
-
-            startup.ConfigureServices(services);
-
-            return services;
-        }
-
-        private static IConfiguration BuildConfiguration()
-            => new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                                         .AddJsonFile(CONFIGURATION_FILENAME, optional: true, reloadOnChange: true)
-                                         .AddJsonFile(CONFIGURATION_FILENAME_DEVELOPMENT, optional: true, reloadOnChange: true)
-                                         .Build();
-
-        private void OnStartup(object sender, StartupEventArgs e)
-        {
-            var mainWindow = serviceProvider.GetService<MainWindow>();
+            var mainWindow = host.Services.GetService<MainWindow>();
             mainWindow.Show();
+
+            base.OnStartup(e);
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            await host.StopAsync();
+
+            host.Dispose();
+
+            base.OnExit(e);
         }
     }
 }
