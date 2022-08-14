@@ -44,6 +44,11 @@ namespace MeControla.AgileManager.DataStorage.Configurations
                    .HasForeignKey(p => p.IssueTypeId)
                    .IsRequired();
 
+            //builder.HasMany(p => p.CustomfieldData)
+            //       .WithOne(p => p.Issue)
+            //       .HasForeignKey(p => p.IssueId)
+            //       .IsRequired();
+
             builder.HasOne(p => p.IssueEpic)
                    .WithOne(p => p.Issue)
                    .HasForeignKey<IssueEpic>(p => p.IssueId);

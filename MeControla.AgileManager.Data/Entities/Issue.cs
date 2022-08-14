@@ -24,6 +24,7 @@ namespace MeControla.AgileManager.Data.Entities
         public IssueEpic IssueEpic { get; set; }
         public IList<IssueImpediment> Impediments { get; set; }
         public IList<IssueStatusHistory> Statuses { get; set; }
+        public IList<IssueCustomfieldData> CustomfieldsData { get; set; }
 
         public DateTime? CustomField14503 { get; set; }
     }

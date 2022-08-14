@@ -4,6 +4,7 @@ using MeControla.AgileManager.Data.Dtos.Jira;
 using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,19 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
 {
     public class IssueImpedimentSynchronizerService : IIssueImpedimentSynchronizerService
     {
+        private readonly ILogger<IssueImpedimentSynchronizerService> logger;
+
         private readonly IIssueRepository issueRepository;
         private readonly IIssueImpedimentRepository issueImpedimentRepository;
 
         private readonly ICheckChangelogTypeHelper checkChangelogTypeHelper;
 
-        public IssueImpedimentSynchronizerService(IIssueRepository issueRepository,
+        public IssueImpedimentSynchronizerService(ILogger<IssueImpedimentSynchronizerService> logger,
+                                                  IIssueRepository issueRepository,
                                                   IIssueImpedimentRepository issueImpedimentRepository,
                                                   ICheckChangelogTypeHelper checkChangelogTypeHelper)
         {
+            this.logger = logger;
             this.issueRepository = issueRepository;
             this.issueImpedimentRepository = issueImpedimentRepository;
             this.checkChangelogTypeHelper = checkChangelogTypeHelper;
@@ -35,9 +40,13 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
             if (!impedimentsInIssue.Any())
                 return;
 
+            logger.LogInformation($"[Synchronize] Synchronizing Issue Impediment Data {parameters.IssueDto.Key}.");
+
             var issue = await issueRepository.FindByKeyAsync(parameters.IssueDto.Key, cancellationToken);
 
             await SaveIssueImpediment(issue.Id, impedimentsInIssue, cancellationToken);
+
+            logger.LogInformation($"[Synchronize] Synchronized Issue Impediment Data {parameters.IssueDto.Key}.");
         }
 
         private IDictionary<DateTime, DateTime?> SatinizeImpediment(ChangelogDto changelog)

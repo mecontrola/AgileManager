@@ -54,8 +54,6 @@ namespace MeControla.AgileManager.Core.Integrations.Jira
         private static string GetAuhenticationBase64(string username, string password)
             => Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
 
-
-
         protected async Task<TResponse> GetAsync<TResponse>(CancellationToken cancellationToken)
         {
             LoadJiraConfiguration();

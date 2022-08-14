@@ -12,6 +12,7 @@ using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
 using MeControla.AgileManager.TestingTools;
 using MeControla.AgileManager.Updater.Core.Tests.Mocks.Data.Dtos.Jira.Inputs;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -51,18 +52,22 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers
             issueGet = Substitute.For<IIssueGet>();
             api = Substitute.For<ISearchPost>();
 
+            var logger = Substitute.For<ILogger<IssueSynchronizerService>>();
+            var issueCustomfieldDataSynchronizerService = Substitute.For<IIssueCustomfieldDataSynchronizerService>();
             issueDataSynchronizerService = Substitute.For<IIssueDataSynchronizerService>();
             issueStatusHistorySynchronizerService = Substitute.For<IIssueStatusHistorySynchronizerService>();
 
             issueImpedimentSynchronizerService = Substitute.For<IIssueImpedimentSynchronizerService>();
             issueEpicDataSynchronizerService = Substitute.For<IIssueEpicDataSynchronizerService>();
 
-            service = new IssueSynchronizerService(repository,
+            service = new IssueSynchronizerService(logger,
+                                                   repository,
                                                    issueTypeRepository,
                                                    projectRepository,
                                                    statusRepository,
                                                    issueGet,
                                                    api,
+                                                   issueCustomfieldDataSynchronizerService,
                                                    issueDataSynchronizerService,
                                                    issueImpedimentSynchronizerService,
                                                    issueStatusHistorySynchronizerService,

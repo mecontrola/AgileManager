@@ -3,6 +3,7 @@ using MeControla.AgileManager.Core.Helpers;
 using MeControla.AgileManager.Data.Dtos.Jira;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,19 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
 {
     public class IssueStatusHistorySynchronizerService : IIssueStatusHistorySynchronizerService
     {
+        private readonly ILogger<IssueStatusHistorySynchronizerService> logger;
+
         private readonly IIssueRepository issueRepository;
         private readonly IIssueStatusHistoryRepository issueStatusHistoryRepository;
 
         private readonly ICheckChangelogTypeHelper checkChangelogTypeHelper;
 
-        public IssueStatusHistorySynchronizerService(IIssueRepository issueRepository,
+        public IssueStatusHistorySynchronizerService(ILogger<IssueStatusHistorySynchronizerService> logger,
+                                                     IIssueRepository issueRepository,
                                                      IIssueStatusHistoryRepository issueStatusHistoryRepository,
                                                      ICheckChangelogTypeHelper checkChangelogTypeHelper)
         {
+            this.logger = logger;
             this.issueRepository = issueRepository;
             this.issueStatusHistoryRepository = issueStatusHistoryRepository;
             this.checkChangelogTypeHelper = checkChangelogTypeHelper;
@@ -29,11 +34,15 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
 
         public async Task Save(IssueSynchronizerParam parameters, CancellationToken cancellationToken)
         {
+            logger.LogInformation($"[Synchronize] Synchronizing Issue Status History Data {parameters.IssueDto.Key}.");
+
             var statusesInIssue = SatinizeHistory(parameters.IssueDto.Changelog, parameters.Statuses);
 
             var issue = await issueRepository.FindByKeyAsync(parameters.IssueDto.Key, cancellationToken);
 
             await SaveIssueStatusHistory(issue.Id, statusesInIssue, cancellationToken);
+
+            logger.LogInformation($"[Synchronize] Synchronized Issue Status History Data {parameters.IssueDto.Key}.");
         }
 
         private IDictionary<long, DateTime> SatinizeHistory(ChangelogDto changelog, IDictionary<string, long> statuses)

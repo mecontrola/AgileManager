@@ -1,4 +1,5 @@
 ﻿using MeControla.AgileManager.Core.Integrations.Jira.V1.Auth;
+using MeControla.AgileManager.Core.Integrations.Jira.V2.Fields;
 using MeControla.AgileManager.Core.Integrations.Jira.V2.Issues;
 using MeControla.AgileManager.Core.Integrations.Jira.V2.IssueTypes;
 using MeControla.AgileManager.Core.Integrations.Jira.V2.Projects;
@@ -17,6 +18,7 @@ namespace MeControla.AgileManager.Core.IoC
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
+            services.TryAddScoped<IFieldGetAll, FieldGetAll>();
             services.TryAddScoped<ISessionGet, SessionGet>();
             services.TryAddScoped<IProjectGetAll, ProjectGetAll>();
             services.TryAddScoped<ISearchPost, SearchPost>();

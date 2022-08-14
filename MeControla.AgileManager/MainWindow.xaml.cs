@@ -11,6 +11,7 @@ using MeControla.AgileManager.Extensions;
 using MeControla.AgileManager.Helpers;
 using MeControla.AgileManager.Updater.Core.Helpers;
 using MeControla.Kernel.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,8 @@ namespace MeControla.AgileManager
         private readonly ObservableCollection<AHMInfoDto> dgDataCollection;
         private readonly PeriodicTimer timer = new(TimeSpan.FromMinutes(TIME_CHECK_UPDATE_30_MINUTES));
 
+        private readonly ILogger<MainWindow> logger;
+
         private readonly IDashboardBusiness dashboardBusiness;
         private readonly IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness;
         private readonly IFixVersionBusiness fixVersionBusiness;
@@ -64,7 +67,8 @@ namespace MeControla.AgileManager
 
         private DownstreamIndicatorDto downstreamJiraIndicatorsDto = new();
 
-        public MainWindow(IDashboardBusiness dashboardBusiness,
+        public MainWindow(ILogger<MainWindow> logger,
+                          IDashboardBusiness dashboardBusiness,
                           IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness,
                           IFixVersionBusiness fixVersionBusiness,
                           IProjectBusiness projectBusiness,
@@ -78,6 +82,7 @@ namespace MeControla.AgileManager
                           IUpdateToastHelper updateToastHelper,
                           IRemoteVersionHelper remoteVersionHelper)
         {
+            this.logger = logger;
             this.dashboardBusiness = dashboardBusiness;
             this.downstreamJiraIndicatorsBusiness = downstreamJiraIndicatorsBusiness;
             this.fixVersionBusiness = fixVersionBusiness;
@@ -167,28 +172,38 @@ namespace MeControla.AgileManager
              ? 0
              : CbQuarters.GetItemIndexOf<QuarterDto>(p => p.Name.Equals(quarter.Name));
 
-        private async static void RunWithExceptionHandling(Func<Task> runAction, Action runBefore, Action runAfter)
+        private async void RunWithExceptionHandling(Func<Task> runAction, Action runBefore, Action runAfter)
         {
             try
             {
+                logger.LogInformation("Action Init.");
+
                 runBefore();
 
                 await runAction();
             }
-            catch (JiraUnknownHostException)
+            catch (JiraUnknownHostException ex)
             {
+                logger.LogError(ex, "Serviço indisponível, tente novamente mais tarde!");
+
                 MessageBox.Show("Serviço indisponível, tente novamente mais tarde!", "Jira Error", MessageBoxButton.OK);
             }
             catch (JiraException ex)
             {
+                logger.LogError(ex, "Jira Error");
+
                 MessageBox.Show(ex.Message, "Jira Error", MessageBoxButton.OK);
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error");
+
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
             finally
             {
+                logger.LogInformation("Action End.");
+
                 runAfter();
             }
         }

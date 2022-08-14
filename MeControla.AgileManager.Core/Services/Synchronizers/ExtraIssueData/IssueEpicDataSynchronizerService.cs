@@ -5,6 +5,7 @@ using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
 using MeControla.Kernel.Extensions;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -14,17 +15,21 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
 {
     public class IssueEpicDataSynchronizerService : IIssueEpicDataSynchronizerService
     {
+        private readonly ILogger<IssueEpicDataSynchronizerService> logger;
+
         private readonly IIssueRepository issueRepository;
         private readonly IIssueEpicRepository issueEpicRepository;
         private readonly IQuarterRepository quarterRepository;
 
         private readonly IIssueFieldsValidationHelper issueFieldsValidationHelper;
 
-        public IssueEpicDataSynchronizerService(IIssueRepository issueRepository,
+        public IssueEpicDataSynchronizerService(ILogger<IssueEpicDataSynchronizerService> logger,
+                                                IIssueRepository issueRepository,
                                                 IIssueEpicRepository issueEpicRepository,
                                                 IQuarterRepository quarterRepository,
                                                 IIssueFieldsValidationHelper issueFieldsValidationHelper)
         {
+            this.logger = logger;
             this.issueRepository = issueRepository;
             this.issueEpicRepository = issueEpicRepository;
             this.quarterRepository = quarterRepository;
@@ -36,9 +41,13 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
             if (!issueFieldsValidationHelper.IsEpicIssueType(parameters.IssueDto))
                 return;
 
+            logger.LogInformation($"[Synchronize] Synchronizing Issue Epic Data {parameters.IssueDto.Key}.");
+
             var issue = await issueRepository.FindByKeyAsync(parameters.IssueDto.Key, cancellationToken);
 
             await SaveIssueEpic(issue.Id, parameters.IssueDto, cancellationToken);
+
+            logger.LogInformation($"[Synchronize] Synchronized Issue Epic Data {parameters.IssueDto.Key}.");
         }
 
         private async Task SaveIssueEpic(long issueId, IssueDto issueDto, CancellationToken cancellationToken)

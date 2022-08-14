@@ -86,5 +86,13 @@ namespace MeControla.Kernel.Extensions
                 return null;
             }
         }
+
+#if !DEBUG
+        [System.Diagnostics.DebuggerStepThrough]
+#endif
+        public static string ToFirstUpper(this string value)
+            => string.IsNullOrWhiteSpace(value)
+             ? string.Empty
+             : $"{value[0].ToString().ToUpper()}{value[1..]}";
     }
 }

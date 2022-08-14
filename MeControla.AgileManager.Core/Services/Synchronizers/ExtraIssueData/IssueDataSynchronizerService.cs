@@ -4,6 +4,7 @@ using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
 using MeControla.Kernel.Extensions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -13,19 +14,25 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
 {
     public class IssueDataSynchronizerService : IIssueDataSynchronizerService
     {
+        private readonly ILogger<IssueDataSynchronizerService> logger;
+
         private readonly IIssueRepository issueRepository;
 
         private readonly IJiraIssueDtoToEntityMapper jiraIssueDtoToEntityMapper;
 
-        public IssueDataSynchronizerService(IIssueRepository issueRepository,
+        public IssueDataSynchronizerService(ILogger<IssueDataSynchronizerService> logger,
+                                            IIssueRepository issueRepository,
                                             IJiraIssueDtoToEntityMapper jiraIssueDtoToEntityMapper)
         {
+            this.logger = logger;
             this.issueRepository = issueRepository;
             this.jiraIssueDtoToEntityMapper = jiraIssueDtoToEntityMapper;
         }
 
         public async Task Save(IssueSynchronizerParam parameters, CancellationToken cancellationToken)
         {
+            logger.LogInformation($"[Synchronize] Synchronizing Issue Data {parameters.IssueDto.Key}.");
+
             var entity = await RetrieveIssue(parameters.IssueDto, parameters.ProjectId, parameters.IssueTypes, cancellationToken);
             entity.StatusId = GetStatusIdFromIssueDto(parameters);
             entity.Updated = parameters.IssueDto.Fields.Updated;
@@ -33,6 +40,8 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
             entity.CustomField14503 = parameters.IssueDto.Fields.Customfield_14503.ToDateTime();
 
             await SaveIssueChanges(entity, cancellationToken);
+
+            logger.LogInformation($"[Synchronize] Synchronized Issue Data {parameters.IssueDto.Key}.");
         }
 
         private static long GetStatusIdFromIssueDto(IssueSynchronizerParam parameters)

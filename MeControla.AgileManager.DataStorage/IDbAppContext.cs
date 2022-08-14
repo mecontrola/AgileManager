@@ -6,7 +6,9 @@ namespace MeControla.AgileManager.DataStorage
 {
     public interface IDbAppContext : IDbContext
     {
+        DbSet<Customfield> Customfields { get; }
         DbSet<Issue> Issues { get; }
+        DbSet<IssueCustomfieldData> IssueCustomfieldDatas { get; }
         DbSet<IssueEpic> IssueEpics { get; }
         DbSet<IssueImpediment> IssueImpediments { get; }
         DbSet<IssueStatusHistory> IssueStatusHistories { get; }

@@ -12,6 +12,8 @@ namespace MeControla.AgileManager.DataStorage.IoC
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
+            services.TryAddTransient<ICustomfieldRepository, CustomfieldRepository>();
+            services.TryAddTransient<IIssueCustomfieldDataRepository, IssueCustomfieldDataRepository>();
             services.TryAddTransient<IIssueEpicRepository, IssueEpicRepository>();
             services.TryAddTransient<IIssueRepository, IssueRepository>();
             services.TryAddTransient<IIssueImpedimentRepository, IssueImpedimentRepository>();

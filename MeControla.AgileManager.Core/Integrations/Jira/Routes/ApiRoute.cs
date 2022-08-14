@@ -7,6 +7,13 @@
 
         const string ROUTE_PREFIX_V2 = URL_ROOT + VERSION_2;
 
+        public static class Field
+        {
+            private const string URL_BASE = ROUTE_PREFIX_V2 + "/field";
+
+            public const string GET_ALL = URL_BASE;
+        }
+
         public static class Issue
         {
             private const string URL_BASE = ROUTE_PREFIX_V2 + "/issue";

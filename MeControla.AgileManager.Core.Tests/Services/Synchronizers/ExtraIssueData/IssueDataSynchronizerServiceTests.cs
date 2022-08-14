@@ -12,6 +12,7 @@ using MeControla.AgileManager.DataStorage.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers.ExtraIssueData
 {
@@ -27,7 +28,10 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers.ExtraIssueDa
 
             issueRepository = Substitute.For<IIssueRepository>();
 
-            issueDataSynchronizerService = new IssueDataSynchronizerService(issueRepository, jiraIssueDtoToEntityMapper);
+            var logger = Substitute.For<ILogger<IssueDataSynchronizerService>>();
+            issueDataSynchronizerService = new IssueDataSynchronizerService(logger,
+                                                                            issueRepository,
+                                                                            jiraIssueDtoToEntityMapper);
         }
 
         [Fact(DisplayName = "[IssueDataSynchronizerService.Save] Deve adicionar as informações da issue quando não existir os dados no banco de dados.")]

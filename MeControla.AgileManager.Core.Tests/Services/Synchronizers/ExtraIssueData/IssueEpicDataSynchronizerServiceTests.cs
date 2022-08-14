@@ -11,6 +11,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers.ExtraIssueData
 {
@@ -32,7 +33,9 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers.ExtraIssueDa
 
             issueEpicRepository = Substitute.For<IIssueEpicRepository>();
 
-            issueEpicDataSynchronizerService = new IssueEpicDataSynchronizerService(issueRepository,
+            var logger = Substitute.For<ILogger<IssueEpicDataSynchronizerService>>();
+            issueEpicDataSynchronizerService = new IssueEpicDataSynchronizerService(logger,
+                                                                                    issueRepository,
                                                                                     issueEpicRepository,
                                                                                     quarterRepository,
                                                                                     issueFieldsValidationHelper);
