@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DtoJira = MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 
 namespace MeControla.AgileManager.Core.Services
 {
@@ -117,17 +118,17 @@ namespace MeControla.AgileManager.Core.Services
                         : 0;
             return (decimal)Math.Round(percent, 2);
         }
-        private static bool IsBugOrTechnicalDebtIssue(AgileManager.Data.Dtos.Jira.IssueDto issue)
+        private static bool IsBugOrTechnicalDebtIssue(DtoJira.IssueDto issue)
             => issue.Fields.Issuetype.Id.Equals($"{(int)IssueTypes.Bug}")
             || issue.Fields.Issuetype.Id.Equals($"{(int)IssueTypes.TechnicalDebt}");
 
-        private static bool IsEpicIssue(AgileManager.Data.Dtos.Jira.IssueDto issue)
+        private static bool IsEpicIssue(DtoJira.IssueDto issue)
             => issue.Fields.Issuetype.Id.Equals($"{(int)IssueTypes.Epic}");
 
-        private static bool IsSubTaskIssue(AgileManager.Data.Dtos.Jira.IssueDto issue)
+        private static bool IsSubTaskIssue(DtoJira.IssueDto issue)
             => issue.Fields.Issuetype.Id.Equals($"{(int)IssueTypes.SubTask}");
 
-        private static bool IsImprovementIssue(AgileManager.Data.Dtos.Jira.IssueDto issue)
+        private static bool IsImprovementIssue(DtoJira.IssueDto issue)
             => issue.Fields.Issuetype.Id.Equals($"{(int)IssueTypes.Improvement}");
 
         private async Task<IList<IssueDto>> GetBugsIssuesCancelled(string projectName, DateTime initDate, DateTime endDate, CancellationToken cancellationToken)

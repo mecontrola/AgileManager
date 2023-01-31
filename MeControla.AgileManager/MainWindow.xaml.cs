@@ -1,6 +1,5 @@
 ﻿using MeControla.AgileManager.Core.Business;
 using MeControla.AgileManager.Core.Data.Dto;
-using MeControla.AgileManager.Core.Exceptions;
 using MeControla.AgileManager.Core.Extensions;
 using MeControla.AgileManager.Core.Helpers;
 using MeControla.AgileManager.Core.Services;
@@ -9,8 +8,10 @@ using MeControla.AgileManager.Data.Dtos.Settings;
 using MeControla.AgileManager.Data.Enums;
 using MeControla.AgileManager.Extensions;
 using MeControla.AgileManager.Helpers;
+using MeControla.AgileManager.Integrations.Jira.Exceptions;
 using MeControla.AgileManager.Updater.Core.Helpers;
-using MeControla.Kernel.Extensions;
+using MeControla.Core.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,10 @@ namespace MeControla.AgileManager
         private readonly ObservableCollection<AHMInfoDto> dgDataCollection;
         private readonly PeriodicTimer timer = new(TimeSpan.FromMinutes(TIME_CHECK_UPDATE_30_MINUTES));
 
+        private readonly ILogger<MainWindow> logger;
+
         private readonly IDashboardBusiness dashboardBusiness;
+        private readonly IDeployBusiness deployBusiness;
         private readonly IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness;
         private readonly IFixVersionBusiness fixVersionBusiness;
         private readonly IProjectBusiness projectBusiness;
@@ -64,7 +68,9 @@ namespace MeControla.AgileManager
 
         private DownstreamIndicatorDto downstreamJiraIndicatorsDto = new();
 
-        public MainWindow(IDashboardBusiness dashboardBusiness,
+        public MainWindow(ILogger<MainWindow> logger,
+                          IDashboardBusiness dashboardBusiness,
+                          IDeployBusiness deployBusiness,
                           IDownstreamJiraIndicatorsBusiness downstreamJiraIndicatorsBusiness,
                           IFixVersionBusiness fixVersionBusiness,
                           IProjectBusiness projectBusiness,
@@ -78,7 +84,9 @@ namespace MeControla.AgileManager
                           IUpdateToastHelper updateToastHelper,
                           IRemoteVersionHelper remoteVersionHelper)
         {
+            this.logger = logger;
             this.dashboardBusiness = dashboardBusiness;
+            this.deployBusiness = deployBusiness;
             this.downstreamJiraIndicatorsBusiness = downstreamJiraIndicatorsBusiness;
             this.fixVersionBusiness = fixVersionBusiness;
             this.projectBusiness = projectBusiness;
@@ -124,7 +132,7 @@ namespace MeControla.AgileManager
             {
                 isOk = await jiraAuthService.IsAuthenticationOk(cancellationTokenSource.Token);
             }
-            catch (JiraUnknownHostException)
+            catch (UnknownHostException)
             {
                 MessageBox.Show("Não foi possível se autenticar com o Jira.\nÉ necessário informar o login para autenticação.");
             }
@@ -167,28 +175,38 @@ namespace MeControla.AgileManager
              ? 0
              : CbQuarters.GetItemIndexOf<QuarterDto>(p => p.Name.Equals(quarter.Name));
 
-        private async static void RunWithExceptionHandling(Func<Task> runAction, Action runBefore, Action runAfter)
+        private async void RunWithExceptionHandling(Func<Task> runAction, Action runBefore, Action runAfter)
         {
             try
             {
+                logger.LogInformation("Action Init.");
+
                 runBefore();
 
                 await runAction();
             }
-            catch (JiraUnknownHostException)
+            catch (UnknownHostException ex)
             {
+                logger.LogError(ex, "Serviço indisponível, tente novamente mais tarde!");
+
                 MessageBox.Show("Serviço indisponível, tente novamente mais tarde!", "Jira Error", MessageBoxButton.OK);
             }
-            catch (JiraException ex)
-            {
-                MessageBox.Show(ex.Message, "Jira Error", MessageBoxButton.OK);
-            }
+            //catch (Exception ex)
+            //{
+            //    logger.LogError(ex, "Jira Error");
+            //
+            //    MessageBox.Show(ex.Message, "Jira Error", MessageBoxButton.OK);
+            //}
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error");
+
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK);
             }
             finally
             {
+                logger.LogInformation("Action End.");
+
                 runAfter();
             }
         }
@@ -579,7 +597,7 @@ namespace MeControla.AgileManager
             ChangePbStatusAndBtnExecute(false);
 
             var data = await dashboardBusiness.GetDeliveryLastCycleData(filter.Project.Id,
-                                                                        filter.Quarter.Id,
+                                                                        filter.Quarter?.Id ?? 0,
                                                                         filter.StartDate.Value,
                                                                         filter.EndDate.Value,
                                                                         cancellationTokenSource.Token);
@@ -587,6 +605,7 @@ namespace MeControla.AgileManager
             ChangePbStatusAndBtnExecute(true);
 
             var window = new DeliveryLastCycleWindow();
+            window.Owner = GetWindow(this);
             window.SetDataColletion(data);
             window.ShowDialog();
         }
@@ -612,5 +631,24 @@ namespace MeControla.AgileManager
                 StartDate = TxtInitDate.SelectedDate,
                 EndDate = TxtEndDate.SelectedDate,
             };
+
+        private async void BtnIssuesToDeploy_Click(object sender, RoutedEventArgs e)
+        {
+            var filter = await FillFilterData();
+            if (filter == null)
+                return;
+
+            ChangePbStatusAndBtnExecute(false);
+
+            var data = await deployBusiness.GetList(filter.Project.Id, cancellationTokenSource.Token);
+
+            ChangePbStatusAndBtnExecute(true);
+
+            var window = new DeployWindow();
+            window.Owner = GetWindow(this);
+            window.LoadData = () => deployBusiness.GetList(filter.Project.Id, cancellationTokenSource.Token).GetAwaiter().GetResult();
+            window.ButtonSave = async list => await deployBusiness.SaveList(list, cancellationTokenSource.Token);
+            window.ShowDialog();
+        }
     }
 }

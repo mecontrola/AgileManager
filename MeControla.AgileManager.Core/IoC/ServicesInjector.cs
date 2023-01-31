@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using MeControla.AgileManager.Core.Services;
+﻿using MeControla.AgileManager.Core.Services;
 using MeControla.AgileManager.Core.Services.Synchronizers;
 using MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace MeControla.AgileManager.Core.IoC
@@ -48,11 +48,17 @@ namespace MeControla.AgileManager.Core.IoC
 
         private static void AddSyncronizerServices(IServiceCollection services)
         {
+            services.TryAddScoped<IIssueCustomfieldDataSynchronizerService, IssueCustomfieldDataSynchronizerService>();
             services.TryAddScoped<IIssueDataSynchronizerService, IssueDataSynchronizerService>();
             services.TryAddScoped<IIssueEpicDataSynchronizerService, IssueEpicDataSynchronizerService>();
             services.TryAddScoped<IIssueImpedimentSynchronizerService, IssueImpedimentSynchronizerService>();
             services.TryAddScoped<IIssueStatusHistorySynchronizerService, IssueStatusHistorySynchronizerService>();
+            services.TryAddScoped<IIssueExtraDataSynchronizerService, IssueExtraDataSynchronizerService>();
+            services.TryAddScoped<IIssuesToDeployService, IssuesToDeployService>();
+            services.TryAddScoped<IIssuesToDeploySaveService, IssuesToDeploySaveService>();
 
+            services.TryAddScoped<IClassOfServiceSynchronizerService, ClassOfServiceSynchronizerService>();
+            services.TryAddScoped<ICustomfieldSynchronizerService, CustomfieldSynchronizerService>();
             services.TryAddScoped<IIssueSynchronizerService, IssueSynchronizerService>();
             services.TryAddScoped<IIssueTypeSynchronizerService, IssueTypeSynchronizerService>();
             services.TryAddScoped<IProjectSynchronizerService, ProjectSynchronizerService>();

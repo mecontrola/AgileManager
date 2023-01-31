@@ -1,4 +1,4 @@
-﻿using MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

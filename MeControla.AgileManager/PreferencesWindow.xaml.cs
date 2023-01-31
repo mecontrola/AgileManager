@@ -1,7 +1,7 @@
 ﻿using MeControla.AgileManager.Core.Business;
 using MeControla.AgileManager.Data.Dtos;
 using MeControla.AgileManager.Extensions;
-using MeControla.Kernel.Extensions;
+using MeControla.Core.Extensions;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;

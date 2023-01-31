@@ -9,6 +9,6 @@ namespace MeControla.AgileManager.Data.Enums
         [Description("Discovery Lead Time")]
         Discovery,
         [Description("System Lead Time")]
-        System
+        System,
     }
 }

@@ -1,4 +1,4 @@
-﻿using MeControla.Kernel.Extensions;
+﻿using MeControla.Core.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

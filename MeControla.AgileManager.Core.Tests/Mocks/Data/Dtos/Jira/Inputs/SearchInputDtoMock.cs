@@ -1,6 +1,6 @@
 ﻿using MeControla.AgileManager.Core.Tests.Mocks;
 using MeControla.AgileManager.Core.Tests.Mocks.Builders.Jira;
-using MeControla.AgileManager.Data.Dtos.Jira.Inputs;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos.Inputs;
 using System;
 
 namespace MeControla.AgileManager.Updater.Core.Tests.Mocks.Data.Dtos.Jira.Inputs

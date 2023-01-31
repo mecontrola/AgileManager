@@ -1,5 +1,6 @@
-﻿using MeControla.AgileManager.Core.Builders.Jira;
-using MeControla.AgileManager.Core.Integrations.Jira.V2.Projects;
+﻿using MeControla.AgileManager.Core.Extensions;
+using MeControla.AgileManager.Integrations.Jira.Builders;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Issues;
 using System;
 
 namespace MeControla.AgileManager.Core.Services

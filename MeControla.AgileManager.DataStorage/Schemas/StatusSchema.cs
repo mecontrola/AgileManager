@@ -1,21 +1,24 @@
 ﻿using MeControla.AgileManager.Data.Entities;
-using MeControla.Core.Extensions.DataStorage;
+using MeControla.Core.Tools;
 
 namespace MeControla.AgileManager.DataStorage.Schemas
 {
     internal static class StatusSchema
     {
-        public static string Table { get; } = "am_status";
-        public static string Schema { get; } = "agile_manager";
+        private const string PREFIX_TABLE = "am";
+        private const string PREFIX_COLUMN = "stt";
 
-        private const string PREFIX = "stt";
+        private static TableMetadata<Status> Metadata { get; } = new(PREFIX_TABLE, PREFIX_COLUMN);
+
+        public static string Table { get; } = Metadata.GetTableName();
+        public static string Schema { get; } = "agile_manager";
 
         public static class Columns
         {
-            public static string Id { get; } = nameof(Status.Id).GetColumnName(PREFIX);
-            public static string Uuid { get; } = nameof(Status.Uuid).GetColumnName(PREFIX);
-            public static string Key { get; } = nameof(Status.Key).GetColumnName(PREFIX);
-            public static string Name { get; } = nameof(Status.Name).GetColumnName(PREFIX);
+            public static string Id { get; } = Metadata.GetColumnName(x => x.Id);
+            public static string Uuid { get; } = Metadata.GetColumnName(x => x.Uuid);
+            public static string Key { get; } = Metadata.GetColumnName(x => x.Key);
+            public static string Name { get; } = Metadata.GetColumnName(x => x.Name);
             public static string StatusCategoryId { get; } = StatusCategorySchema.Columns.Id;
         }
     }

@@ -1,5 +1,6 @@
-﻿using MeControla.AgileManager.Data.Configurations;
-using MeControla.AgileManager.Data.Dtos.Settings;
+﻿using MeControla.AgileManager.Data.Dtos.Settings;
+using MeControla.AgileManager.Integrations.Jira.Data.Configurations;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace MeControla.AgileManager.Core.Services
         Task<bool> SaveAuthenticationAsync(string url, string username, string password, CancellationToken cancellationToken);
         Task<bool> SaveFilterDataAsync(AppFilterDto filterData, CancellationToken cancellationToken);
         Task<bool> IsAuthenticationDataValidAsync(CancellationToken cancellationToken);
-        IJiraConfiguration GetJiraConfiguration();
+        JiraConfiguration GetJiraConfiguration();
+        void RunCheckJiraConfigurationChanged(Action<JiraConfiguration> action);
     }
 }

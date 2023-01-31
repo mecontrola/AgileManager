@@ -1,17 +1,17 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.Issues;
-using MeControla.AgileManager.Core.Integrations.Jira.V2.Projects;
-using MeControla.AgileManager.Core.Services.Synchronizers;
+﻿using MeControla.AgileManager.Core.Services.Synchronizers;
 using MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData;
 using MeControla.AgileManager.Core.Tests.Mocks;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Synchronizers;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Entities;
-using MeControla.AgileManager.Data.Dtos.Jira.Inputs;
 using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos.Inputs;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Issues;
 using MeControla.AgileManager.TestingTools;
 using MeControla.AgileManager.Updater.Core.Tests.Mocks.Data.Dtos.Jira.Inputs;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -38,6 +38,7 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers
         private readonly IIssueImpedimentSynchronizerService issueImpedimentSynchronizerService;
         private readonly IIssueStatusHistorySynchronizerService issueStatusHistorySynchronizerService;
         private readonly IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService;
+        private readonly IIssueExtraDataSynchronizerService issueExtraDataSynchronizerService;
 
         private readonly IIssueSynchronizerService service;
 
@@ -51,22 +52,29 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers
             issueGet = Substitute.For<IIssueGet>();
             api = Substitute.For<ISearchPost>();
 
+            var logger = Substitute.For<ILogger<IssueSynchronizerService>>();
+            var issueCustomfieldDataSynchronizerService = Substitute.For<IIssueCustomfieldDataSynchronizerService>();
             issueDataSynchronizerService = Substitute.For<IIssueDataSynchronizerService>();
             issueStatusHistorySynchronizerService = Substitute.For<IIssueStatusHistorySynchronizerService>();
 
             issueImpedimentSynchronizerService = Substitute.For<IIssueImpedimentSynchronizerService>();
             issueEpicDataSynchronizerService = Substitute.For<IIssueEpicDataSynchronizerService>();
 
-            service = new IssueSynchronizerService(repository,
+            issueExtraDataSynchronizerService = Substitute.For<IIssueExtraDataSynchronizerService>();
+
+            service = new IssueSynchronizerService(logger,
+                                                   repository,
                                                    issueTypeRepository,
                                                    projectRepository,
                                                    statusRepository,
                                                    issueGet,
                                                    api,
+                                                   issueCustomfieldDataSynchronizerService,
                                                    issueDataSynchronizerService,
                                                    issueImpedimentSynchronizerService,
                                                    issueStatusHistorySynchronizerService,
-                                                   issueEpicDataSynchronizerService);
+                                                   issueEpicDataSynchronizerService,
+                                                   issueExtraDataSynchronizerService);
         }
 
         private static IIssueRepository CreateRepository()

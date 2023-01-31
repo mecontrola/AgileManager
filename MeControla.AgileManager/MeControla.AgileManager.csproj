@@ -39,19 +39,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MeControla.AgileManager.Integrations.Jira\MeControla.AgileManager.Integrations.Jira.csproj" />
     <ProjectReference Include="..\MeControla.Kernel\MeControla.Kernel.csproj" />
     <ProjectReference Include="..\MeControla.AgileManager.Core\MeControla.AgileManager.Core.csproj" />
     <ProjectReference Include="..\MeControla.AgileManager.DataStorage\MeControla.AgileManager.DataStorage.csproj" />
     <ProjectReference Include="..\MeControla.AgileManager.Updater.Core\MeControla.AgileManager.Updater.Core.csproj" />
+    <ProjectReference Include="..\Microsoft.DotNetCore\Microsoft.DotNetCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

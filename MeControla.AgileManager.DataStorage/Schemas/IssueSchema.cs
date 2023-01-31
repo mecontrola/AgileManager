@@ -21,11 +21,10 @@ namespace MeControla.AgileManager.DataStorage.Schemas
             public static string Updated { get; } = nameof(Issue.Updated).GetColumnName(PREFIX);
             public static string Resolved { get; } = nameof(Issue.Resolved).GetColumnName(PREFIX);
             public static string Link { get; } = nameof(Issue.Link).GetColumnName(PREFIX);
+            public static string Labels { get; } = nameof(Issue.Labels).GetColumnName(PREFIX);
             public static string ProjectId { get; } = ProjectSchema.Columns.Id;
             public static string StatusId { get; } = StatusSchema.Columns.Id;
             public static string IssueTypeId { get; } = IssueTypeSchema.Columns.Id;
-
-            public static string CustomField14503 { get; } = nameof(Issue.CustomField14503).GetColumnName(PREFIX);
         }
     }
 }

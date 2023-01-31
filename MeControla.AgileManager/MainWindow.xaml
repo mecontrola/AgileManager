@@ -46,6 +46,7 @@
                 <MenuItem Name="BtnSyncronizer" Header="Syncronize" Click="BtnSyncronizer_Click"/>
                 <MenuItem Name="BtnNoFixVersion" Header="No Fix Version" Click="BtnNoFixVersion_Click"/>
                 <MenuItem Name="BtnDeliveryLastCycle" Header="Delivery Last Cycle" Click="BtnDeliveryLastCycle_Click"/>
+                <MenuItem Name="BtnIssuesToDeploy" Header="Issues To Deploy" Click="BtnIssuesToDeploy_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Name="BtnUpdate" Header="Update" Click="BtnUpdate_Click">

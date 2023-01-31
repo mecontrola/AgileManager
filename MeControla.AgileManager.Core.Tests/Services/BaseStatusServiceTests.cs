@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using MeControla.AgileManager.Core.Integrations.Jira.V2.Statuses;
 using MeControla.AgileManager.Core.Services;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Statuses;
 using MeControla.AgileManager.TestingTools;
 using NSubstitute;
 using System;

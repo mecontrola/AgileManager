@@ -1,6 +1,6 @@
-﻿using MeControla.AgileManager.Core.Exceptions;
-using MeControla.AgileManager.Core.Integrations.Jira.V1.Auth;
-using MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Exceptions;
+using MeControla.AgileManager.Integrations.Jira.Rest.V1.Auth;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,11 +23,11 @@ namespace MeControla.AgileManager.Core.Services
 
                 return IsPreviousLoginTimeBiggerThenLastFailedLoginTime(sessionInfo);
             }
-            catch (JiraAuthenticationException)
+            catch (AuthenticationException)
             {
                 return false;
             }
-            catch (JiraForbiddenException)
+            catch (ForbiddenException)
             {
                 return false;
             }

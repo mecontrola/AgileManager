@@ -1,6 +1,6 @@
-﻿using MeControla.Core.Mappers;
-using MeControla.AgileManager.Data.Dtos;
-using DtoJira = MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Data.Dtos;
+using MeControla.Core.Mappers;
+using DtoJira = MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 
 namespace MeControla.AgileManager.Core.Mappers
 {

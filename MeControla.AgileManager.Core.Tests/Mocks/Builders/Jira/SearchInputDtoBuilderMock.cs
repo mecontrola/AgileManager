@@ -1,4 +1,4 @@
-﻿using MeControla.AgileManager.Core.Builders.Jira;
+﻿using MeControla.AgileManager.Integrations.Jira.Builders;
 
 namespace MeControla.AgileManager.Core.Tests.Mocks.Builders.Jira
 {

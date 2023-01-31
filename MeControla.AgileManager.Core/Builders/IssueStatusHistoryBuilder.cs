@@ -15,8 +15,11 @@ namespace MeControla.AgileManager.Core.Builders
         public IssueStatusHistoryBuilder SetDateTime(DateTime value)
             => Set(obj => obj.DateTime = value);
 
-        public IssueStatusHistoryBuilder SetStatusId(long value)
-            => Set(obj => obj.StatusId = value);
+        public IssueStatusHistoryBuilder SetFromStatusId(long value)
+            => Set(obj => obj.FromStatusId = value);
+
+        public IssueStatusHistoryBuilder SetToStatusId(long value)
+            => Set(obj => obj.ToStatusId = value);
 
         public IssueStatusHistoryBuilder SetIssueId(long value)
             => Set(obj => obj.IssueId = value);

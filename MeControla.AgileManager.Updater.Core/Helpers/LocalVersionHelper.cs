@@ -1,5 +1,5 @@
 ﻿using MeControla.AgileManager.Updater.Core.Data.Configurations;
-using MeControla.Kernel.Extensions;
+using MeControla.Core.Extensions;
 using System;
 
 namespace MeControla.AgileManager.Updater.Core.Helpers

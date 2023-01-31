@@ -1,5 +1,5 @@
 ﻿using MeControla.AgileManager.Core.Tests.TestUtils.Helpers;
-using MeControla.AgileManager.Data.Dtos.Jira;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 

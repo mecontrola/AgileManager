@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MeControla.AgileManager.Core.Business;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using MeControla.AgileManager.Core.Business;
 using System;
 
 namespace MeControla.AgileManager.Core.IoC
@@ -16,6 +16,7 @@ namespace MeControla.AgileManager.Core.IoC
             services.TryAddScoped<IDownstreamJiraIndicatorsBusiness, DownstreamJiraIndicatorsBusiness>();
             services.TryAddScoped<IFixVersionBusiness, FixVersionBusiness>();
             services.TryAddScoped<IUpstreamDownstreamRateBusiness, UpstreamDownstreamRateBusiness>();
+            services.TryAddScoped<IDeployBusiness, DeployBusiness>();
 
             services.TryAddScoped<IProjectBusiness, ProjectBusiness>();
             services.TryAddScoped<IQuarterBusiness, QuarterBusiness>();

@@ -6,11 +6,14 @@ using MeControla.AgileManager.Core.Tests.Mocks.Services;
 using MeControla.AgileManager.Data.Dtos.Synchronizers;
 using System.Threading;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers
 {
     public class SynchronizerServiceTests : BaseAsyncMethods
     {
+        private readonly ICustomfieldSynchronizerService customfieldSynchronizerService;
+        private readonly IClassOfServiceSynchronizerService classesOfServiceSynchronizerService;
         private readonly IProjectSynchronizerService projectSynchronizerService;
         private readonly IStatusCategorySynchronizerService statusCategorySynchronizerService;
         private readonly IStatusSynchronizerService statusSynchronizerService;
@@ -24,14 +27,21 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers
             var projectService = ProjectServiceMock.Create();
             var settingsService = SettingsServiceMock.Create();
 
+            var logger = Substitute.For<ILogger<SynchronizerService>>();
+
+            customfieldSynchronizerService = Substitute.For<ICustomfieldSynchronizerService>();
             projectSynchronizerService = Substitute.For<IProjectSynchronizerService>();
             statusCategorySynchronizerService = Substitute.For<IStatusCategorySynchronizerService>();
             statusSynchronizerService = Substitute.For<IStatusSynchronizerService>();
             issueTypeSynchronizerService = Substitute.For<IIssueTypeSynchronizerService>();
             issueSynchronizerService = Substitute.For<IIssueSynchronizerService>();
+            classesOfServiceSynchronizerService = Substitute.For<IClassOfServiceSynchronizerService>();
 
-            service = new SynchronizerService(projectService,
+            service = new SynchronizerService(logger,
+                                              projectService,
                                               settingsService,
+                                              customfieldSynchronizerService,
+                                              classesOfServiceSynchronizerService,
                                               projectSynchronizerService,
                                               statusCategorySynchronizerService,
                                               statusSynchronizerService,

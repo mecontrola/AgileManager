@@ -1,6 +1,6 @@
-﻿using MeControla.AgileManager.Core.Exceptions;
-using MeControla.AgileManager.Core.Integrations.Jira.V1.Auth;
-using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
+using MeControla.AgileManager.Integrations.Jira.Exceptions;
+using MeControla.AgileManager.Integrations.Jira.Rest.V1.Auth;
 using MeControla.AgileManager.TestingTools.NSubstitute;
 using NSubstitute;
 using System;
@@ -20,10 +20,10 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Services
         }
 
         public static ISessionGet CreateWithJiraAuthenticationException()
-            => CreateServiceExceptionBase<JiraAuthenticationException>();
+            => CreateServiceExceptionBase<AuthenticationException>();
 
         public static ISessionGet CreateWithJiraForbiddenException()
-            => CreateServiceExceptionBase<JiraForbiddenException>();
+            => CreateServiceExceptionBase<ForbiddenException>();
 
         private static ISessionGet CreateServiceExceptionBase<T>()
             where T : Exception, new()

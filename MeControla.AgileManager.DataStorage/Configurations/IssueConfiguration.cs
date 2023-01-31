@@ -23,11 +23,10 @@ namespace MeControla.AgileManager.DataStorage.Configurations
             builder.Property(p => p.Updated).HasColumnName(fields.Updated).IsRequired();
             builder.Property(p => p.Resolved).HasColumnName(fields.Resolved);
             builder.Property(p => p.Link).HasColumnName(fields.Link).IsRequired();
+            builder.Property(p => p.Labels).HasColumnName(fields.Labels);
             builder.Property(p => p.ProjectId).HasColumnName(fields.ProjectId).IsRequired();
             builder.Property(p => p.IssueTypeId).HasColumnName(fields.IssueTypeId).IsRequired();
             builder.Property(p => p.StatusId).HasColumnName(fields.StatusId).IsRequired();
-
-            builder.Property(p => p.CustomField14503).HasColumnName(fields.CustomField14503);
 
             builder.HasOne(p => p.Project)
                    .WithMany(p => p.Issues)

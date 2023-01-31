@@ -1,6 +1,7 @@
-﻿using MeControla.Kernel.Extensions;
+﻿using MeControla.AgileManager.Data.Dtos.Settings;
+using MeControla.Core.Extensions;
 using MeControla.Kernel.Settings;
-using MeControla.AgileManager.Data.Dtos.Settings;
+using System.IO;
 
 namespace MeControla.AgileManager.Core.Helpers
 {
@@ -45,5 +46,14 @@ namespace MeControla.AgileManager.Core.Helpers
             settingsManager.Data.Cache = Data.Cache;
             settingsManager.SaveSettings();
         }
+
+        public FileSystemWatcher CreateWatcher()
+            => new()
+            {
+                Path = Directory.GetCurrentDirectory(),
+                NotifyFilter = NotifyFilters.LastWrite,
+                Filter = SETTINGS_FILENAME,
+                EnableRaisingEvents = true
+            };
     }
 }

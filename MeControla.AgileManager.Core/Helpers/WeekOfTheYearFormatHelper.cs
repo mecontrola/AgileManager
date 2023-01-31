@@ -1,4 +1,4 @@
-﻿using MeControla.Kernel.Extensions;
+﻿using MeControla.Core.Extensions;
 using System;
 
 namespace MeControla.AgileManager.Core.Helpers

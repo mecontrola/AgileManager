@@ -1,8 +1,8 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.StatusCategories;
-using MeControla.AgileManager.Core.Mappers.DtoToEntity;
-using MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Core.Mappers.DtoToEntity;
 using MeControla.AgileManager.Data.Dtos.Synchronizers;
 using MeControla.AgileManager.DataStorage.Repositories;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.StatusCategories;
 using System;
 using System.Collections.Generic;
 using System.Threading;

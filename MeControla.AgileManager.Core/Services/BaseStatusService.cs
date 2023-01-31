@@ -1,6 +1,6 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.Statuses;
-using MeControla.AgileManager.Data.Dtos.Jira;
-using MeControla.AgileManager.Data.Enums;
+﻿using MeControla.AgileManager.Data.Enums;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Statuses;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

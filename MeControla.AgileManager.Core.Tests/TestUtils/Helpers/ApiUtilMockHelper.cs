@@ -1,6 +1,6 @@
-﻿using MeControla.AgileManager.TestingTools.Helpers;
-using MeControla.AgileManager.Core.Converters;
-using MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Integrations.Jira.Converters;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.TestingTools.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;

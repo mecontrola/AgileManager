@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeControla.AgileManager", "MeControla.AgileManager\MeControla.AgileManager.csproj", "{3BC74271-ACFC-4080-9357-E16507CA9877}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stefanini.GitHub.Core", "Stefanini.GitHub.Core\Stefanini.GitHub.Core.csproj", "{8CBAD29F-09FE-4C0E-989D-7336E3D9A6D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeControla.Kernel", "MeControla.Kernel\MeControla.Kernel.csproj", "{0F5002C5-6D65-4AD4-B2F2-BA9851EEA157}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stefanini.GitHub.Web", "Stefanini.GitHub.Web\Stefanini.GitHub.Web.csproj", "{7C43C2E6-ED05-4C1F-B902-A2B01B339A32}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeControla.AgileManager", "MeControla.AgileManager\MeControla.AgileManager.csproj", "{3BC74271-ACFC-4080-9357-E16507CA9877}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeControla.AgileManager.Core", "MeControla.AgileManager.Core\MeControla.AgileManager.Core.csproj", "{BA0ECF9F-1757-4A4F-AEA5-809179137F89}"
 EndProject
@@ -29,12 +29,26 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeControla.AgileManager.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeControla.AgileManager.TestingTools", "MeControla.AgileManager.TestingTools\MeControla.AgileManager.TestingTools.csproj", "{39884282-E22C-43C9-B15D-EA200BDEF81E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeControla.AgileManager.Integrations.Jira", "MeControla.AgileManager.Integrations.Jira\MeControla.AgileManager.Integrations.Jira.csproj", "{9A5DF316-0D28-4E27-8F74-E9B430EB6A74}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeControla.AgileManager.Integrations.Jira.Tests", "MeControla.AgileManager.Integrations.Jira.Tests\MeControla.AgileManager.Integrations.Jira.Tests.csproj", "{1A7B6347-AB41-4EF0-81E8-17743D06439B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.DotNetCore.Hosting", "Microsoft.DotNetCore.Hosting\Microsoft.DotNetCore.Hosting.csproj", "{F8D4448F-6E0F-4BED-8407-BD086F17549F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.DotNetCore.Hosting.Abstractions", "Microsoft.DotNetCore.Hosting.Abstractions\Microsoft.DotNetCore.Hosting.Abstractions.csproj", "{8186EF39-593E-4749-AFA7-3237AC80E0AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.DotNetCore", "Microsoft.DotNetCore\Microsoft.DotNetCore.csproj", "{FA306C0B-C51F-455E-B6DE-30F82FA980B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BC74271-ACFC-4080-9357-E16507CA9877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BC74271-ACFC-4080-9357-E16507CA9877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BC74271-ACFC-4080-9357-E16507CA9877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BC74271-ACFC-4080-9357-E16507CA9877}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8CBAD29F-09FE-4C0E-989D-7336E3D9A6D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8CBAD29F-09FE-4C0E-989D-7336E3D9A6D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CBAD29F-09FE-4C0E-989D-7336E3D9A6D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -47,10 +61,6 @@ Global
 		{7C43C2E6-ED05-4C1F-B902-A2B01B339A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C43C2E6-ED05-4C1F-B902-A2B01B339A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C43C2E6-ED05-4C1F-B902-A2B01B339A32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BC74271-ACFC-4080-9357-E16507CA9877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BC74271-ACFC-4080-9357-E16507CA9877}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BC74271-ACFC-4080-9357-E16507CA9877}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BC74271-ACFC-4080-9357-E16507CA9877}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA0ECF9F-1757-4A4F-AEA5-809179137F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA0ECF9F-1757-4A4F-AEA5-809179137F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA0ECF9F-1757-4A4F-AEA5-809179137F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,6 +97,26 @@ Global
 		{39884282-E22C-43C9-B15D-EA200BDEF81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39884282-E22C-43C9-B15D-EA200BDEF81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39884282-E22C-43C9-B15D-EA200BDEF81E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A5DF316-0D28-4E27-8F74-E9B430EB6A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A5DF316-0D28-4E27-8F74-E9B430EB6A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A5DF316-0D28-4E27-8F74-E9B430EB6A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A5DF316-0D28-4E27-8F74-E9B430EB6A74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A7B6347-AB41-4EF0-81E8-17743D06439B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A7B6347-AB41-4EF0-81E8-17743D06439B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A7B6347-AB41-4EF0-81E8-17743D06439B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A7B6347-AB41-4EF0-81E8-17743D06439B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8D4448F-6E0F-4BED-8407-BD086F17549F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8D4448F-6E0F-4BED-8407-BD086F17549F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8D4448F-6E0F-4BED-8407-BD086F17549F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8D4448F-6E0F-4BED-8407-BD086F17549F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8186EF39-593E-4749-AFA7-3237AC80E0AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8186EF39-593E-4749-AFA7-3237AC80E0AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8186EF39-593E-4749-AFA7-3237AC80E0AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8186EF39-593E-4749-AFA7-3237AC80E0AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA306C0B-C51F-455E-B6DE-30F82FA980B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA306C0B-C51F-455E-B6DE-30F82FA980B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA306C0B-C51F-455E-B6DE-30F82FA980B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA306C0B-C51F-455E-B6DE-30F82FA980B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers.ExtraIssueData
 {
@@ -31,7 +32,9 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers.ExtraIssueDa
 
             issueStatusHistoryRepository = Substitute.For<IIssueStatusHistoryRepository>();
 
-            issueDataSynchronizerService = new IssueStatusHistorySynchronizerService(issueRepository,
+            var logger = Substitute.For<ILogger<IssueStatusHistorySynchronizerService>>();
+            issueDataSynchronizerService = new IssueStatusHistorySynchronizerService(logger,
+                                                                                     issueRepository,
                                                                                      issueStatusHistoryRepository,
                                                                                      checkChangelogTypeHelper);
         }
