@@ -1,11 +1,11 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.Issues;
-using MeControla.AgileManager.Core.Mappers;
+﻿using MeControla.AgileManager.Core.Mappers;
 using MeControla.AgileManager.Core.Services;
 using MeControla.AgileManager.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Issues;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using DtoJira = MeControla.AgileManager.Data.Dtos.Jira;
+using DtoJira = MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 
 namespace MeControla.AgileManager.Core.Business
 {

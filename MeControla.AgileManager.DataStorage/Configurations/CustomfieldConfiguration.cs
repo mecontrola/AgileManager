@@ -1,14 +1,14 @@
 ﻿using MeControla.AgileManager.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using definition = MeControla.AgileManager.DataStorage.Schemas.CustomfieldSchema;
-using fields = MeControla.AgileManager.DataStorage.Schemas.CustomfieldSchema.Columns;
+using definition = MeControla.AgileManager.DataStorage.Schemas.CustomFieldSchema;
+using fields = MeControla.AgileManager.DataStorage.Schemas.CustomFieldSchema.Columns;
 
 namespace MeControla.AgileManager.DataStorage.Configurations
 {
-    internal class CustomfieldConfiguration : IEntityTypeConfiguration<Customfield>
+    internal class CustomfieldConfiguration : IEntityTypeConfiguration<CustomField>
     {
-        public void Configure(EntityTypeBuilder<Customfield> builder)
+        public void Configure(EntityTypeBuilder<CustomField> builder)
         {
             builder.ToTable(definition.Table, definition.Schema);
 
@@ -20,7 +20,10 @@ namespace MeControla.AgileManager.DataStorage.Configurations
             builder.Property(p => p.Name).HasColumnName(fields.Name).IsRequired().HasMaxLength(100);
             builder.Property(p => p.Type).HasColumnName(fields.Type).IsRequired().HasMaxLength(80);
             builder.Property(p => p.Custom).HasColumnName(fields.Custom).IsRequired().HasMaxLength(150);
-            builder.Property(p => p.Active).HasColumnName(fields.Active);
+
+            builder.HasOne(p => p.Preference)
+                   .WithOne(p => p.CustomField)
+                   .HasForeignKey<PreferenceCustomField>(p => p.CustomFieldId);
         }
     }
 }

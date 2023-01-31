@@ -1,4 +1,4 @@
-﻿using MeControla.AgileManager.Data.Configurations;
+﻿using MeControla.AgileManager.Integrations.Jira.Data.Configurations;
 using MeControla.AgileManager.TestingTools.Helpers;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
@@ -23,6 +23,6 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Primitives
 
         private static string GetClassName<T>()
             => typeof(T).Name;
-                        //.Replace(CONFIGURATION_SUFFIX, string.Empty);
+        //.Replace(CONFIGURATION_SUFFIX, string.Empty);
     }
 }

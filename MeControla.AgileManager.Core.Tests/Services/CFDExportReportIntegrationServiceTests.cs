@@ -1,6 +1,6 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.Projects;
-using MeControla.AgileManager.Core.Services;
+﻿using MeControla.AgileManager.Core.Services;
 using MeControla.AgileManager.Core.Tests.Mocks;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Issues;
 using MeControla.AgileManager.TestingTools;
 using MeControla.AgileManager.Updater.Core.Tests.Mocks.Data.Dtos.Jira.Inputs;
 using NSubstitute;

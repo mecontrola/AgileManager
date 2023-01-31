@@ -23,6 +23,7 @@ namespace MeControla.AgileManager.Core.IoC
 
         private static void AddDtoToEntityMapperServices(IServiceCollection services)
         {
+            services.TryAddSingleton<IJiraClasseOfServiceDtoToEntityMapper, JiraClasseOfServiceDtoToEntityMapper>();
             services.TryAddSingleton<IJiraFieldDtoToEntityMapper, JiraFieldDtoToEntityMapper>();
             services.TryAddSingleton<IJiraIssueDtoToEntityMapper, JiraIssueDtoToEntityMapper>();
             services.TryAddSingleton<IJiraIssueTypeDtoToEntityMapper, JiraIssueTypeDtoToEntityMapper>();
@@ -35,6 +36,7 @@ namespace MeControla.AgileManager.Core.IoC
         private static void AddEntityToDtoMapperServices(IServiceCollection services)
         {
             services.TryAddSingleton<IDeliveryLastCycleEpicEntityToDtoMapper, DeliveryLastCycleEpicEntityToDtoMapper>();
+            services.TryAddSingleton<IIssueDeployEntityToDtoMapper, IssueDeployEntityToDtoMapper>();
             services.TryAddSingleton<IIssueEntityToDtoMapper, IssueEntityToDtoMapper>();
             services.TryAddSingleton<IProjectEntityToDtoMapper, ProjectEntityToDtoMapper>();
             services.TryAddSingleton<IProjectCategoryEntityToDtoMapper, ProjectCategoryEntityToDtoMapper>();

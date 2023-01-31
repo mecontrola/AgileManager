@@ -12,7 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MeControla.Core" Version="1.0.5" />
+    <PackageReference Include="MeControla.Core" Version="1.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MeControla.AgileManager.Integrations.Jira\MeControla.AgileManager.Integrations.Jira.csproj" />
     <ProjectReference Include="..\MeControla.Kernel\MeControla.Kernel.csproj" />
   </ItemGroup>
 

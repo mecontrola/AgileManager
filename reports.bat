@@ -25,4 +25,4 @@ reportgenerator -reports:%~dp0BuildReports\UnitTests\**\*.cobertura.xml ^
                 -classfilters:"-MeControla.AgileManager.DataStorage.Migrations.*" ^
                 -reporttypes:HTML;HTMLSummary
 
-start "report" "%~dp0BuildReports\Coverage\index.html"
+REM start "report" "%~dp0BuildReports\Coverage\index.html"

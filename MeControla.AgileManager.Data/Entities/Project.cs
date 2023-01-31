@@ -14,5 +14,10 @@ namespace MeControla.AgileManager.Data.Entities
         public bool Selected { get; set; }
         public ProjectCategory ProjectCategory { get; set; }
         public IList<Issue> Issues { get; set; }
+        public IList<PreferenceClassOfService> PreferenceClassOfService { get; set; }
+        public IList<PreferenceCustomField> PreferenceCustomField { get; set; }
+        public IList<PreferenceIssueType> PreferenceIssueType { get; set; }
+        public IList<PreferenceStatusCategory> PreferenceStatusCategory { get; set; }
+        public IList<PreferenceStatus> PreferenceStatus { get; set; }
     }
 }

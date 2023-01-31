@@ -25,6 +25,10 @@ namespace MeControla.AgileManager.DataStorage.Configurations
                    .WithMany(p => p.Projects)
                    .HasForeignKey(p => p.ProjectCategoryId)
                    .IsRequired();
+
+            builder.HasMany<PreferenceIssueType>()
+                   .WithOne(p => p.Project)
+                   .HasForeignKey(p => p.ProjectId);
         }
     }
 }

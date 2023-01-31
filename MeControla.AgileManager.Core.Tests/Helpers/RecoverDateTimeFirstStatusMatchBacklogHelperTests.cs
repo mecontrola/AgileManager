@@ -2,7 +2,7 @@
 using MeControla.AgileManager.Core.Helpers;
 using MeControla.AgileManager.Core.Tests.Mocks;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
-using MeControla.AgileManager.Data.Dtos.Jira;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;

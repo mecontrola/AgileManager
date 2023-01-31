@@ -11,5 +11,6 @@ namespace MeControla.AgileManager.Data.Entities
         public long Key { get; set; }
         public string Name { get; set; }
         public IList<Issue> Issues { get; set; }
+        public PreferenceIssueType Preference { get; set; }
     }
 }

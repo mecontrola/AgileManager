@@ -16,7 +16,7 @@ namespace MeControla.AgileManager.Core.Builders
             => Set(obj => obj.Value = value);
 
         public IssueCustomfieldDataBuilder SetCustomfieldId(long value)
-            => Set(obj => obj.CustomfieldId = value);
+            => Set(obj => obj.CustomFieldId = value);
 
         public IssueCustomfieldDataBuilder SetIssueId(long value)
             => Set(obj => obj.IssueId = value);

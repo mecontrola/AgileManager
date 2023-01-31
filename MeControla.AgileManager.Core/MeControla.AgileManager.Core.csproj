@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MeControla.AgileManager.Integrations.Jira\MeControla.AgileManager.Integrations.Jira.csproj" />
     <ProjectReference Include="..\MeControla.Kernel\MeControla.Kernel.csproj" />
     <ProjectReference Include="..\MeControla.AgileManager.DataStorage\MeControla.AgileManager.DataStorage.csproj" />
     <ProjectReference Include="..\MeControla.AgileManager.Data\MeControla.AgileManager.Data.csproj" />

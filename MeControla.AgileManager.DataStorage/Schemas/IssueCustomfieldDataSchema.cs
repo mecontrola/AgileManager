@@ -1,5 +1,5 @@
 ﻿using MeControla.AgileManager.Data.Entities;
-using MeControla.Kernel.Tools;
+using MeControla.Core.Tools;
 
 namespace MeControla.AgileManager.DataStorage.Schemas
 {
@@ -18,7 +18,7 @@ namespace MeControla.AgileManager.DataStorage.Schemas
             public static string Id { get; } = Metadata.GetColumnName(x => x.Id);
             public static string Uuid { get; } = Metadata.GetColumnName(x => x.Uuid);
             public static string Value { get; } = Metadata.GetColumnName(x => x.Value);
-            public static string CustomfieldId { get; } = CustomfieldSchema.Columns.Id;
+            public static string CustomfieldId { get; } = CustomFieldSchema.Columns.Id;
             public static string IssueId { get; } = IssueSchema.Columns.Id;
         }
     }

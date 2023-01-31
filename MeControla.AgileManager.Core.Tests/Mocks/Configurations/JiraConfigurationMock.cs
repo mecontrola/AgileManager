@@ -1,11 +1,11 @@
-﻿using MeControla.AgileManager.Data.Configurations;
+﻿using MeControla.AgileManager.Integrations.Jira.Data.Configurations;
 
 namespace MeControla.AgileManager.Core.Tests.Mocks.Configurations
 {
     public class JiraConfigurationMock
     {
-        public static IJiraConfiguration Create()
-            => new JiraConfiguration
+        public static JiraConfiguration Create()
+            => new()
             {
                 Url = DataMock.JIRA_HOST,
                 Username = DataMock.VALUE_USERNAME,

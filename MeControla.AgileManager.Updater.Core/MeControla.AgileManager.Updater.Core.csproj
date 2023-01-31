@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MeControla.Core" Version="1.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MeControla.Kernel\MeControla.Kernel.csproj" />
   </ItemGroup>
 

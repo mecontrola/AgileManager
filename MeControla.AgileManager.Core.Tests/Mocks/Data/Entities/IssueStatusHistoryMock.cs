@@ -10,15 +10,16 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Entities
             {
                 DateTime = DataMock.DATETIME_FIRST_DAY_YEAR,
                 IssueId = DataMock.ID_ISSUE,
-                StatusId = DataMock.INT_STATUS_EM_DESENVOLVIMENTO
+                FromStatusId = DataMock.INT_STATUS_PARA_DESENVOLVIMENTO,
+                ToStatusId = DataMock.INT_STATUS_EM_DESENVOLVIMENTO
             };
 
         public static IssueStatusHistory CreateByDataBase()
             => new()
             {
                 DateTime = DataMock.DATETIME_FIRST_DAY_YEAR,
-                StatusId = DataMock.INT_ID_1,
-                Status = StatusMock.CreateDone(),
+                ToStatusId = DataMock.INT_ID_1,
+                ToStatus = StatusMock.CreateDone(),
             };
     }
 }

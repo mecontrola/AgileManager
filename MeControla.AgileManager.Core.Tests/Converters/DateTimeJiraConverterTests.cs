@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using MeControla.AgileManager.Core.Converters;
 using MeControla.AgileManager.Core.Tests.Data.Entities;
 using MeControla.AgileManager.Core.Tests.Mocks;
 using MeControla.AgileManager.Core.Tests.Mocks.Entities;
+using MeControla.AgileManager.Integrations.Jira.Converters;
 using System.Text.Json;
 using Xunit;
 

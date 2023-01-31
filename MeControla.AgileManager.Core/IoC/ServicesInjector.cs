@@ -53,7 +53,11 @@ namespace MeControla.AgileManager.Core.IoC
             services.TryAddScoped<IIssueEpicDataSynchronizerService, IssueEpicDataSynchronizerService>();
             services.TryAddScoped<IIssueImpedimentSynchronizerService, IssueImpedimentSynchronizerService>();
             services.TryAddScoped<IIssueStatusHistorySynchronizerService, IssueStatusHistorySynchronizerService>();
+            services.TryAddScoped<IIssueExtraDataSynchronizerService, IssueExtraDataSynchronizerService>();
+            services.TryAddScoped<IIssuesToDeployService, IssuesToDeployService>();
+            services.TryAddScoped<IIssuesToDeploySaveService, IssuesToDeploySaveService>();
 
+            services.TryAddScoped<IClassOfServiceSynchronizerService, ClassOfServiceSynchronizerService>();
             services.TryAddScoped<ICustomfieldSynchronizerService, CustomfieldSynchronizerService>();
             services.TryAddScoped<IIssueSynchronizerService, IssueSynchronizerService>();
             services.TryAddScoped<IIssueTypeSynchronizerService, IssueTypeSynchronizerService>();

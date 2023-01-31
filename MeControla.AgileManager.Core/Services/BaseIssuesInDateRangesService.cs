@@ -1,6 +1,6 @@
-﻿using MeControla.AgileManager.Core.Builders.Jira;
-using MeControla.AgileManager.Core.Integrations.Jira.V2.Projects;
-using MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Integrations.Jira.Builders;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Issues;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

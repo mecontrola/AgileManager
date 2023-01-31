@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.DotNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
@@ -15,20 +17,20 @@ namespace MeControla.AgileManager
 
         public static IHostBuilder CreateHostBuilder()
             => Host.CreateDefaultBuilder()
-                   .ConfigureServices(ConfigureServices())
+                   .ConfigureDesktopHostDefaults(desktopBuilder =>
+                   {
+                       desktopBuilder.UseStartup<Startup>();
+                   })
                    .UseSerilog(ConfigureSerilog(), writeToProviders: true);
 
         private static Action<HostBuilderContext, LoggerConfiguration> ConfigureSerilog()
             => (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration);
 
-        private static Action<HostBuilderContext, IServiceCollection> ConfigureServices()
-            => (context, services) => new Startup(context.Configuration).ConfigureServices(services);
-
         protected override void OnStartup(StartupEventArgs e)
         {
             host.Start();
 
-            var mainWindow = host.Services.GetService<MainWindow>();
+            var mainWindow = host.Services.GetRequiredService<MainWindow>();
             mainWindow.Show();
 
             base.OnStartup(e);

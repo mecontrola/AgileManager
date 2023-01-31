@@ -78,16 +78,16 @@ namespace MeControla.AgileManager.Core.Tests.Mocks.Repositories
 
             var issueStatusHistories = new IssueStatusHistory[]
             {
-                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("9A4962CE-802C-48BC-BB22-41EFA94E4809"), DateTime = DateTime.Parse("2021-08-23 10:09:47.936"), IssueId = DataMock.INT_ID_1, StatusId = DataMock.INT_ID_1 },
-                new() { Id = DataMock.INT_ID_2, Uuid = Guid.Parse("8D946486-87C0-4578-8121-96057DE489A8"), DateTime = DateTime.Parse("2021-08-23 09:51:45.826"), IssueId = DataMock.INT_ID_1, StatusId = DataMock.INT_ID_2 },
-                new() { Id = DataMock.INT_ID_3, Uuid = Guid.Parse("216CC531-A6BC-4BF3-A98C-33650C7C55BF"), DateTime = DateTime.Parse("2021-08-24 16:53:16.348"), IssueId = DataMock.INT_ID_1, StatusId = DataMock.INT_ID_3 },
-                new() { Id = DataMock.INT_ID_4, Uuid = Guid.Parse("8D38C898-BE22-4D7A-A801-59E7ECBB2E5B"), DateTime = DataMock.DATETIME_FIRST_HISTORY_FINDED, IssueId = DataMock.INT_ID_1, StatusId = DataMock.INT_ID_4 },
-                new() { Id = DataMock.INT_ID_5, Uuid = Guid.Parse("54E15017-E03D-4BAE-8746-EFE0D3AF4971"), DateTime = DateTime.Parse("2021-08-26 14:24:28.367"), IssueId = DataMock.INT_ID_1, StatusId = DataMock.INT_ID_5 },
-                new() { Id = DataMock.INT_ID_6, Uuid = Guid.Parse("EAB43272-599C-471F-AE77-1CFA480F027D"), DateTime = DateTime.Parse("2021-08-23 10:09:47.936"), IssueId = DataMock.INT_ID_3, StatusId = DataMock.INT_ID_1 },
-                new() { Id = DataMock.INT_ID_7, Uuid = Guid.Parse("AEC7380A-1F68-4FFE-9BCB-90C11BA3FDDA"), DateTime = DateTime.Parse("2021-08-23 09:51:45.826"), IssueId = DataMock.INT_ID_3, StatusId = DataMock.INT_ID_2 },
-                new() { Id = 8, Uuid = Guid.Parse("3087011D-B710-4AAC-8302-28D1D5DC05EF"), DateTime = DateTime.Parse("2021-08-24 16:53:16.348"), IssueId = DataMock.INT_ID_3, StatusId = DataMock.INT_ID_3 },
-                new() { Id = 9, Uuid = Guid.Parse("CB9D1186-E319-4D5A-9171-E8AAD18B6A7F"), DateTime = DateTime.Parse("2021-08-25 11:18:57.876"), IssueId = DataMock.INT_ID_3, StatusId = DataMock.INT_ID_4 },
-                new() { Id = 10, Uuid = Guid.Parse("2236EBB3-41FF-4588-A567-AACD155EFFDC"), DateTime = DateTime.Parse("2021-08-26 14:24:28.367"), IssueId = DataMock.INT_ID_3, StatusId = DataMock.INT_ID_5 },
+                new() { Id = DataMock.INT_ID_1, Uuid = Guid.Parse("9A4962CE-802C-48BC-BB22-41EFA94E4809"), DateTime = DateTime.Parse("2021-08-23 10:09:47.936"), IssueId = DataMock.INT_ID_1, FromStatusId = DataMock.INT_ID_1 },
+                new() { Id = DataMock.INT_ID_2, Uuid = Guid.Parse("8D946486-87C0-4578-8121-96057DE489A8"), DateTime = DateTime.Parse("2021-08-23 09:51:45.826"), IssueId = DataMock.INT_ID_1, FromStatusId = DataMock.INT_ID_2 },
+                new() { Id = DataMock.INT_ID_3, Uuid = Guid.Parse("216CC531-A6BC-4BF3-A98C-33650C7C55BF"), DateTime = DateTime.Parse("2021-08-24 16:53:16.348"), IssueId = DataMock.INT_ID_1, FromStatusId = DataMock.INT_ID_3 },
+                new() { Id = DataMock.INT_ID_4, Uuid = Guid.Parse("8D38C898-BE22-4D7A-A801-59E7ECBB2E5B"), DateTime = DataMock.DATETIME_FIRST_HISTORY_FINDED, IssueId = DataMock.INT_ID_1, FromStatusId = DataMock.INT_ID_4 },
+                new() { Id = DataMock.INT_ID_5, Uuid = Guid.Parse("54E15017-E03D-4BAE-8746-EFE0D3AF4971"), DateTime = DateTime.Parse("2021-08-26 14:24:28.367"), IssueId = DataMock.INT_ID_1, FromStatusId = DataMock.INT_ID_5 },
+                new() { Id = DataMock.INT_ID_6, Uuid = Guid.Parse("EAB43272-599C-471F-AE77-1CFA480F027D"), DateTime = DateTime.Parse("2021-08-23 10:09:47.936"), IssueId = DataMock.INT_ID_3, FromStatusId = DataMock.INT_ID_1 },
+                new() { Id = DataMock.INT_ID_7, Uuid = Guid.Parse("AEC7380A-1F68-4FFE-9BCB-90C11BA3FDDA"), DateTime = DateTime.Parse("2021-08-23 09:51:45.826"), IssueId = DataMock.INT_ID_3, FromStatusId = DataMock.INT_ID_2 },
+                new() { Id = 8, Uuid = Guid.Parse("3087011D-B710-4AAC-8302-28D1D5DC05EF"), DateTime = DateTime.Parse("2021-08-24 16:53:16.348"), IssueId = DataMock.INT_ID_3, FromStatusId = DataMock.INT_ID_3 },
+                new() { Id = 9, Uuid = Guid.Parse("CB9D1186-E319-4D5A-9171-E8AAD18B6A7F"), DateTime = DateTime.Parse("2021-08-25 11:18:57.876"), IssueId = DataMock.INT_ID_3, FromStatusId = DataMock.INT_ID_4 },
+                new() { Id = 10, Uuid = Guid.Parse("2236EBB3-41FF-4588-A567-AACD155EFFDC"), DateTime = DateTime.Parse("2021-08-26 14:24:28.367"), IssueId = DataMock.INT_ID_3, FromStatusId = DataMock.INT_ID_5 },
             };
 
             var issueImpediments = new IssueImpediment[]

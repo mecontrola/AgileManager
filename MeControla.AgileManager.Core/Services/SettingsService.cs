@@ -1,7 +1,9 @@
 ﻿using MeControla.AgileManager.Core.Builders.Configurations;
 using MeControla.AgileManager.Core.Helpers;
-using MeControla.AgileManager.Data.Configurations;
 using MeControla.AgileManager.Data.Dtos.Settings;
+using MeControla.AgileManager.Integrations.Jira.Data.Configurations;
+using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -69,12 +71,24 @@ namespace MeControla.AgileManager.Core.Services
                                  && !string.IsNullOrWhiteSpace(settingsHelper.Data.Username)
                                  && !string.IsNullOrWhiteSpace(settingsHelper.Data.Password), cancellationToken);
 
-        public IJiraConfiguration GetJiraConfiguration()
+        public JiraConfiguration GetJiraConfiguration()
             => JiraConfigurationBuilder.GetInstance()
                                        .SetUsername(settingsHelper.Data.Username)
                                        .SetPassword(settingsHelper.Data.Password)
                                        .SetUrl(settingsHelper.Data.Url)
                                        .SetCache(settingsHelper.Data.Cache)
                                        .ToBuild();
+
+        public void RunCheckJiraConfigurationChanged(Action<JiraConfiguration> action)
+        {
+            var watcher = settingsHelper.CreateWatcher();
+            watcher.Changed += (object sender, FileSystemEventArgs e) =>
+            {
+                if (e.ChangeType != WatcherChangeTypes.Changed)
+                    return;
+
+                action?.Invoke(GetJiraConfiguration());
+            };
+        }
     }
 }

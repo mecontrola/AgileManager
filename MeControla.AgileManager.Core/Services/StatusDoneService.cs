@@ -1,5 +1,5 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.Statuses;
-using MeControla.AgileManager.Data.Enums;
+﻿using MeControla.AgileManager.Data.Enums;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Statuses;
 
 namespace MeControla.AgileManager.Core.Services
 {

@@ -17,12 +17,12 @@ namespace MeControla.AgileManager.DataStorage.Configurations
             builder.Property(p => p.Id).HasColumnName(fields.Id).ValueGeneratedOnAdd();
             builder.Property(p => p.Uuid).HasColumnName(fields.Uuid).IsRequired().HasMaxLength(36);
             builder.Property(p => p.Value).HasColumnName(fields.Value).IsRequired();
-            builder.Property(p => p.CustomfieldId).HasColumnName(fields.CustomfieldId).IsRequired();
+            builder.Property(p => p.CustomFieldId).HasColumnName(fields.CustomfieldId).IsRequired();
             builder.Property(p => p.IssueId).HasColumnName(fields.IssueId).IsRequired();
 
-            builder.HasOne(p => p.Customfield)
+            builder.HasOne(p => p.CustomField)
                    .WithMany(p => p.CustomfieldsData)
-                   .HasForeignKey(p => p.CustomfieldId);
+                   .HasForeignKey(p => p.CustomFieldId);
 
             builder.HasOne(p => p.Issue)
                    .WithMany(p => p.CustomfieldsData)

@@ -13,6 +13,7 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers
     public class SynchronizerServiceTests : BaseAsyncMethods
     {
         private readonly ICustomfieldSynchronizerService customfieldSynchronizerService;
+        private readonly IClassOfServiceSynchronizerService classesOfServiceSynchronizerService;
         private readonly IProjectSynchronizerService projectSynchronizerService;
         private readonly IStatusCategorySynchronizerService statusCategorySynchronizerService;
         private readonly IStatusSynchronizerService statusSynchronizerService;
@@ -34,11 +35,13 @@ namespace MeControla.AgileManager.Core.Tests.Services.Synchronizers
             statusSynchronizerService = Substitute.For<IStatusSynchronizerService>();
             issueTypeSynchronizerService = Substitute.For<IIssueTypeSynchronizerService>();
             issueSynchronizerService = Substitute.For<IIssueSynchronizerService>();
+            classesOfServiceSynchronizerService = Substitute.For<IClassOfServiceSynchronizerService>();
 
             service = new SynchronizerService(logger,
                                               projectService,
                                               settingsService,
                                               customfieldSynchronizerService,
+                                              classesOfServiceSynchronizerService,
                                               projectSynchronizerService,
                                               statusCategorySynchronizerService,
                                               statusSynchronizerService,

@@ -1,12 +1,12 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.IssueTypes;
-using MeControla.AgileManager.Core.Mappers.DtoToEntity;
+﻿using MeControla.AgileManager.Core.Mappers.DtoToEntity;
 using MeControla.AgileManager.Core.Services.Synchronizers;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Synchronizers;
 using MeControla.AgileManager.Core.Tests.Mocks.Data.Entities;
-using MeControla.AgileManager.Data.Dtos.Jira;
 using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.DataStorage.Repositories;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.IssueTypes;
 using MeControla.AgileManager.TestingTools;
 using NSubstitute;
 using NSubstitute.Equivalency;

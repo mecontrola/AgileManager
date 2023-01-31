@@ -1,4 +1,4 @@
-﻿using MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 
 namespace MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira
 {

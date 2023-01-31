@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimization>true</Optimization>
+    <Obfuscate>true</Obfuscate>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MeControla.Core" Version="1.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AgileManager\MeControla.Kernel\MeControla.Kernel.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,8 +1,9 @@
 ﻿using FluentAssertions;
-using MeControla.AgileManager.Core.Builders.Jira;
+using MeControla.AgileManager.Core.Extensions;
 using MeControla.AgileManager.Core.Tests.Mocks;
 using MeControla.AgileManager.Data.Enums;
-using MeControla.Kernel.Extensions;
+using MeControla.AgileManager.Integrations.Jira.Builders;
+using MeControla.Core.Extensions;
 using Xunit;
 
 namespace MeControla.AgileManager.Core.Tests.Builders.Jira

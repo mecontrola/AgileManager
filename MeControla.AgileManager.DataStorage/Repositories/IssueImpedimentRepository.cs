@@ -24,6 +24,8 @@ namespace MeControla.AgileManager.DataStorage.Repositories
             => await dbSet.AsNoTracking()
                           .Include(entity => entity.Issue)
                           .ThenInclude(entity => entity.IssueType)
+                          .Include(entity => entity.Issue)
+                          .ThenInclude(entity => entity.Status)
                           .Where(entity => entity.Issue.ProjectId == projectId
                                         && entity.Issue.Status.Key != (long)StatusTypes.Removed
                                         && entity.Issue.Status.Key != (long)StatusTypes.Cancelled

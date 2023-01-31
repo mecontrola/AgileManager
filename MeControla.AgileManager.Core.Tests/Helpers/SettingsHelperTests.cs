@@ -2,7 +2,7 @@
 using MeControla.AgileManager.Core.Helpers;
 using MeControla.AgileManager.Core.Tests.Mocks.Entities.Settings;
 using MeControla.AgileManager.Data.Dtos.Settings;
-using MeControla.Kernel.Extensions;
+using MeControla.Core.Extensions;
 using MeControla.Kernel.Settings;
 using NSubstitute;
 using System.IO;

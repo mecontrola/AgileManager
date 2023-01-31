@@ -14,6 +14,7 @@ namespace MeControla.AgileManager.Data.Entities
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public DateTime? Resolved { get; set; }
+        public string Labels { get; set; }
         public string Link { get; set; }
         public long ProjectId { get; set; }
         public Project Project { get; set; }
@@ -22,10 +23,11 @@ namespace MeControla.AgileManager.Data.Entities
         public long IssueTypeId { get; set; }
         public IssueType IssueType { get; set; }
         public IssueEpic IssueEpic { get; set; }
+        public IssueExtraData ExtraData { get; set; }
+        public long? DeployId { get; set; }
+        public Deploy Deploy { get; set; }
         public IList<IssueImpediment> Impediments { get; set; }
         public IList<IssueStatusHistory> Statuses { get; set; }
         public IList<IssueCustomfieldData> CustomfieldsData { get; set; }
-
-        public DateTime? CustomField14503 { get; set; }
     }
 }

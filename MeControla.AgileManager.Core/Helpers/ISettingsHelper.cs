@@ -1,4 +1,5 @@
 ﻿using MeControla.AgileManager.Data.Dtos.Settings;
+using System.IO;
 
 namespace MeControla.AgileManager.Core.Helpers
 {
@@ -7,5 +8,6 @@ namespace MeControla.AgileManager.Core.Helpers
         AppSettingsDto Data { get; set; }
 
         void Save();
+        FileSystemWatcher CreateWatcher();
     }
 }

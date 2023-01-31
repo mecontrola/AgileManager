@@ -18,16 +18,22 @@ namespace MeControla.AgileManager.DataStorage.Configurations
             builder.Property(p => p.Uuid).HasColumnName(fields.Uuid).IsRequired().HasMaxLength(36);
             builder.Property(p => p.DateTime).HasColumnName(fields.DateTime).IsRequired();
             builder.Property(p => p.IssueId).HasColumnName(fields.IssueId).IsRequired();
-            builder.Property(p => p.StatusId).HasColumnName(fields.StatusId).IsRequired();
+            builder.Property(p => p.FromStatusId).HasColumnName(fields.FromStatusId).IsRequired();
+            builder.Property(p => p.ToStatusId).HasColumnName(fields.ToStatusId).IsRequired();
 
             builder.HasOne(p => p.Issue)
                    .WithMany(p => p.Statuses)
                    .HasForeignKey(p => p.IssueId)
                    .IsRequired();
 
-            builder.HasOne(p => p.Status)
+            builder.HasOne(p => p.FromStatus)
                    .WithMany()
-                   .HasForeignKey(p => p.StatusId)
+                   .HasForeignKey(p => p.FromStatusId)
+                   .IsRequired();
+
+            builder.HasOne(p => p.ToStatus)
+                   .WithMany()
+                   .HasForeignKey(p => p.ToStatusId)
                    .IsRequired();
         }
     }

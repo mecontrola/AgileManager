@@ -2,11 +2,15 @@
 using MeControla.AgileManager.DataStorage.Extensions;
 using MeControla.AgileManager.DataStorage.IoC;
 using MeControla.AgileManager.Helpers;
+using MeControla.AgileManager.Integrations.Jira.IoC;
 using MeControla.AgileManager.Updater.Core.Extensions;
 using MeControla.AgileManager.Updater.Core.Helpers;
 using MeControla.AgileManager.Updater.Core.Integrations.Github.Repos;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.DotNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace MeControla.AgileManager
 {
@@ -36,8 +40,16 @@ namespace MeControla.AgileManager
             services.AddHelpers();
             services.AddServices();
             services.AddMappers();
-            services.AddIntegrations();
+            services.AddJiraIntegration(Configuration);
             services.AddRepositories();
+        }
+
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+
+            }
         }
 
         private void InjectUpdater(IServiceCollection services)

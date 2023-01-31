@@ -1,0 +1,39 @@
+﻿<Window x:Class="MeControla.AgileManager.DeployWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MeControla.AgileManager"
+        xmlns:converters="clr-namespace:MeControla.AgileManager.Conveters"
+        mc:Ignorable="d"
+        Title="Issue To Deploy" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <converters:DeployDateTimeConverter x:Key="DeployDateTimeConverter" />
+    </Window.Resources>
+    <DockPanel Margin="5,5,5,5" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" LastChildFill="True">
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar ToolBarTray.IsLocked="True">
+                <Button Content="Deploy" Click="ButtonDeploy_Click" />
+                <Button Content="Export CSV" Click="ButtonExport_Click" />
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                <CheckBox IsChecked="False" VerticalAlignment="Center" Click="ButtonOnlyNoDeployed_Click">Only No Deployed</CheckBox>
+            </ToolBar>
+        </ToolBarTray>
+        <DataGrid Name="DgIssueDeploy" AutoGenerateColumns="False" CanUserAddRows="false">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Binding="{Binding IsChecked}" />
+                <DataGridTextColumn Binding="{Binding Value.Key}" Header="Key" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Value.Summary}" Header="Summary" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Value.FinishedIn, Converter={StaticResource DeployDateTimeConverter}}" Header="Finished In" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Value.Services}" Header="Services" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Value.DeployedIn, Converter={StaticResource DeployDateTimeConverter}}" Header="Deployed In" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Value.Environment}" Header="Environment" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

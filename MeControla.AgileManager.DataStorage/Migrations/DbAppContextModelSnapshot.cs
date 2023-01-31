@@ -15,18 +15,42 @@ namespace MeControla.AgileManager.DataStorage.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
-            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Customfield", b =>
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.ClassOfService", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("cof_id");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("cof_key");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("cof_name");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("cof_uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("am_class_of_service", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.CustomField", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("cfd_id");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("cfd_active");
 
                     b.Property<string>("Custom")
                         .IsRequired()
@@ -58,7 +82,40 @@ namespace MeControla.AgileManager.DataStorage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("am_customfield", "agile_manager");
+                    b.ToTable("am_custom_field", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Deploy", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("dpl_id");
+
+                    b.Property<DateTime?>("DeployedIn")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("dpl_deployed_in");
+
+                    b.Property<long>("IssueId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Services")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("dpl_services");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("dpl_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueId")
+                        .IsUnique();
+
+                    b.ToTable("am_deploy", "agile_manager");
                 });
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Issue", b =>
@@ -72,9 +129,8 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("iss_created");
 
-                    b.Property<DateTime?>("CustomField14503")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("iss_custom_field14503");
+                    b.Property<long?>("DeployId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Incident")
                         .ValueGeneratedOnAdd()
@@ -90,6 +146,10 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("iss_key");
+
+                    b.Property<string>("Labels")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("iss_labels");
 
                     b.Property<string>("Link")
                         .IsRequired()
@@ -141,7 +201,7 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("isep_id");
 
-                    b.Property<long>("CustomfieldId")
+                    b.Property<long>("CustomFieldId")
                         .HasColumnType("INTEGER")
                         .HasColumnName("cfd_id");
 
@@ -161,7 +221,7 @@ namespace MeControla.AgileManager.DataStorage.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomfieldId");
+                    b.HasIndex("CustomFieldId");
 
                     b.HasIndex("IssueId");
 
@@ -200,6 +260,51 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                     b.HasIndex("QuarterId");
 
                     b.ToTable("am_issue_epic", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.IssueExtraData", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("iss_id");
+
+                    b.Property<long?>("ClassOfServiceId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("cof_id");
+
+                    b.Property<decimal>("CustomerLeadTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ied_customer_lead_time");
+
+                    b.Property<decimal>("DiscoveryLeadTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ied_discovery_lead_time");
+
+                    b.Property<bool>("Impediment")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("ied_impediment");
+
+                    b.Property<decimal>("StoryPoints")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ied_story_points");
+
+                    b.Property<decimal>("SystemLeadTime")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ied_system_lead_time");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ied_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassOfServiceId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("am_issue_extra_data", "agile_manager");
                 });
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.IssueImpediment", b =>
@@ -244,13 +349,17 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("ish_date_time");
 
+                    b.Property<long>("FromStatusId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("ish_from_status_id");
+
                     b.Property<long>("IssueId")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("isep_id");
+                        .HasColumnName("iss_id");
 
-                    b.Property<long>("StatusId")
+                    b.Property<long>("ToStatusId")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("stt_id");
+                        .HasColumnName("ish_to_status_id");
 
                     b.Property<Guid>("Uuid")
                         .HasMaxLength(36)
@@ -259,9 +368,11 @@ namespace MeControla.AgileManager.DataStorage.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FromStatusId");
+
                     b.HasIndex("IssueId");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("ToStatusId");
 
                     b.ToTable("am_issue_status_history", "agile_manager");
                 });
@@ -291,6 +402,265 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("am_issue_type", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Period", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prd_id");
+
+                    b.Property<DateTime?>("Final")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("prd_final");
+
+                    b.Property<DateTime>("Initial")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("prd_initial");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("prd_key");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("prd_name");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prj_id");
+
+                    b.Property<uint>("Type")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prd_type");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("prd_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("am_period", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceClassOfService", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("pcos_id");
+
+                    b.Property<long>("ClassOfServiceId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("cof_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("pcos_name");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prj_id");
+
+                    b.Property<uint>("Type")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("pcos_type");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("pcos_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassOfServiceId")
+                        .IsUnique();
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("am_preference_class_of_service", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceCustomField", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("pcf_id");
+
+                    b.Property<long>("CustomFieldId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("cfd_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("pcf_name");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prj_id");
+
+                    b.Property<uint>("Type")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("pcf_type");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("pcf_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomFieldId")
+                        .IsUnique();
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("am_preference_custom_field", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceIssueType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("pit_id");
+
+                    b.Property<long?>("IssueTypeId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("istp_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("pit_name");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prj_id");
+
+                    b.Property<long?>("ProjectId1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("Type")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("pit_type");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("pit_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IssueTypeId")
+                        .IsUnique();
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ProjectId1");
+
+                    b.ToTable("am_preference_issue_type", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("psc_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("psc_name");
+
+                    b.Property<uint>("Order")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0u)
+                        .HasColumnName("psc_order");
+
+                    b.Property<decimal>("Progress")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("psc_progress");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prj_id");
+
+                    b.Property<long>("StatusId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("stt_id");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("psc_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("StatusId")
+                        .IsUnique();
+
+                    b.ToTable("am_preference_status", "agile_manager");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceStatusCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("psc_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("psc_name");
+
+                    b.Property<long>("ProjectId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("prj_id");
+
+                    b.Property<long>("StatusCategoryId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("stct_id");
+
+                    b.Property<uint>("Type")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("psc_type");
+
+                    b.Property<Guid>("Uuid")
+                        .HasMaxLength(36)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("psc_uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("StatusCategoryId")
+                        .IsUnique();
+
+                    b.ToTable("am_preference_status_category", "agile_manager");
                 });
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Project", b =>
@@ -363,34 +733,6 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                             Key = 0L,
                             Name = "No Category",
                             Uuid = new Guid("042b72f2-0848-47a1-bb11-8ed69b0caf7e")
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Key = 12904L,
-                            Name = "Aplicativos",
-                            Uuid = new Guid("15792637-4496-4e0f-8848-e3ee2b077711")
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            Key = 11404L,
-                            Name = "Decisão",
-                            Uuid = new Guid("975a10e5-74fa-4529-baf7-c08d79d62c9a")
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            Key = 11104L,
-                            Name = "Descoberta",
-                            Uuid = new Guid("b1c8348f-aa66-46fd-97bd-2ffe97d681bb")
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            Key = 12905L,
-                            Name = "Fidelização",
-                            Uuid = new Guid("dc5e09d1-610d-4ced-9c06-e014fc2b2beb")
                         });
                 });
 
@@ -477,6 +819,17 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                     b.ToTable("am_status_category", "agile_manager");
                 });
 
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Deploy", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Issue", "Issue")
+                        .WithOne("Deploy")
+                        .HasForeignKey("MeControla.AgileManager.Data.Entities.Deploy", "IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Issue");
+                });
+
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Issue", b =>
                 {
                     b.HasOne("MeControla.AgileManager.Data.Entities.IssueType", "IssueType")
@@ -506,19 +859,19 @@ namespace MeControla.AgileManager.DataStorage.Migrations
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.IssueCustomfieldData", b =>
                 {
-                    b.HasOne("MeControla.AgileManager.Data.Entities.Customfield", "Customfield")
-                        .WithMany()
-                        .HasForeignKey("CustomfieldId")
+                    b.HasOne("MeControla.AgileManager.Data.Entities.CustomField", "CustomField")
+                        .WithMany("CustomfieldsData")
+                        .HasForeignKey("CustomFieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MeControla.AgileManager.Data.Entities.Issue", "Issue")
-                        .WithMany("CustomfieldData")
+                        .WithMany("CustomfieldsData")
                         .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Customfield");
+                    b.Navigation("CustomField");
 
                     b.Navigation("Issue");
                 });
@@ -540,6 +893,23 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                     b.Navigation("Quarter");
                 });
 
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.IssueExtraData", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.ClassOfService", "ClassOfService")
+                        .WithMany("IssueExtraDatas")
+                        .HasForeignKey("ClassOfServiceId");
+
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Issue", "Issue")
+                        .WithOne("ExtraData")
+                        .HasForeignKey("MeControla.AgileManager.Data.Entities.IssueExtraData", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ClassOfService");
+
+                    b.Navigation("Issue");
+                });
+
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.IssueImpediment", b =>
                 {
                     b.HasOne("MeControla.AgileManager.Data.Entities.Issue", "Issue")
@@ -553,21 +923,137 @@ namespace MeControla.AgileManager.DataStorage.Migrations
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.IssueStatusHistory", b =>
                 {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Status", "FromStatus")
+                        .WithMany()
+                        .HasForeignKey("FromStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MeControla.AgileManager.Data.Entities.Issue", "Issue")
                         .WithMany("Statuses")
                         .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MeControla.AgileManager.Data.Entities.Status", "Status")
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Status", "ToStatus")
                         .WithMany()
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("ToStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("FromStatus");
+
                     b.Navigation("Issue");
 
+                    b.Navigation("ToStatus");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Period", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceClassOfService", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.ClassOfService", "ClassOfService")
+                        .WithOne("Preference")
+                        .HasForeignKey("MeControla.AgileManager.Data.Entities.PreferenceClassOfService", "ClassOfServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Project", "Project")
+                        .WithMany("PreferenceClassOfService")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ClassOfService");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceCustomField", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.CustomField", "CustomField")
+                        .WithOne("Preference")
+                        .HasForeignKey("MeControla.AgileManager.Data.Entities.PreferenceCustomField", "CustomFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Project", "Project")
+                        .WithMany("PreferenceCustomField")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomField");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceIssueType", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.IssueType", "IssueType")
+                        .WithOne("Preference")
+                        .HasForeignKey("MeControla.AgileManager.Data.Entities.PreferenceIssueType", "IssueTypeId");
+
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Project", null)
+                        .WithMany("PreferenceIssueType")
+                        .HasForeignKey("ProjectId1");
+
+                    b.Navigation("IssueType");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceStatus", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Project", "Project")
+                        .WithMany("PreferenceStatus")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Status", "Status")
+                        .WithOne("Preference")
+                        .HasForeignKey("MeControla.AgileManager.Data.Entities.PreferenceStatus", "StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.PreferenceStatusCategory", b =>
+                {
+                    b.HasOne("MeControla.AgileManager.Data.Entities.Project", "Project")
+                        .WithMany("PreferenceStatusCategory")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeControla.AgileManager.Data.Entities.StatusCategory", "StatusCategory")
+                        .WithOne("Preference")
+                        .HasForeignKey("MeControla.AgileManager.Data.Entities.PreferenceStatusCategory", "StatusCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("StatusCategory");
                 });
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Project", b =>
@@ -592,9 +1078,27 @@ namespace MeControla.AgileManager.DataStorage.Migrations
                     b.Navigation("StatusCategory");
                 });
 
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.ClassOfService", b =>
+                {
+                    b.Navigation("IssueExtraDatas");
+
+                    b.Navigation("Preference");
+                });
+
+            modelBuilder.Entity("MeControla.AgileManager.Data.Entities.CustomField", b =>
+                {
+                    b.Navigation("CustomfieldsData");
+
+                    b.Navigation("Preference");
+                });
+
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Issue", b =>
                 {
-                    b.Navigation("CustomfieldData");
+                    b.Navigation("CustomfieldsData");
+
+                    b.Navigation("Deploy");
+
+                    b.Navigation("ExtraData");
 
                     b.Navigation("Impediments");
 
@@ -606,11 +1110,23 @@ namespace MeControla.AgileManager.DataStorage.Migrations
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.IssueType", b =>
                 {
                     b.Navigation("Issues");
+
+                    b.Navigation("Preference");
                 });
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Project", b =>
                 {
                     b.Navigation("Issues");
+
+                    b.Navigation("PreferenceClassOfService");
+
+                    b.Navigation("PreferenceCustomField");
+
+                    b.Navigation("PreferenceIssueType");
+
+                    b.Navigation("PreferenceStatus");
+
+                    b.Navigation("PreferenceStatusCategory");
                 });
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.ProjectCategory", b =>
@@ -626,10 +1142,14 @@ namespace MeControla.AgileManager.DataStorage.Migrations
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.Status", b =>
                 {
                     b.Navigation("Issues");
+
+                    b.Navigation("Preference");
                 });
 
             modelBuilder.Entity("MeControla.AgileManager.Data.Entities.StatusCategory", b =>
                 {
+                    b.Navigation("Preference");
+
                     b.Navigation("Statuses");
                 });
 #pragma warning restore 612, 618

@@ -1,12 +1,12 @@
 ﻿using MeControla.AgileManager.Core.Mappers.DtoToEntity;
-using MeControla.AgileManager.Data.Dtos.Jira;
 using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
-using MeControla.Kernel.Extensions;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,10 +34,12 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData
             logger.LogInformation($"[Synchronize] Synchronizing Issue Data {parameters.IssueDto.Key}.");
 
             var entity = await RetrieveIssue(parameters.IssueDto, parameters.ProjectId, parameters.IssueTypes, cancellationToken);
+            entity.Summary = parameters.IssueDto.Fields.Summary;
             entity.StatusId = GetStatusIdFromIssueDto(parameters);
             entity.Updated = parameters.IssueDto.Fields.Updated;
             entity.Resolved = parameters.IssueDto.Fields.Resolutiondate;
-            entity.CustomField14503 = parameters.IssueDto.Fields.Customfield_14503.ToDateTime();
+            entity.Incident = parameters.IssueDto.Fields.Labels.Any(x => x.Equals("incidente", StringComparison.InvariantCultureIgnoreCase));
+            entity.Labels = string.Join("|", parameters.IssueDto.Fields.Labels.Where(x => !x.Equals("incidente", StringComparison.InvariantCultureIgnoreCase)));
 
             await SaveIssueChanges(entity, cancellationToken);
 

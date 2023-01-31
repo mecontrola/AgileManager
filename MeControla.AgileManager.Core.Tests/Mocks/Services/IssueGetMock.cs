@@ -1,5 +1,5 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.Issues;
-using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Core.Tests.Mocks.Data.Dtos.Jira;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Issues;
 using NSubstitute;
 using System.Threading;
 

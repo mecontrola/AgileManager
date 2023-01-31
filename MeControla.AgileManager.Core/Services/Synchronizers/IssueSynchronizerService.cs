@@ -1,13 +1,12 @@
-﻿using MeControla.AgileManager.Core.Builders.Jira;
-using MeControla.AgileManager.Core.Integrations.Jira.V2.Issues;
-using MeControla.AgileManager.Core.Integrations.Jira.V2.Projects;
-using MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData;
-using MeControla.AgileManager.Data.Dtos.Jira;
-using MeControla.AgileManager.Data.Dtos.Jira.Inputs;
+﻿using MeControla.AgileManager.Core.Services.Synchronizers.ExtraIssueData;
 using MeControla.AgileManager.Data.Dtos.Synchronizers;
 using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
+using MeControla.AgileManager.Integrations.Jira.Builders;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos.Inputs;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Issues;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,8 +18,6 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
 {
     public class IssueSynchronizerService : IIssueSynchronizerService
     {
-        private const long SEARCH_ISSUE_MAX_RESULTS = 256;
-
         private readonly ILogger<IssueSynchronizerService> logger;
 
         private readonly IIssueRepository issueRepository;
@@ -36,6 +33,7 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
         private readonly IIssueImpedimentSynchronizerService issueImpedimentSynchronizerService;
         private readonly IIssueStatusHistorySynchronizerService issueStatusHistorySynchronizerService;
         private readonly IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService;
+        private readonly IIssueExtraDataSynchronizerService issueExtraDataSynchronizerService;
 
         public IssueSynchronizerService(ILogger<IssueSynchronizerService> logger,
                                         IIssueRepository issueRepository,
@@ -48,7 +46,8 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
                                         IIssueDataSynchronizerService issueDataSynchronizerService,
                                         IIssueImpedimentSynchronizerService issueImpedimentSynchronizerService,
                                         IIssueStatusHistorySynchronizerService issueStatusHistorySynchronizerService,
-                                        IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService)
+                                        IIssueEpicDataSynchronizerService issueEpicDataSynchronizerService,
+                                        IIssueExtraDataSynchronizerService issueExtraDataSynchronizerService)
         {
             this.logger = logger;
 
@@ -63,6 +62,7 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
             this.issueImpedimentSynchronizerService = issueImpedimentSynchronizerService;
             this.issueStatusHistorySynchronizerService = issueStatusHistorySynchronizerService;
             this.issueEpicDataSynchronizerService = issueEpicDataSynchronizerService;
+            this.issueExtraDataSynchronizerService = issueExtraDataSynchronizerService;
         }
 
         public async Task SynchronizeData(ConfigurationSynchronizerDto configurationSynchronizerDto, CancellationToken cancellationToken)
@@ -146,7 +146,7 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
 
                 issues.AddRange(searchResult.Issues);
 
-                startAt += SEARCH_ISSUE_MAX_RESULTS;
+                startAt += searchResult.MaxResults;
                 goToNextPage = (searchResult.StartAt + searchResult.MaxResults) < searchResult.Total;
             } while (goToNextPage);
 
@@ -181,6 +181,7 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
             await issueStatusHistorySynchronizerService.Save(parameters, cancellationToken);
             await issueEpicDataSynchronizerService.Save(parameters, cancellationToken);
             await issueCustomfieldDataSynchronizerService.Save(parameters, cancellationToken);
+            await issueExtraDataSynchronizerService.Save(parameters, cancellationToken);
         }
     }
 }

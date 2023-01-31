@@ -1,5 +1,4 @@
 using MeControla.Core.Extensions;
-using MeControla.Kernel.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

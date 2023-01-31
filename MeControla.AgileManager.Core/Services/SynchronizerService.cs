@@ -19,6 +19,7 @@ namespace MeControla.AgileManager.Core.Services
                                    IProjectService projectService,
                                    ISettingsService settingsService,
                                    ICustomfieldSynchronizerService fieldSynchronizerService,
+                                   IClassOfServiceSynchronizerService classesOfServiceSynchronizerService,
                                    IProjectSynchronizerService projectSynchronizerService,
                                    IStatusCategorySynchronizerService statusCategorySynchronizerService,
                                    IStatusSynchronizerService statusSynchronizerService,
@@ -32,6 +33,7 @@ namespace MeControla.AgileManager.Core.Services
             this.synchronizerServices = new List<IBaseSynchronizerService>
             {
                 fieldSynchronizerService,
+                classesOfServiceSynchronizerService,
                 projectSynchronizerService,
                 statusCategorySynchronizerService,
                 statusSynchronizerService,

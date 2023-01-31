@@ -1,5 +1,5 @@
-﻿using MeControla.AgileManager.Data.Dtos.Jira;
-using MeControla.AgileManager.Data.Enums;
+﻿using MeControla.AgileManager.Data.Enums;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;

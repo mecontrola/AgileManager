@@ -1,4 +1,4 @@
-﻿using MeControla.AgileManager.Data.Configurations;
+﻿using MeControla.AgileManager.Integrations.Jira.Data.Configurations;
 using System;
 
 namespace MeControla.AgileManager.Core.Builders.Configurations

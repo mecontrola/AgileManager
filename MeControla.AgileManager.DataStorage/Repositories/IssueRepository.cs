@@ -17,32 +17,61 @@ namespace MeControla.AgileManager.DataStorage.Repositories
         { }
 
         public async Task<DateTime?> GetLastUpdatedAsync(long projectId, CancellationToken cancellationToken)
-        {
-            var itens = await dbSet.AsNoTracking()
-                                   .Where(entity => entity.ProjectId == projectId)
-                                   .OrderByDescending(entity => entity.Updated)
-                                   .Select(entity => entity.Updated)
-                                   .ToListAsync(cancellationToken);
-            return itens.Any()
-                 ? itens.First()
-                 : null;
-        }
+            => await dbSet.AsNoTracking()
+                          .Where(entity => entity.ProjectId == projectId)
+                          .OrderByDescending(entity => entity.Updated)
+                          .Select(entity => (DateTime?)entity.Updated)
+                          .FirstAsync(cancellationToken);
 
         public async Task<Issue> FindByKeyAsync(string key, CancellationToken cancellationToken)
             => await FindAsync(entity => entity.Key.Equals(key), cancellationToken);
 
+        public async Task<IList<Issue>> FindAllInBacklogAsync(long projectId, CancellationToken cancellationToken)
+            => await dbSet.AsNoTracking()
+                          .Include(entity => entity.Status)
+                          .Include(entity => entity.IssueType)
+                          .Include(entity => entity.ExtraData)
+                          .ThenInclude(entity => entity.ClassOfService)
+                          .Where(entity => entity.ProjectId == projectId
+                                        && entity.Status.StatusCategory.Preference.Type == StatusCategories.ToDo
+                                        && entity.Status.StatusCategory.Preference.ProjectId == entity.ProjectId
+                                        && entity.IssueType.Preference.Type != IssueTypes.Epic
+                                        && entity.IssueType.Preference.Type != IssueTypes.SubTask
+                                        && entity.IssueType.Preference.ProjectId == entity.ProjectId)
+                          .ToListAsync(cancellationToken);
+
+        public async Task<IList<Issue>> FindAllInProgressAsync(long projectId, CancellationToken cancellationToken)
+            => await dbSet.AsNoTracking()
+                          .Include(entity => entity.Status)
+                          .Include(entity => entity.IssueType)
+                          .Include(entity => entity.ExtraData)
+                          .ThenInclude(entity => entity.ClassOfService)
+                          .Where(entity => entity.ProjectId == projectId
+                                        && entity.Status.StatusCategory.Preference.Type == StatusCategories.InProgress
+                                        && entity.Status.StatusCategory.Preference.ProjectId == entity.ProjectId
+                                        && entity.IssueType.Preference.Type != IssueTypes.Epic
+                                        && entity.IssueType.Preference.Type != IssueTypes.Story
+                                        && entity.IssueType.Preference.ProjectId == entity.ProjectId)
+                          .ToListAsync(cancellationToken);
+
         public async Task<IList<Issue>> FindResolvedInDateRangeAsync(long projectId, DateTime resolvedInit, DateTime resolvedEnd, CancellationToken cancellationToken)
             => await dbSet.AsNoTracking()
+                          .Include(entity => entity.Status)
                           .Include(entity => entity.IssueType)
                           .Include(entity => entity.Impediments)
+                          .Include(entity => entity.ExtraData)
+                          .ThenInclude(entity => entity.ClassOfService)
+                          .ThenInclude(entity => entity.Preference)
                           .Where(entity => entity.ProjectId == projectId
                                         && entity.Resolved != null
                                         && entity.Resolved.Value.Date >= resolvedInit.Date
                                         && entity.Resolved.Value.Date <= resolvedEnd.Date
-                                        && entity.Status.Key != (long)StatusTypes.Removed
-                                        && entity.Status.Key != (long)StatusTypes.Cancelled
-                                        && entity.IssueType.Key != (long)IssueTypes.SubTask
-                                        && entity.IssueType.Key != (long)IssueTypes.Epic)
+                                        && entity.Status.StatusCategory.Preference.Type == StatusCategories.Done
+                                        && entity.Status.StatusCategory.Preference.ProjectId == entity.ProjectId
+                                        && entity.IssueType.Preference.Type != IssueTypes.Epic
+                                        && entity.IssueType.Preference.Type != IssueTypes.Story
+                                        && entity.IssueType.Preference.ProjectId == entity.ProjectId
+                                        && (context as IDbAppContext).PreferenceStatuses.Any(any => any.StatusId == entity.StatusId))
                           .OrderBy(entity => entity.Key)
                           .ToListAsync(cancellationToken);
 
@@ -65,7 +94,7 @@ namespace MeControla.AgileManager.DataStorage.Repositories
                               IsFeature = entity.IssueType.Key == (long)IssueTypes.Story
                           })
                           .GroupBy(group => group.Group)
-                          .Select(group => (decimal)group.Where(x => x.IsFeature).Count() / (decimal)group.Count() * 100)
+                          .Select(group => group.Where(x => x.IsFeature).Count() / (decimal)group.Count() * 100)
                           .Select(data => Math.Round(data, 2))
                           .FirstOrDefaultAsync(cancellationToken);
 
@@ -138,5 +167,17 @@ namespace MeControla.AgileManager.DataStorage.Repositories
                                         && entity.Status.Key == (long)StatusTypes.Done
                                         && entity.IssueType.Key == (long)issueTypes)
                           .ToListAsync(cancellationToken);
+
+        public async Task<IList<Issue>> GetIssuesBackendToDeployAsync(long projectId, CancellationToken cancellationToken)
+            => await dbSet.AsNoTracking()
+                          .Include(entity => entity.Statuses)
+                          .Include(entity => entity.Deploy)
+                          .Where(entity => entity.ProjectId == projectId
+                                        && entity.Summary.ToLower().Contains("[Backend]".ToLower())
+                                        && entity.Statuses.Any(history => history.FromStatusId == 71
+                                                                       && (history.ToStatusId == 52 || history.ToStatusId == 72))
+                                        && entity.IssueType.Preference.Type != IssueTypes.SubTask)
+                          .ToListAsync(cancellationToken);
+
     }
 }

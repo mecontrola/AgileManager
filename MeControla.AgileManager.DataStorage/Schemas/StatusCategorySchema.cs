@@ -1,6 +1,5 @@
 ﻿using MeControla.AgileManager.Data.Entities;
-using MeControla.Core.Extensions.DataStorage;
-using MeControla.Kernel.Tools;
+using MeControla.Core.Tools;
 
 namespace MeControla.AgileManager.DataStorage.Schemas
 {

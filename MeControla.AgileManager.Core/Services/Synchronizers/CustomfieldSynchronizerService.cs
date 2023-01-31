@@ -1,8 +1,8 @@
-﻿using MeControla.AgileManager.Core.Integrations.Jira.V2.Fields;
-using MeControla.AgileManager.Core.Mappers.DtoToEntity;
-using MeControla.AgileManager.Data.Dtos.Jira;
+﻿using MeControla.AgileManager.Core.Mappers.DtoToEntity;
 using MeControla.AgileManager.Data.Dtos.Synchronizers;
 using MeControla.AgileManager.DataStorage.Repositories;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.AgileManager.Integrations.Jira.Rest.V3.Fields;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,20 +18,20 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
 
         private readonly ILogger<CustomfieldSynchronizerService> logger;
 
-        private readonly ICustomfieldRepository customfieldRepository;
+        private readonly ICustomFieldRepository customFieldRepository;
 
         private readonly IFieldGetAll fieldGetAll;
 
         private readonly IJiraFieldDtoToEntityMapper jiraFieldDtoToEntityMapper;
 
         public CustomfieldSynchronizerService(ILogger<CustomfieldSynchronizerService> logger,
-                                              ICustomfieldRepository customfieldRepository,
+                                              ICustomFieldRepository customFieldRepository,
                                               IFieldGetAll fieldGetAll,
                                               IJiraFieldDtoToEntityMapper jiraFieldDtoToEntityMapper)
         {
             this.logger = logger;
 
-            this.customfieldRepository = customfieldRepository;
+            this.customFieldRepository = customFieldRepository;
             this.fieldGetAll = fieldGetAll;
             this.jiraFieldDtoToEntityMapper = jiraFieldDtoToEntityMapper;
         }
@@ -57,13 +57,13 @@ namespace MeControla.AgileManager.Core.Services.Synchronizers
 
         private async Task SaveField(FieldDto statusCategory, CancellationToken cancellationToken)
         {
-            if (await customfieldRepository.ExistsByKeyAsync(statusCategory.Key, cancellationToken))
+            if (await customFieldRepository.ExistsByKeyAsync(statusCategory.Key, cancellationToken))
                 return;
 
             var entity = jiraFieldDtoToEntityMapper.ToMap(statusCategory);
             entity.Uuid = Guid.NewGuid();
 
-            await customfieldRepository.CreateAsync(entity, cancellationToken);
+            await customFieldRepository.CreateAsync(entity, cancellationToken);
         }
     }
 }

@@ -13,5 +13,6 @@ namespace MeControla.AgileManager.Data.Entities
         public long StatusCategoryId { get; set; }
         public StatusCategory StatusCategory { get; set; }
         public IList<Issue> Issues { get; set; }
+        public PreferenceStatus Preference { get; set; }
     }
 }

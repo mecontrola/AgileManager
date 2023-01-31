@@ -1,10 +1,10 @@
 ﻿using MeControla.AgileManager.Core.Builders;
 using MeControla.AgileManager.Core.Helpers;
-using MeControla.AgileManager.Data.Dtos.Jira;
 using MeControla.AgileManager.Data.Entities;
 using MeControla.AgileManager.Data.Parameters;
 using MeControla.AgileManager.DataStorage.Repositories;
-using MeControla.Kernel.Extensions;
+using MeControla.AgileManager.Integrations.Jira.Data.Dtos;
+using MeControla.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;

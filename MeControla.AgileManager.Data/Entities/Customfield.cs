@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MeControla.AgileManager.Data.Entities
 {
-    public class Customfield : IEntity
+    public class CustomField : IEntity
     {
         public long Id { get; set; }
         public Guid Uuid { get; set; }
@@ -12,7 +12,7 @@ namespace MeControla.AgileManager.Data.Entities
         public string Name { get; set; }
         public string Type { get; set; }
         public string Custom { get; set; }
-        public bool Active { get; set; }
         public IList<IssueCustomfieldData> CustomfieldsData { get; set; }
+        public PreferenceCustomField Preference { get; set; }
     }
 }

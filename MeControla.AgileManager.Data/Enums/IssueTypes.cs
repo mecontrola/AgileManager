@@ -2,21 +2,25 @@
 
 namespace MeControla.AgileManager.Data.Enums
 {
-    public enum IssueTypes
+    public enum IssueTypes : uint
     {
         [Description("Bug")]
         Bug = 1,
         [Description("Task")]
-        Task = 3,
-        [Description("Technical Improvement")]
-        Improvement = 4,
+        Task = 2,
         [Description("Sub-task")]
-        SubTask = 5,
+        SubTask = 3,
         [Description("Epic")]
-        Epic = 6,
+        Epic = 4,
         [Description("Story")]
-        Story = 7,
+        Story = 5,
+        [Description("Poc")]
+        Poc = 6,
+        [Description("Spike")]
+        Spike = 7,
         [Description("Technical Debt")]
-        TechnicalDebt = 12200
+        TechnicalDebt = 8,
+        [Description("Technical Improvement")]
+        Improvement = 9,
     }
 }

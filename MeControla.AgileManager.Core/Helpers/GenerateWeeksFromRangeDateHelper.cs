@@ -1,4 +1,4 @@
-﻿using MeControla.Kernel.Extensions;
+﻿using MeControla.Core.Extensions;
 using System;
 using System.Collections.Generic;
 
